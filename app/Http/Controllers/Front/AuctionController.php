@@ -22,6 +22,11 @@ class AuctionController extends Controller
        
     }
 
+
+    public function create(){
+        return view('front.auction.create');
+    }
+
     public function index()
     {
       

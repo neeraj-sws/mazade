@@ -1,82 +1,55 @@
-@extends('layouts.app')
+@extends('layouts.auth')
 
 @section('content')
-<div class="container">
-<div class="row justify-content-center mt-5">
-    <div class="col-md-5">
-        <div class="card">
-            <div class="card-body">
-                <div class="m-2">
-                    <div class="d-flex justify-content-center mt-3">
-                        <div class="text-center logo">
-                            <img alt="logo" class="img-fluid" src="{{ asset('assets/images/logo/logo-fold.png') }}" style="height: 70px;">
-                        </div>
-                    </div>
-                    <div class="text-center mt-3">
-                        <h3 class="fw-bolder">User</h3>
-                        <p class="text-muted">Login your account to continue</p>
-                    </div>
-                        {{-- @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                        @endif --}}
-
-                        {{-- @if(Session::has('error-message'))
-                            <p class="alert alert-info">{{ Session::get('error-message') }}</p>
-                        @endif --}}
-                        <form class="row g-3" action="{{ route('submit.login') }}" method="POST" onsubmit="event.preventDefault();loginform_submit(this);return false;" enctype="multipart/form-data">
-    
-                    @csrf
-                        <div class="form-group mb-3">
-                            <label class="form-label">Email</label>
-                            <input class="form-control" type="email" class="form-control" name="email" placeholder="Enter Email">
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label d-flex justify-content-between">
-                                <span>Password</span>
-                                <!-- <a href="" class="text-primary font">Forget Password?</a> -->
-                            </label>
-                            <div class="form-group input-affix flex-column">
-                                <label class="d-none">Password</label>
-                                <input type="password" class="form-control" name="password" placeholder="Enter Password">
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                           <div class="form-check">
-                             <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                             <label class="form-check-label" for="remember">
-                             {{ __('Remember Me') }}
-                             </label>
+<div class="login-section pb-120">
+         <img alt="imges" src="{{asset('front_assets/images/bg/section-bg.png') }}" class="img-fluid section-bg-top">
+         <img alt="imges" src="{{asset('front_assets/images/bg/section-bg.png') }}" class="img-fluid section-bg-bottom">
+         <div class="container">
+            <div class="row d-flex justify-content-center g-4">
+               <div class="col-xl-6 col-lg-8 col-md-10">
+                  <div class="form-wrapper wow fadeInUp" data-wow-duration="1.5s" data-wow-delay=".2s">
+                     <div class="form-title">
+                        <h3>Log In</h3>
+                     </div>
+                     <form class="w-100" action="{{ route('submit.login') }}" method="POST" onsubmit="event.preventDefault();loginform_submit(this);return false;">
+                     @csrf
+                     <div class="row">
+                           <div class="col-12">
+                              <div class="form-inner">
+                                 <label>Enter Your Email *</label>
+                                 <input type="email" name="email" placeholder="Enter Your Email">
+                              </div>
+                           </div>
+                           <div class="col-12">
+                              <div class="form-inner">
+                                 <label>Password *</label>
+                                 <input type="password" name="password" id="password" placeholder="Password" />
+                                 <i class="bi bi-eye-slash" name="password" id="togglePassword"></i>
+                              </div>
+                           </div>
+                           <div class="col-12">
+                              <div class="form-agreement form-inner d-flex justify-content-between flex-wrap">
+                                 <div class="form-group">
+                                    <label for="html"></label>
+                                 </div>
+                                 <a href="#" class="forgot-pass text-decoration-underline">Forgotten Password</a>
+                              </div>
                            </div>
                         </div>
-                   
-
-                        <div class="row justify-content-center">
-                        <div class="col-md-10">    
-                        <button type="submit" class="btn btn-primary w-100">Login</button>
-                        </div>
-                        </div>
-                        
-                    </form>
-                </div>
+                        <button type="submit" class="account-btn">Log in</button>
+                     </form>
+                     <p class="mt-2 text-center">New Member? <a href="{{ route('register') }}">signup here</a></p>
+                  </div>
+               </div>
             </div>
-        </div>
-    </div>
-</div>
-</div>
+         </div>
+      </div>
 @endsection
 
 <script>
     function loginform_submit(e) {
    
-   toastr.clear();
+   //toastr.clear();
    $(e).find('.st_loader').show();
    $.ajax({
      url: $(e).attr('action'),
@@ -86,7 +59,7 @@
      success: function (data) {
        if (data.status == 1) {
         // alert('hii');
-         toastr.success(data.message, 'Success');
+         //toastr.success(data.message, 'Success');
         window.location.href = base_url+'home';
         
         //  dataTable.draw(false);
@@ -97,10 +70,10 @@
          $.each(data.errors, function (key, value) {
            $err = $err + value + "<br>";
          });
-         toastr.error($err, 'Error');
+        // toastr.error($err, 'Error');
        }
        else if (data.status == 2) {
-         toastr.success(data.message, 'Success');
+        // toastr.success(data.message, 'Success');
          window.setTimeout(function () {
            window.location.href = data.surl;
          }, 1000);
@@ -114,7 +87,7 @@
          $.each(data.responseJSON.errors, function (key, value) {
            $err = $err + value + "<br>";
          });
-         toastr.error($err, 'Error');
+        // toastr.error($err, 'Error');
        }
        $(e).find('.st_loader').hide();
      }

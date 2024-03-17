@@ -1,32 +1,49 @@
-</body>
 <footer>
-    <div class="footer text-center my-5">
-    <div class="footer-content">
-        <div class="row justify-content-center">
-    <p class="mb-0">Copyright © 2024 Mazade. All rights reserved.</p>
-        </div>
-    </div>
-</div>
-    </footer>
- 
-
-</html>
-<script
-type="text/javascript"
-src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.umd.min.js"
-></script>
-<script src="{{asset('assets/js/crud.js') }}"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="{{asset('assets/vendors/toastr/toastr.min.js') }}"></script>
-<script>
-$(document).ready(function(e){
-    $('.dropdown-item').click(function(){
-        var target = $(this).data('target');
-       
-        $('#' + target).show().siblings('div').hide();
-    });
-
-
-});
-
-</script>
+         <div class="container">
+            <div class="row d-flex">
+               <div class="footer-logo">
+                  <a href="{{ route('home') }}"><img src="{{asset('images/main-logo.png') }}"></a>
+                  <a href="mailto:support@bid.agency">support@bid.agency</a>
+               </div>
+               <div class="footer-content">
+                  <h3>Quick Links</h3>
+                  <ul>
+                     <li><a href="{{ route('home') }}">Home</a></li>
+                     <li><a href="{{ route('categories') }}">Categories</a></li>
+                     <li><a href="{{ route('about') }}">About</a></li>
+                     <li><a href="{{ route('contact') }}">Contact us</a></li>
+                  </ul>
+               </div>
+               <div class="footer-content">
+                  <h3>Other</h3>
+                  <ul>
+                     <li><a href="#">Home user</a></li>
+                     <li><a href="#">User Status</a></li>
+                     <li><a href="{{ route('about') }}">About</a></li>
+                     <li><a href="{{ route('contact') }}">Contact</a></li>
+                  </ul>
+               </div>
+               <div class="footer-content">
+                  <h3>Contact info</h3>
+                  <ul>
+                     <li><a href="#"><i class="fa-solid fa-phone"></i>+123 4567 89</a></li>
+                     <li><a href="#"><i class="fa-solid fa-envelope"></i>Lorem@ipsum.lore</a></li>
+                     <li><a href="#"><i class="fa-solid fa-location-dot"></i>Lorem ipsum - 71171</a></li>
+                  </ul>
+               </div>
+               <div class="footer-content">
+                  <h3>Social media</h3>
+                  <ul>
+                     <li><a href="#"><i class="fa-brands fa-facebook-f"></i>Facebook</a></li>
+                     <li><a href="#"><i class="fa-brands fa-linkedin-in"></i>Linkedin</a></li>
+                     <li><a href="#"><i class="fa-brands fa-x-twitter"></i>Twitter</a></li>
+                     <li><a href="#"><i class="fa-brands fa-instagram"></i>Instagram</a></li>
+                  </ul>
+               </div>
+            </div>
+            <hr>
+            <div class="row footer-bottom-row">
+               <p class="text-16 text-center">© 2020 Lift Media. All rights reserved</p>
+            </div>
+         </div>
+      </footer>

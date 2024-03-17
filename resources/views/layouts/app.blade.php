@@ -8,9 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
-
-
-    <!-- Favicon -->
+     <!-- Favicon -->
     <link rel="shortcut icon" href="{{asset('admin/assets/images/logo/favicon.ico')}}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <link href="{{asset('assets/css/index.css')}}" rel="stylesheet">
@@ -48,12 +46,11 @@
 			</div>
 		</div>
 	</div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-
-        <script src="{{asset('admin/assets/js/crud.js') }}"></script>
-        <script src="{{asset('admin/assets/vendors/toastr/toastr.min.js') }}"></script>
-        <script src="{{asset('admin/assets/js/vendors.min.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script src="{{asset('admin/assets/js/crud.js') }}"></script>
+    <script src="{{asset('admin/assets/vendors/toastr/toastr.min.js') }}"></script>
+    <script src="{{asset('admin/assets/js/vendors.min.js') }}"></script>
         <script src="{{asset('admin/assets/js/app.min.js') }}"></script>
         <script src="{{asset('admin/assets/vendors/datatables/jquery.dataTables.min.js')}}"></script>
         <script src="{{asset('admin/assets/vendors/datatables/dataTables.bootstrap.min.js')}}"></script>

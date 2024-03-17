@@ -1,76 +1,69 @@
-<nav class="navbar navbar-expand-lg bg-dark text-white">
-    <div class="container-fluid">
-      <!--<div class="w-100 logo">-->
-        <ul class="navbar-nav me-auto">
-          @php 
-          use App\Models\SiteSetting;
-          $result = SiteSetting::get();
-          $admin = $result->load('photo');
-          @endphp
-         
-         @if(!empty($admin[0]->icon))
-         <a class="nav-link active text-white" aria-current="page" href="{{ route('home') }}">
-         <img src="{{ asset('uploads/site_image/' . $admin[0]->photo->file) }}" alt="logo" style="max-height: 50px;">
-        </a>
-        @endif
-      </ul>
-      {{-- <div class="collapse navbar-collapse" id="navbarNavDropdown"> --}}
-        <ul class="nav justify-content-end">
-            <li class="nav-item ">
-              <a class="nav-link active text-white" aria-current="page" href="{{ route('home') }}">Home</a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link active text-white" aria-current="page" href="{{ route('categoryshow') }}">Category</a>
-              </li>
-
-              <li class="nav-item">
-                <a class="nav-link active text-white" aria-current="page" href="#">About</a>
-              </li>
-
-              <li class="nav-item">
-                <a class="nav-link active text-white" aria-current="page" href="#">Contact</a>
-              </li>
-
-              @guest
-
-            @if (Route::has('login'))
-            <li class="nav-item">     
-              <a class="nav-link text-white" href="{{ route('login') }}">{{ __('Login') }}</a>
-            </li>
-            @endif
-            @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="{{ route('register') }}">{{ __('Register') }}</a>
-                        </li>
-                    @endif
-
-                    @else
-
-                        <li class="nav-item dropdown">
-                          <a class="nav-link dropdown-toggle text-white" id="navbarDropdown"  data-mdb-dropdown-init
-                          aria-expanded="false">
-                          {{ Auth::user()->name }}</a>
-    
-                        <div class="dropdown-menu dropdown-menu-end text-center" aria-expanded="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('logout') }}"
+<header class="header-area style-1">
+         <div class="header-logo">
+            <a href="{{ route('home') }}"><img alt="image" src="{{asset('images/main-logo.png') }}"></a>
+         </div>
+         <div class="main-menu">
+            <div class="mobile-logo-area d-lg-none d-flex justify-content-between align-items-center">
+               <div class="mobile-logo-wrap ">
+                  <a href="{{ route('home') }}"><img alt="image" src="{{asset('images/main-logo.png') }}"></a>
+               </div>
+               <div class="menu-close-btn">
+                  <i class="bi bi-x-lg"></i>
+               </div>
+            </div>
+            <ul class="menu-list">
+               <li class="menu-item-has-children"><a href="{{ route('home') }}">Home</a></li>
+               <li><a href="{{ route('categories') }}">Categories</a></li>
+               <li><a href="{{ route('about') }}">About</a></li>
+               <li><a href="{{ route('contact') }}">Contact </a></li>
+            </ul>
+            <div class="d-lg-none d-block">
+               <form class="mobile-menu-form mb-5">
+                  <div class="input-with-btn d-flex flex-column">
+                     <input type="text" placeholder="Search here...">
+                     <button type="submit" class="eg-btn btn--primary btn--sm">Search</button>
+                  </div>
+               </form>
+            </div>
+         </div>
+         @if (Auth::check())
+         <div class="nav-right d-flex align-items-center">
+            <div class="user-new-menu-icon">
+               <a href="{{ route('profile') }}"><img src="{{asset('front_assets/images/user-icon/user.png') }}"></a>
+            </div>
+            <div class="user-new-menu-icon">
+               <img src="{{asset('front_assets/images/user-icon/chat.png') }}">
+            </div>
+            <div class="user-new-menu-icon">
+            <a href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
-    
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                  <img src="{{asset('front_assets/images/user-icon/logout.png') }}"></a>
+
+               <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
                             </form>
-                        </div>
-                    </li>
-          
-                 @endguest
-           
-          </ul>
-          </li>
-        </ul>
-      {{-- </div> --}}
-    </div>
-  </nav>
+            </div>
+            <div class="mobile-menu-btn d-lg-none d-block">
+               <a href="{{ route('home') }}"><i class="bx bx-menu"></i></a>
+            </div>
+         </div>
+         @else
+         <div class="nav-right d-flex align-items-center">
+            <div class="search-btn">
+               <i class="bi bi-search"></i>
+            </div>
+            <div class="eg-btn btn--primary header-btn me-2">
+               <a href="{{ route('login') }}">Login</a>
+            </div>
+            <div class="eg-btn btn--primary header-btn">
+               <a href="{{ route('register') }}">Register</a>
+            </div>
+            <div class="mobile-menu-btn d-lg-none d-block">
+               <i class="bx bx-menu"></i>
+            </div>
+         </div>
+         @endif
+      </header>
+
 

@@ -30,19 +30,25 @@ Route::get('/optimize', function () {
 
 Route::get('send-mail', [MailController::class, 'index']);
 
-Route::get('/', [App\Http\Controllers\Front\HomeController::class, 'categoryshow']);
-Route::get('/category/{slug}', [App\Http\Controllers\Front\HomeController::class, 'category'])->name('category');
+Route::get('/', [App\Http\Controllers\Front\HomeController::class, 'index'])->name('home');
+Route::get('/categories', [App\Http\Controllers\Front\HomeController::class, 'categories'])->name('categories');
+Route::get('/about', [App\Http\Controllers\Front\HomeController::class, 'about'])->name('about');
+Route::get('/contact', [App\Http\Controllers\Front\HomeController::class, 'contact'])->name('contact');
+
 
 
 
 Route::group(['middleware'=>'auth:web'],function(){
     Route::get('/home', [App\Http\Controllers\Front\HomeController::class, 'index'])->name('home');
-    Route::get('about-us', [App\Http\Controllers\Front\HomeController::class, 'about_us'])->name('about-us');
+    Route::get('/profile', [App\Http\Controllers\Front\UserController::class, 'profile'])->name('profile');
+    Route::get('/dashboard', [App\Http\Controllers\Front\UserController::class, 'dashboard'])->name('dashboard');
+    Route::get('/new-auction', [App\Http\Controllers\Front\AuctionController::class, 'create'])->name('new-auction');
+    //Route::get('about-us', [App\Http\Controllers\Front\HomeController::class, 'about_us'])->name('about-us');
 
     Route::get('/sub-category/{slug}', [App\Http\Controllers\Front\HomeController::class, 'sub_category'])->name('sub.category');
     Route::get('/orderstatus', [App\Http\Controllers\Front\HomeController::class, 'orderstatus'])->name('orderstatus');
     Route::get('/cancelauction/{id}', [App\Http\Controllers\Front\HomeController::class, 'cancel'])->name('cancelauction');
-    Route::get('/category', [App\Http\Controllers\Front\HomeController::class, 'categoryshow'])->name('categoryshow');
+   // Route::get('/category', [App\Http\Controllers\Front\HomeController::class, 'categoryshow'])->name('categoryshow');
     Route::get('/auctioncomplet', [App\Http\Controllers\Front\HomeController::class, 'auctioncomplet'])->name('auctioncomplet');
 
     Route::post('/imageuplode', [App\Http\Controllers\Front\AuctionController::class, 'imageuplode'])->name('imageuplode');
@@ -133,7 +139,7 @@ Route::post('login-client',[ClientauthController::class,'login_functionality'])-
 
 Route::group(['middleware'=>'client'],function(){
     Route::get('logout',[ClientauthController::class,'logout'])->name('clientlogout');
-    Route::get('dashboard',[ClientauthController::class,'dashboard'])->name('dashboard');
+    //Route::get('dashboard',[ClientauthController::class,'dashboard'])->name('dashboard');
 });
 
 

@@ -1,0 +1,306 @@
+.text-14 {
+  font-size: 14px;
+}
+#slider-main-user {
+    background-image: url(images/user/user-main-image.jpg);
+    position: relative;
+    height: 450px;
+    background-position: center;
+}
+#slider-main-user-2 {
+    background-image: url(images/user/inner-page-img.jpg);
+    position: relative;
+    height: 400px;
+    background-position: center;
+    background-size: cover;
+}
+.header-btn-2 {
+  column-gap: 25px;
+}
+.header-btn-2 img svg path{
+  fill: red!important;
+}
+.user-single-category {
+    background: #E8F3FF;
+}
+.user-single-category {
+    background: #E8F3FF;
+    padding: 25px 15px;
+    width: 100%;
+}
+.user-cat-content h4 {
+    font-size: 20px;
+}
+.user-single-category:hover {
+  background: #0163d3;
+}
+.user-single-category:hover svg , .user-single-category:hover h4 , .user-single-category:hover p {
+  fill: #fff;
+  color: #fff !important;
+}
+.user-single-category svg {
+      width: 100%;
+    height: max-content;
+}
+.user-sub-cat-main svg {
+    width: 25%;
+    display: block;
+    margin: 20px auto;
+}
+
+
+/*order-status-start*/
+
+
+#user-order-status table {
+      background: #0163d314;
+}
+#user-order-status table td , #user-order-status table th {
+    width: 14%;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #8e8e8e29;
+}
+button.cancel-btn {
+    background: #F92E2E;
+    border: none;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 5px;
+    font-size: 11px;
+}
+.comment-content p {
+    margin-bottom: 0px;
+    font-size: 14px;
+    font-weight: 400;
+}
+button.end-btn {
+    background: #1B1B1B;
+    border: none;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+.about-inner-image img {
+    width: 80%;
+}
+
+/*payment*/
+
+.card-select input {
+    width: 10px;
+}
+.card-select {
+    column-gap: 10px;
+}
+
+/*company-page-start*/
+
+.company-box {
+    box-shadow: 0px 0px 14px 0px #D4D4D4;
+    width: 80%;
+    margin: auto;
+}
+
+/*company-page-end*/
+
+.user-about-profile h4 {
+    color: #0365D4;
+}
+
+
+/*according*/
+
+.accordion {
+    width: 70%;
+    margin: 60px auto;
+}
+
+.accordion .accordion-item {
+    border-top: 1px solid #EAEAEA;
+    overflow: hidden;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+.accordion .accordion-item.active {
+    border-bottom: 1px solid #ddd;
+}
+
+.accordion .accordion-item .accordion-title {
+    background-color: #fff;
+    padding: 10px 20px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.accordion .accordion-item .accordion-title.active {
+    background-color: #e9f0fb;
+    color: blue;
+}
+
+.accordion .accordion-item .accordion-content {
+    display: none;
+}
+
+.accordion .accordion-item.active .accordion-content {
+    display: block;
+}
+
+.accordion .accordion-item .accordion-title::after {
+    content: "\25bc";
+    float: right;
+    font-size: 16px;
+}
+
+.accordion .accordion-item.active .accordion-title::after {
+    content: "\25b2";
+}
+.accordion .active .accordion-title {
+    background-color: #0365D4;
+    color: #fff;
+}
+/*company*/
+
+.company-end-btn i {
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+/*table-popup*/
+
+  .popup {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.popup-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 70%;
+}
+
+.close {
+    color: #fff;
+    float: right;
+    font-size: 16px;
+    background: #F92E2E;
+    padding: 15px 40px;
+    font-weight: 400;
+    line-height: 16px;
+        border-radius: 5px;
+}
+input.company-popup-btn {
+    background: #0064D8;
+    color: #fff;
+    width: 148px;
+    line-height: 16px;
+        border-radius: 5px;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/*admin-dashboard*/
+
+.header-admin {
+    width: 100%;
+    box-shadow: 0px 0px 10px 0px #E2E2E240;
+}
+
+#dashboard-main , #dashboard-main .row {
+    width: 100%;
+}
+#dashboard-main .tab {
+    display: inline-block;
+    background-color: #fff;
+    border-bottom: 1px solid #cfd4db;
+    border-radius: 0px 0px;
+    padding: 15px 20px;
+    cursor: pointer;
+}
+#dashboard-main .tab:hover {
+   background-color: #0064d826;
+    color: #0064D8;
+    border-right: 4px solid #0064D8;
+}
+#dashboard-main .tabcontent {
+    display: none;
+    padding: 20px;
+    border-top: none;
+}
+#dashboard-main .active {
+    background-color: #0064d826;
+    color: #0064D8;
+    border-right: 4px solid #0064D8;
+}
+.main-tab {
+    display: flex;
+    flex-wrap: wrap;
+}
+.tab-title {
+    display: flex;
+    flex-direction: column;
+    width: 20%;
+    border-right: 1px solid #cfd4db;
+}
+.tab-title .tab i {
+    margin-right: 2px;
+    width: 20px;
+    font-size: 16px;
+}
+.tab-content {
+    width: 80%;
+}
+.tabcontent table {
+    background-color: #E8F3FF;
+    width: 100%;
+}
+.tabcontent table th, .tabcontent table td {
+    border: 1px solid #8e8e8e29;
+    text-align: center;
+    padding: 10px;
+}
+.tabcontent table th {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 18px;
+}
+.tabcontent table td a {
+    color: #212529;
+}
+.tabcontent table tr th:first-child{
+    width: 5%;
+}
+.tabcontent table tr th:nth-child(2) , .tabcontent table tr th:nth-child(3) , .tabcontent table tr th:nth-child(4) , .tabcontent table tr th:nth-child(5){
+    width: 13%;
+}
+.tabcontent table tr th:nth-child(6) , .tabcontent table tr th:nth-child(7) {
+    width: 8%;
+}
+.tabcontent table tr th:nth-child(8) {
+    width: 13%;
+}
+.tabcontent table tr th:last-child {
+     width: 8%;
+}
+.table-icon {
+    cursor: pointer;
+}
+.edit-admin {
+    margin-right: 10px;
+}

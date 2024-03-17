@@ -21,24 +21,40 @@ class HomeController extends Controller
 
  
 
+    // public function index()
+    // { 
+    //     $route = route('auctionlist');
+    //     return view('front.auction' , ['route' => $route ]);
+    // }
+
     public function index()
     {
-        // $user = Auth::guard('web')->user();
-
-        // $Auction = Auction::with(['CatId', 'status_id'])->get();
-
-        $route = route('auctionlist');
-    
-        return view('front.auction' , ['route' => $route ]);
+        $categories = Category::where('status', 1)->get();
+        $companies = Companies::get();
+        return view('front.index',['categories' => $categories,'companies'=>$companies]);
     }
 
+    public function categories()
+    {
+       $categories = Category::where('status', 1)->get();
+       return view('front.categories',['categories' => $categories]);
+    }
+    
+    public function about()
+    {
+       return view('front.about');
+    }
+
+    
+    public function contact()
+    {
+        return view('front.contact');
+    }
+    
     public function categoryshow()
     {
-
         $categories = Category::where('status', 1)->get();
-
         $companies = Companies::get();
-
         return view('front.index',['categories' => $categories,'companies'=>$companies]);
     }
 
@@ -50,17 +66,17 @@ class HomeController extends Controller
         return response()->json(['success' => 1,  'Status  successfully']);
     }
 
-    public function category($slug)
-    {
-            //    echo $slug;die;
-        $categories = Category::where('slug', $slug)->first();
+    // public function category($slug)
+    // {
+    //         //    echo $slug;die;
+    //     $categories = Category::where('slug', $slug)->first();
 
-        $sub_categories = SubCategory::where('category_id', $categories->id)->where('status', 1)->get();
+    //     $sub_categories = SubCategory::where('category_id', $categories->id)->where('status', 1)->get();
         
-        $category = SubCategory::with(['CatId'])->where('category_id', $categories->id)->first();
+    //     $category = SubCategory::with(['CatId'])->where('category_id', $categories->id)->first();
 
-        return view('front.category',['sub_categories' => $sub_categories,'category' => $category]);
-    }
+    //     return view('front.category',['sub_categories' => $sub_categories,'category' => $category]);
+    // }
 
     public function sub_category($slug)
     {
@@ -72,12 +88,12 @@ class HomeController extends Controller
         return view('front.subcategory',['sub_categories' => $sub_categories  ,'city' => $city]);
     }
     
-     public function about_us()
-    {
-        $auction = Auction::with(['CatId'])->get();
+    //  public function about_us()
+    // {
+    //     $auction = Auction::with(['CatId'])->get();
 
-        return view('front.about',['auction' => $auction]);
-    }
+    //     return view('front.about',['auction' => $auction]);
+    // }
     
     public function orderstatus()
     {

@@ -43,6 +43,12 @@ Route::group(['middleware'=>'auth:web'],function(){
     Route::get('/profile', [App\Http\Controllers\Front\UserController::class, 'profile'])->name('profile');
     Route::get('/dashboard', [App\Http\Controllers\Front\UserController::class, 'dashboard'])->name('dashboard');
     Route::get('/new-auction', [App\Http\Controllers\Front\AuctionController::class, 'create'])->name('new-auction');
+    Route::get('/active-auctions', [App\Http\Controllers\Front\AuctionController::class, 'active_auctions'])->name('active-auctions');
+    Route::get('/bid-details', [App\Http\Controllers\Front\AuctionController::class, 'bid_details'])->name('bid-details');
+    Route::get('/add-review', [App\Http\Controllers\Front\AuctionController::class, 'add_review'])->name('add-review');
+    
+    Route::get('/company/dashboard', [App\Http\Controllers\Front\CompanyController::class, 'dashboard'])->name('company.dashboard');
+
     //Route::get('about-us', [App\Http\Controllers\Front\HomeController::class, 'about_us'])->name('about-us');
 
     Route::get('/sub-category/{slug}', [App\Http\Controllers\Front\HomeController::class, 'sub_category'])->name('sub.category');

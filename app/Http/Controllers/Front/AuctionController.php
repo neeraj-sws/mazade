@@ -27,6 +27,19 @@ class AuctionController extends Controller
         return view('front.auction.create');
     }
 
+    public function bid_details(){
+        return view('front.auction.bid_details');
+    }
+
+    public function active_auctions(){
+        return view('front.auction.active_auctions');
+    }
+
+    public function add_review(){
+        return view('front.auction.add_review');
+    }
+
+
     public function index()
     {
       

@@ -39,6 +39,15 @@ class AuctionController extends Controller
         return view('front.auction.add_review');
     }
 
+    public function withdraw(){
+        return view('front.auction.withdraw');
+    }
+
+    public function user_auction_detail()
+    {
+       return view('front.auction.user_auction_detail');
+    }
+
 
     public function index()
     {

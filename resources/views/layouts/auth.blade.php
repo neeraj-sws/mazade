@@ -37,10 +37,10 @@
       <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-      {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> --}}
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> 
       <link rel="stylesheet" href="{{asset('front_assets/css/animate.css') }}">
       <link rel="stylesheet" href="{{asset('front_assets/css/all.css') }}">
-      {{-- <link rel="stylesheet" href="{{asset('front_assets/css/bootstrap.min.css') }}"> --}}
+      <link rel="stylesheet" href="{{asset('front_assets/css/bootstrap.min.css') }}"> 
       <link rel="stylesheet" href="{{asset('front_assets/css/boxicons.min.css') }}">
       <link rel="stylesheet" href="{{asset('front_assets/css/bootstrap-icons.css') }}">
       <link rel="stylesheet" href="{{asset('front_assets/css/jquery-ui.css') }}">
@@ -53,6 +53,8 @@
       <link rel="stylesheet" href="{{asset('front_assets/css/style.css') }}">
       <link rel="stylesheet" href="{{asset('front_assets/css/style-new.css') }}">
       <link rel="stylesheet" href="{{asset('front_assets/css/user.css') }}">
+      <link rel="stylesheet" href="{{asset('admin/assets/vendors/toastr/toastr.css') }}">
+      
     
 </head>
 <body>
@@ -82,7 +84,7 @@
       </div>    
       <header class="header-area style-1 justify-content-center">
          <div class="header-logo">
-            <a href="index.html"><img alt="image" src="{{asset('images/main-logo.png') }}"></a>
+            <a href="{{ route('home') }}"><img alt="image" src="{{asset('images/main-logo.png') }}"></a>
          </div>
       </header>
        
@@ -91,8 +93,6 @@
     </div>
 
   
-
-    <script src="{{asset('admin/assets/vendors/toastr/toastr.min.js') }}"></script>  
 
  
     <script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js') }}"></script>
@@ -107,8 +107,7 @@
       <script src="{{asset('front_assets/js/viewport.jquery.js') }}"></script>
       <script src="{{asset('front_assets/js/jquery.magnific-popup.min.js') }}"></script>
       <script src="{{asset('front_assets/js/main.js') }}"></script> 
-      
-      {{-- <script src="{{asset('admin/assets/js/crud.js') }}"></script> --}}
+      <script src="{{asset('admin/assets/vendors/toastr/toastr.min.js') }}"></script>
       
     
  @yield('page-js-script')
@@ -119,11 +118,6 @@
 </body>
 </html>
 
-<script
-type="text/javascript"
-src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.umd.min.js"
-></script>
-<script src="{{asset('assets/js/crud.js') }}"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<script src="{{asset('admin/assets/vendors/toastr/toastr.min.js') }}"></script>
+
+

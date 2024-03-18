@@ -34,7 +34,8 @@ class User extends Authenticatable
         'state_id',
         'city_id',
         'image',
-        'status'
+        'status',
+        'role_id'
     ];
 
     /**

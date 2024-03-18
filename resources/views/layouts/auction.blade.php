@@ -81,7 +81,7 @@
       <script src="{{asset('front_assets/js/wow.min.js') }}"></script>
       <script src="{{asset('front_assets/js/swiper-bundle.min.js') }}"></script>
       <script src="{{asset('front_assets/js/slick.js') }}"></script>
-      <script src="{{asset('front_assets/js/jquery.nice-select.js') }}"></script>
+      <!-- <script src="{{asset('front_assets/js/jquery.nice-select.js') }}"></script> -->
       <script src="{{asset('front_assets/js/odometer.min.js') }}"></script>
       <script src="{{asset('front_assets/js/viewport.jquery.js') }}"></script>
       <script src="{{asset('front_assets/js/jquery.magnific-popup.min.js') }}"></script>

@@ -64,23 +64,34 @@ class RegisterController extends Controller
 
     protected function registerSubmit(Request $request)
     {
+
+        // echo "<pre>";print_r($request->all());die;
         $validatedData = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'mobile_number' => ['required'],
+            'user_id' => ['required'],
             'password' => ['required', 'string', 'min:8'],
         ]);
-        
+        try {
          User::create([
             'name' => $request['name'],
             'last_name' => $request['last_name'],
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
+            'role_id' => $request['user_id'],
             'mobile_number' => $request['mobile_number'],
         ]);
+
+        return response()->json(['status' => 2, 'message' => 'User Login Successfully', 'surl' => route('home')]);
+    }
+        catch (\Exception $e) {
+            // If an error occurs during registration
+            return response()->json(['status' => 0, 'message' => 'Registration failed', 'errors' => $e->getMessage()]);
+        }
     
-        return response()->json(['status' => 2, 'message' => 'User Registered Successfully', 'surl' => route('login')]);
+
     }
   
 }

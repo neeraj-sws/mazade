@@ -9,7 +9,27 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-   
+    {{-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) --}}
+
+
+    <link rel="shortcut icon" href="{{asset('admin/assets/images/logo/favicon.ico')}}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="{{asset('assets/css/index.css')}}" rel="stylesheet">
+
+    <link href="{{asset('assets/vendors/toastr/toastr.css')}}" rel="stylesheet">
+
+    
+    <!-- Scripts -->
+    <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css"> -->
+     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css" integrity="sha512-34s5cpvaNG3BknEWSuOncX28vz97bRI59UnVtEEpFX536A7BtZSJHsDyFoCl8S7Dt2TPzcrCEoHBGeM4SUBDBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+  
+
+    <link href="{{asset('assets/css/index.css')}}" rel="stylesheet">
       <link rel="icon" href="{{asset('front_assets/images/bg/sm-logo.png') }}" type="image/gif" sizes="20x20">
       <script src="https://kit.fontawesome.com/5dd98f56af" crossorigin="anonymous"></script>
       <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,10 +37,10 @@
       <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+      {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> --}}
       <link rel="stylesheet" href="{{asset('front_assets/css/animate.css') }}">
       <link rel="stylesheet" href="{{asset('front_assets/css/all.css') }}">
-      <link rel="stylesheet" href="{{asset('front_assets/css/bootstrap.min.css') }}">
+      {{-- <link rel="stylesheet" href="{{asset('front_assets/css/bootstrap.min.css') }}"> --}}
       <link rel="stylesheet" href="{{asset('front_assets/css/boxicons.min.css') }}">
       <link rel="stylesheet" href="{{asset('front_assets/css/bootstrap-icons.css') }}">
       <link rel="stylesheet" href="{{asset('front_assets/css/jquery-ui.css') }}">
@@ -34,9 +54,6 @@
       <link rel="stylesheet" href="{{asset('front_assets/css/style-new.css') }}">
       <link rel="stylesheet" href="{{asset('front_assets/css/user.css') }}">
     
-
-    <!-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) -->
-
 </head>
 <body>
     <div id="app" >
@@ -70,9 +87,13 @@
       </header>
        
             @yield('content')
-      
-       
+
     </div>
+
+  
+
+    <script src="{{asset('admin/assets/vendors/toastr/toastr.min.js') }}"></script>  
+
  
     <script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js') }}"></script>
     <script src="{{asset('front_assets/js/jquery-3.6.0.min.js') }}"></script>
@@ -85,8 +106,24 @@
       <script src="{{asset('front_assets/js/odometer.min.js') }}"></script>
       <script src="{{asset('front_assets/js/viewport.jquery.js') }}"></script>
       <script src="{{asset('front_assets/js/jquery.magnific-popup.min.js') }}"></script>
-      <script src="{{asset('front_assets/js/main.js') }}"></script>    
+      <script src="{{asset('front_assets/js/main.js') }}"></script> 
+      
+      {{-- <script src="{{asset('admin/assets/js/crud.js') }}"></script> --}}
+      
+    
  @yield('page-js-script')
+
+
+
     
 </body>
 </html>
+
+<script
+type="text/javascript"
+src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.umd.min.js"
+></script>
+<script src="{{asset('assets/js/crud.js') }}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="{{asset('admin/assets/vendors/toastr/toastr.min.js') }}"></script>

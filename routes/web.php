@@ -45,6 +45,8 @@ Route::group(['middleware'=>'auth:web'],function(){
    
     Route::get('/active-auctions', [App\Http\Controllers\Front\AuctionController::class, 'active_auctions'])->name('active-auctions');
     Route::get('/bid-details', [App\Http\Controllers\Front\AuctionController::class, 'bid_details'])->name('bid-details');
+    Route::get('/bid-details/{id}', [App\Http\Controllers\Front\AuctionController::class, 'bid_details'])->name('bid-details');
+    Route::match(['get', 'post'],'bids',[App\Http\Controllers\Front\AuctionController::class,'updates'])->name('bidadd');
     Route::get('/add-review', [App\Http\Controllers\Front\AuctionController::class, 'add_review'])->name('add-review');
     Route::get('/withdraw', [App\Http\Controllers\Front\AuctionController::class, 'withdraw'])->name('withdraw');
     Route::get('/user-company-detail', [App\Http\Controllers\Front\CompanyController::class, 'user_company_detail'])->name('user-company-detail');
@@ -77,6 +79,7 @@ Route::group(['middleware'=>'auth:web'],function(){
 
     Route::post('/auctioncancel', [App\Http\Controllers\Front\AuctionController::class, 'auctioncancel'])->name('auctioncancel');
     Route::post('/finishedauction', [App\Http\Controllers\Front\AuctionController::class, 'finishedauction'])->name('finishedauction');
+    Route::get('auction/update/{id}',[App\Http\Controllers\Front\AuctionController::class,'auctionupdate'])->name('auctionupdate');
 
    
     Route::get('state/auction',[App\Http\Controllers\Front\AuctionController::class, 'index'])->name('state.auction');

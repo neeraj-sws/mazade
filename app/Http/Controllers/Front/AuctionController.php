@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Category,SubCategory,Auction,Auctioncancel,Finishedauctions,Payment,Status,Upload};
+
+use App\Models\{Auction,Auctioncancel,Finishedauctions,Auctionitems,Companies,Payment,Status,Upload};
+
 use DateTime;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use DB;
-
+// echo 1; die;
 class AuctionController extends Controller
 {
 
@@ -37,12 +40,66 @@ class AuctionController extends Controller
             'sub_categories'=>$sub_categories]);
     }
 
-    public function bid_details(){
-        return view('front.auction.bid_details');
+    public function bid_details($id){
+        // echo $id; die;
+        $ids['idss'] = Auction::find($id);
+        //   echo '<pre>'; print_r( $ids['idss']->toArray()); die;
+        $company['companys'] = Auth::guard('companie')->user();
+       
+        return view('front.auction.bid_details',$ids,$company);
     }
 
     public function active_auctions(){
-        return view('front.auction.active_auctions');
+        
+        $qry = Auction::with(['CatId', 'status_id']);
+        $result['list'] = $qry->get();
+        // echo '<pre>'; print_r($result['list']->toArray()); die;
+        return view('front.auction.active_auctions',$result);
+    }
+
+    public function updates(Request $request)
+    {
+        
+        // echo '<pre>'; print_r($request->all()); die;
+        $validator = Validator::make(
+            $request->all(),
+            [   
+                'lastPrice' => 'required',
+            ]
+        );
+
+        if($validator->fails()){
+            return response()->json(['status' => 0,'errors' =>  $validator->errors()]);
+        }else{
+            
+             $id = DB::table('bidoderid')->insertGetId([]);
+
+            $opder_id = DB::table('bidoderid')->where('id', $id)->first();
+
+            $date = new DateTime($opder_id->created_at);
+           $datee =   $date->format("Ym");
+
+              $idd = 'MZ'.$datee.$opder_id->id;
+
+        // $status = Status::select('name')->where('id',8)->first();
+        
+           $status = Companies::find($request->company_id);
+        $status->is_bid_add = 1;
+        $status->save();
+    
+        $auction = new Auctionitems;
+        
+          $auction->oder_id = $idd;
+        $auction->category_id = $request->category_id;
+        $auction->auction_id = $request->auction_id;
+        $auction->companie_id = $request->company_id;
+        $auction->price = $request->lastPrice;
+        $auction->save();
+
+        return redirect()->route('active-auctions')
+                         ->with('success', 'Auction updated successfully');  
+        }
+       
     }
 
     public function add_review(){

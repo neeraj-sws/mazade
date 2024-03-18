@@ -27,17 +27,26 @@ class AuctionController extends Controller
 
 
     public function create($cat_id=0,$sub_cat_id=0){
-        $sub_categories =array();    
+        $sub_categories = $cat_info= $sub_cat_info= array();    
         $categories = Category::where('status', 1)->get();
+       
         if($cat_id != 0){
             $sub_categories = SubCategory::where('category_id', $cat_id)->where('status', 1)->get();
+        }
+
+        if($cat_id != 0 AND $sub_cat_id != 0){
+            $cat_info = Category::where('id', $cat_id)->where('status', 1)->first();
+            $sub_cat_info = SubCategory::where('id', $sub_cat_id)->where('status', 1)->first();
         }
 
         return view('front.auction.create',[
             'cat_id'=>$cat_id,
             'sub_cat_id'=>$sub_cat_id,
             'categories' => $categories,
-            'sub_categories'=>$sub_categories]);
+            'sub_categories'=>$sub_categories,
+            'cat_info'=>$cat_info,
+            'sub_cat_info'=>$sub_cat_info,
+        ]);
     }
 
     public function bid_details($id){

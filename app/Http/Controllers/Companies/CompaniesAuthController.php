@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
-use App\Models\{Auction,Auctionitems,Oders,Companies,Upload};
+use App\Models\{Auction,Auctionitems,Oders,Companies,Upload,user,Company_info};
 use App\Http\Controllers\Controller;
 
 class CompaniesAuthController extends Controller
@@ -43,28 +43,45 @@ class CompaniesAuthController extends Controller
         return view('auth.register');
     }
 
-    public function companies_register(Request $request){
-        // echo '<pre>'; print_r($request->all()); die;
+    public function companies_register(Request $request)
+    {
+        
+    //  echo "<pre>";print_r($request->all());die;
         $validatedData = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'firstName' => ['required', 'string', 'max:255'],
+            'lastName' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'mobile_number' => ['required', 'string', 'max:10'],
+            'phone' => ['required', 'string', 'max:10'],
             'address' => ['required'],
             'password' => ['required', 'string', 'min:8'],
-            'file_id'=>['required'],
+            'companyName' => ['required', 'string', 'max:255'],
+            'company_phone' => ['required', 'string', 'max:10'],
+            'commercialRegister' => ['required'],
+           
         ]);
-        
-        Companies::create([
-            'name' => $request['name'],
+    
+        // Create the user
+        $user = User::create([
+            'name' => $request['firstName'],
+            'last_name' => $request['lastName'],
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
-            'address' => $request['address'],
-            'pnumber' => $request['mobile_number'],
-            'file_id'=> $request['file_id'],
+            'role_id' => $request['role_id'],
+            'mobile_number' => $request['phone'],
         ]);
-        // echo '<pre>'; print_r($request->all()); die;
-        return response()->json(['status' => 2, 'message' => 'Company Registered Successfully', 'surl' => route('companieslogin.form')]);
+
+        $company = Company_info::create([
+            'user_id' => $user->id, 
+            'companyname' => $request['companyName'],
+            'companphone' => $request['company_phone'],
+            'address' => $request['address'],
+            'commercialregister'=> $request['commercialRegister'],
+        ]);
+    
+        // Return the response
+        return response()->json(['status' => 2, 'message' => 'User Login Successfully', 'surl' => route('home')]);
     }
+    
 
     public function image_upload(Request $request)
     {

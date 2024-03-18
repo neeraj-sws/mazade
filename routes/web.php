@@ -42,7 +42,7 @@ Route::group(['middleware'=>'auth:web'],function(){
     Route::get('/home', [App\Http\Controllers\Front\HomeController::class, 'index'])->name('home');
     Route::get('/profile', [App\Http\Controllers\Front\UserController::class, 'profile'])->name('profile');
     Route::get('/dashboard', [App\Http\Controllers\Front\UserController::class, 'dashboard'])->name('dashboard');
-    Route::get('/new-auction', [App\Http\Controllers\Front\AuctionController::class, 'create'])->name('new-auction');
+   
     Route::get('/active-auctions', [App\Http\Controllers\Front\AuctionController::class, 'active_auctions'])->name('active-auctions');
     Route::get('/bid-details', [App\Http\Controllers\Front\AuctionController::class, 'bid_details'])->name('bid-details');
     Route::get('/bid-details/{id}', [App\Http\Controllers\Front\AuctionController::class, 'bid_details'])->name('bid-details');
@@ -55,6 +55,17 @@ Route::group(['middleware'=>'auth:web'],function(){
     Route::get('/user-category-detail', [App\Http\Controllers\Front\CompanyController::class, 'user_category_detail'])->name('user-category-detail');
     
     Route::get('/company/dashboard', [App\Http\Controllers\Front\CompanyController::class, 'dashboard'])->name('company.dashboard');
+
+    Route::get('/payment', [App\Http\Controllers\Front\PaymentController::class, 'index'])->name('payment');
+
+
+
+    Route::get('/new-auction', [App\Http\Controllers\Front\AuctionController::class, 'create']);
+    Route::get('/new-auction/{cate_id}', [App\Http\Controllers\Front\AuctionController::class, 'create']);
+    Route::get('/new-auction/{cate_id}/{sub_cat_id}', [App\Http\Controllers\Front\AuctionController::class, 'create']);
+
+    Route::post('auction/store',[App\Http\Controllers\Front\AuctionController::class, 'store'])->name('auction.store');
+
 
     //Route::get('about-us', [App\Http\Controllers\Front\HomeController::class, 'about_us'])->name('about-us');
 
@@ -70,7 +81,7 @@ Route::group(['middleware'=>'auth:web'],function(){
     Route::post('/finishedauction', [App\Http\Controllers\Front\AuctionController::class, 'finishedauction'])->name('finishedauction');
     Route::get('auction/update/{id}',[App\Http\Controllers\Front\AuctionController::class,'auctionupdate'])->name('auctionupdate');
 
-    Route::post('sub_category',[App\Http\Controllers\Front\AuctionController::class, 'store'])->name('sub_category.store');
+   
     Route::get('state/auction',[App\Http\Controllers\Front\AuctionController::class, 'index'])->name('state.auction');
     Route::match(['get', 'post'],'payments',[App\Http\Controllers\Front\AuctionController::class, 'payments'])->name('payments');
 

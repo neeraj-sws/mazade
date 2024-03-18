@@ -46,6 +46,11 @@ Route::group(['middleware'=>'auth:web'],function(){
     Route::get('/active-auctions', [App\Http\Controllers\Front\AuctionController::class, 'active_auctions'])->name('active-auctions');
     Route::get('/bid-details', [App\Http\Controllers\Front\AuctionController::class, 'bid_details'])->name('bid-details');
     Route::get('/add-review', [App\Http\Controllers\Front\AuctionController::class, 'add_review'])->name('add-review');
+    Route::get('/withdraw', [App\Http\Controllers\Front\AuctionController::class, 'withdraw'])->name('withdraw');
+    Route::get('/user-company-detail', [App\Http\Controllers\Front\CompanyController::class, 'user_company_detail'])->name('user-company-detail');
+    Route::get('/user-auction-detail', [App\Http\Controllers\Front\AuctionController::class, 'user_auction_detail'])->name('user-auction-detail');
+    
+    Route::get('/user-category-detail', [App\Http\Controllers\Front\CompanyController::class, 'user_category_detail'])->name('user-category-detail');
     
     Route::get('/company/dashboard', [App\Http\Controllers\Front\CompanyController::class, 'dashboard'])->name('company.dashboard');
 

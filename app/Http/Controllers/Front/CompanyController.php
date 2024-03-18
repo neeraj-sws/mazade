@@ -25,5 +25,15 @@ class CompanyController extends Controller
        return view('front.company.dashboard');
     }
     
+
+    public function user_company_detail()
+    {
+       return view('front.company.user_company_detail');
+    }
+
+    public function user_category_detail()
+    {
+       return view('front.company.user_category_detail');
+    }
    
 }

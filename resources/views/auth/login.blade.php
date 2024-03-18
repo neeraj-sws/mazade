@@ -45,7 +45,7 @@
          </div>
       </div>
 @endsection
-
+@section('page-js-script')
 <script>
     function loginform_submit(e) {
    
@@ -94,3 +94,4 @@
    });
  }
  </script>
+ @endsection

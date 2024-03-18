@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Auction,Auctioncancel,Finishedauctions,Payment,Status,Upload};
+use App\Models\{Category,SubCategory,Auction,Auctioncancel,Finishedauctions,Payment,Status,Upload};
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -23,8 +23,18 @@ class AuctionController extends Controller
     }
 
 
-    public function create(){
-        return view('front.auction.create');
+    public function create($cat_id=0,$sub_cat_id=0){
+        $sub_categories =array();    
+        $categories = Category::where('status', 1)->get();
+        if($cat_id != 0){
+            $sub_categories = SubCategory::where('category_id', $cat_id)->where('status', 1)->get();
+        }
+
+        return view('front.auction.create',[
+            'cat_id'=>$cat_id,
+            'sub_cat_id'=>$sub_cat_id,
+            'categories' => $categories,
+            'sub_categories'=>$sub_categories]);
     }
 
     public function bid_details(){
@@ -66,49 +76,42 @@ class AuctionController extends Controller
         $validator = Validator::make(
             $request->all(),
             [   
-                'name'=>'required',
+                'title'=>'required',
                 'category'=>'required',
                 'sub_category'=>'required',
-                'Quality'=>'required',
-                'Bugiet'=>'required',
+                //'quality'=>'required',
+                'budget'=>'required',
                 'city'=>'required',
-                'quantity'=>'required',
-                'image'=>'required',
-                'description'=>'required',
+               // 'quantity'=>'required',
+               'message'=>'required',
             ]
         );
             if($validator->fails()){
                 return response()->json(['status' => 0,'errors' =>  $validator->errors()]);
             }else{
 
-                $status = Status::where('id',1)->first();
+                
 
             
                 $id = DB::table('auctionodernumber')->insertGetId([]);
-
                 $opder_id = DB::table('auctionodernumber')->where('id', $id)->first();
-
                 $date = new DateTime($opder_id->created_at);
-               $datee =   $date->format("Ym");
-
-                  $idd = 'MZ'.$datee.$opder_id->id;
+                $datee =   $date->format("Ym");
+                $idd = 'MZ'.$datee.$opder_id->id;
 
                 $info = Auction::create([
                     'oder_id' => $idd,
-                    'name'=> $request->name,
+                    'title'=> $request->title,
                     'category'=> $request->category,
                     'sub_category'=> $request->sub_category,
-                    'quality'=>$request->Quality,
-                    'budget'=> $request->Bugiet,
+                    'quality'=>1,
+                    'budget'=> $request->budget,
                     'city'=>$request->city,
-                    'status'=>$status->id,
-                    'quantity'=>$request->quantity,
+                    'quantity'=>2,
                     'image'=>$request->image,
-                    'description'=>$request->description,
+                    'message'=>$request->message,
+                    'status'=>0,
                 ]);
-
-                // return redirect()->route('home')
-                // ->with('success', 'state auction created successfully.');
 
                 return response()->json(['status' => 1, 'message' => $this->single_heading .'saved successfully' ]);
             }

@@ -24,8 +24,8 @@
               <a href="#">
                   <img src="{{asset('front_assets/images/dummy-profile.png') }}" alt="">
               </a>
-              <h1>Lorem Ipsum</h1>
-              <p>lorem@theEmail.com</p>
+              <h1>{{ Auth::user()->name }} {{ Auth::user()->lname }}</h1>
+              <p>{{ Auth::user()->email }}</p>
               <p><a href="{{ route('dashboard') }}">Dashboard</a></p>
           </div>
       </div>
@@ -38,16 +38,16 @@
                </div>
               <div class="row">
                   <div class="bio-row">
-                      <p><span>First Name </span>: Lorem</p>
+                      <p><span>First Name </span>: {{ Auth::user()->name }}</p>
                   </div>
                   <div class="bio-row">
-                      <p><span>Last Name </span>: Ipsum</p>
+                      <p><span>Last Name </span>: {{ Auth::user()->lname }}</p>
                   </div>
                   <div class="bio-row">
-                      <p><span>Email </span>: loremh@theeamil.com</p>
+                      <p><span>Email </span>: {{ Auth::user()->email }}</p>
                   </div>
                   <div class="bio-row">
-                      <p><span>Phone </span>: 88 (02) 123456</p>
+                      <p><span>Phone </span>: {{ Auth::user()->phone }}</p>
                   </div>
               </div>
           </div>

@@ -16,7 +16,9 @@
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                                        labore et dolore magna aliqua
                                     </p>
+                                    @if (!Auth::check())
                                     <a href="{{ route('login') }}" class="eg-btn btn--primary btn--lg">Login</a>
+                                    @endif
                                  </div>
                               </div>
                            </div>
@@ -34,7 +36,9 @@
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                                        labore et dolore magna aliqua
                                     </p>
+                                    @if (!Auth::check())
                                     <a href="{{ route('login') }}" class="eg-btn btn--primary btn--lg">Login</a>
+                                    @endif
                                  </div>
                               </div>
                            </div>
@@ -60,7 +64,7 @@
                <div class="row category-row mt-5">
                @foreach($categories as $category)
                   <div class="col-md-2 cate-box-home">
-                     <a href="#">
+                     <a href="{{ url('/new-auction/'.$category->id)}}">
                         <div style="background-color: #7BAB47;" class="category-main-box">
                            <div class="category-img">
                               <img src="{{ asset('uploads/category/'.@$category->photo->file) }}">

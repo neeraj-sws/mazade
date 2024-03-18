@@ -1,5 +1,6 @@
 @extends('layouts.auction')
 @section('page-css-script')
+
 <style type="text/css">
       .category-box {
         position: relative;
@@ -59,17 +60,30 @@
 
 <div id="category-topp">
             <div class="category-main-text mb-5">
-                  <h2>Select Category</h2>
+                  <h2>@if($cat_id == 0 AND $sub_cat_id == 0) Select @endif Category</h2>
                </div>
       </div>
 
       <div class="category-section">
    <div class="position-relative">
-      
+   @if($cat_id != 0 AND $sub_cat_id != 0)
+      <div class="swiper-slide">
+               <a href="{{ url('/new-auction/'.$cat_info->id)}}" class="text-decoration-none">
+                  <div class="category-box eg-card category-card1 wow animate fadeInDown  selected"   data-wow-duration="1500ms" data-wow-delay="200ms">
+                     <div class="cat-icon">
+                     <img src="{{ asset('uploads/category/'.@$cat_info->photo->file) }}">
+                     </div>
+                        <h5>{{ $cat_info->title }}</h5>
+                  </div>
+               </a>
+               </div>
+               @else 
       <div class="row d-flex justify-content-center">
-         
+             
          <div class="swiper category1-slider">
             <div class="swiper-wrapper">
+           
+        
             @foreach($categories as $category)
                <div class="swiper-slide">
                <a href="{{ url('/new-auction/'.$category->id)}}" class="text-decoration-none">
@@ -82,16 +96,18 @@
                </a>
                </div>
             @endforeach   
-              
+           
             
              
             </div>
          </div>
+        
       </div>
       <div class="slider-arrows text-center d-xl-flex d-none  justify-content-end">
          <div class="category-prev1 swiper-prev-arrow" tabindex="0" role="button" aria-label="Previous slide"> <i class="bx bx-chevron-left"></i> </div>
          <div class="category-next1 swiper-next-arrow" tabindex="0" role="button" aria-label="Next slide"> <i class="bx bx-chevron-right"></i></div>
       </div>
+      @endif  
    </div>
 </div>
 
@@ -108,9 +124,22 @@
             <div class="row">
                <div class="sub-category-box" id="design-subcategories">
                     <div class="category-main-text">
-                  <h2 class="mt-5">Select Sub Categories</h2>
+                  <h2 class="mt-5"> @if($cat_id == 0 AND $sub_cat_id == 0) Select @endif Sub Categories</h2>
                </div>
                <div class="row user-category-main mt-4 g-3">
+               @if($cat_id != 0 AND $sub_cat_id != 0)
+               <div class="col-md-2">
+                  <a href="{{ url('/new-auction/'.$cat_id.'/'.$sub_cat_info->id)}}"class="text-decoration-none">
+                        <div class="row sub-category category-box eg-card category-card1 wow animate fadeInDown selected" onclick="selectSubCategory(this)">
+                           
+                     <div class="cat-icon">
+                           <img src="{{ asset('uploads/services/'.@$sub_cat_info->photo->file) }}">
+                     </div>
+                        <h5>{{ $sub_cat_info->title }}</h5>
+                        </div>
+                     </a>
+                  </div>
+               @else
                   @foreach($sub_categories as $sub_category)
                   <div class="col-md-2">
                   <a href="{{ url('/new-auction/'.$cat_id.'/'.$sub_category->id)}}"class="text-decoration-none">
@@ -124,7 +153,7 @@
                      </a>
                   </div>
                   @endforeach
-                 
+                 @endif
                </div>
                 </div>
             </div>

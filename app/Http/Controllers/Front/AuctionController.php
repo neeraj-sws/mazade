@@ -97,9 +97,9 @@ class AuctionController extends Controller
 
         // $status = Status::select('name')->where('id',8)->first();
         
-           $status = Companies::find($request->company_id);
-        $status->is_bid_add = 1;
-        $status->save();
+        //    $status = Companies::find($request->company_id);
+        // $status->is_bid_add = 1;
+        // $status->save();
     
         $auction = new Auctionitems;
         

@@ -27,7 +27,7 @@
 
                                  <h3 class="inner-form-main-title">User</h3>
 
-                                    <input type="hidden" id="user"  value="1" name="user_id">
+                                    <input type="hidden" id="user"  value="1" name="role">
 
                                  <div class="col-md-6">
                                     <input type="text" id="firstName" placeholder="First Name" name="name" >
@@ -61,7 +61,7 @@
 
                               <form class="row g-3" action="{{ route('register.companies') }}" method="POST" onsubmit="event.preventDefault();registerform_submit(this);return false;" enctype="multipart/form-data">
 
-                                 <input type="hidden" id="user"  value="2" name="role_id">
+                                 <input type="hidden" id="user"  value="2" name="role">
 
                               <div class="all-form-data row">
                                  <h3 class="inner-form-main-title">User</h3>

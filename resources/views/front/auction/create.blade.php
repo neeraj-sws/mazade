@@ -201,19 +201,20 @@
                     </div>
 
                    
-
-                    <div class="col-md-12">
-                    <input type="datetime-local" id="birthdaytime" placeholder="start time" name="start_time" >
-                    </div>
-
-                    <div class="col-md-12">
-                        <input type="datetime-local" id="birthdaytime" placeholder="last time" name="end_time">
-                        </div>
-
                         
                         <div class="col-md-12">
                             <input type="text" id="city" placeholder="City" name="city" >
                             </div>
+
+                <div class="col-md-12">
+                    <label>Start Time</label>
+                    <input type="datetime-local" id="birthdaytime" placeholder="start time" name="start_time" >
+                </div>
+
+                <div class="col-md-12">
+                    <label>End Time</label>
+                    <input type="datetime-local" id="birthdaytime" placeholder="last time" name="end_time">
+                </div>
         
 
                     <div class="col-md-12">
@@ -238,8 +239,6 @@
                         </div>
                     </div>  
                     
-
-
 
                      <div class=" d-flex flex-column">
               

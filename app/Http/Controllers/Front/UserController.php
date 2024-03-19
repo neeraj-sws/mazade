@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Category,Upload,SubCategory,Companies,City,Auction,Oders,Finishedauctions,Auctionitems};
+use App\Models\{Category,Upload,SubCategory,Companies,City,Auction,Oders,Finishedauctions,Auctionitems,Reviews};
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -22,7 +22,10 @@ class UserController extends Controller
  
     public function profile()
     {
-       return view('front.user.profile');
+
+      $reviews = Reviews::get();
+
+       return view('front.user.profile' , [ 'reviews' => $reviews ]);
     }
 
     public function dashboard()

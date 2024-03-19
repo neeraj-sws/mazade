@@ -347,8 +347,7 @@ class AuctionController extends Controller
                 'phone'=>['required', 'string', 'min:11'],
                 'email'=>'required',
                 'message'=>'required',
-                'password'=>['required', 'string', 'min:8'],
-                'password_confirmation' => ['required', 'string', 'min:8']
+                
             ]
 
             );
@@ -362,7 +361,6 @@ class AuctionController extends Controller
             $user->mobile_number = $request->phone;
             $user->email = $request->email;
             $user->address = $request->message;
-            $user->password =  Hash::make($request->password);
             $user->save();
 
             return response()->json(['status' => 2, 'message' => 'User Login Successfully', 'surl' => route('dashboard')]);

@@ -56,20 +56,22 @@ Route::group(['middleware'=>'auth:web'],function(){
         Route::get('/new-auction/{cate_id}/{sub_cat_id}', [App\Http\Controllers\Front\AuctionController::class, 'create']);
         Route::post('auction/store',[App\Http\Controllers\Front\AuctionController::class, 'store'])->name('auction.store');
         Route::get('/payment', [App\Http\Controllers\Front\PaymentController::class, 'index'])->name('payment');
+        Route::get('/add-review/{id}', [App\Http\Controllers\Front\AuctionController::class, 'add_review'])->name('add-review');
+        Route::post('/review-add',[App\Http\Controllers\Front\AuctionController::class, 'add'])->name('review-add');
     });
        
     // Group for Role 2
     Route::middleware(['role:2'])->group(function () {
         Route::get('/company/dashboard', [App\Http\Controllers\Front\CompanyController::class, 'dashboard'])->name('company.dashboard');
         Route::get('/withdraw', [App\Http\Controllers\Front\AuctionController::class, 'withdraw'])->name('withdraw');
-         Route::post('/review-add',[App\Http\Controllers\Front\AuctionController::class, 'add'])->name('review-add');
+        
         Route::get('/active-auctions', [App\Http\Controllers\Front\AuctionController::class, 'active_auctions'])->name('active-auctions');
         Route::get('/bid-details', [App\Http\Controllers\Front\AuctionController::class, 'bid_details'])->name('bid-details');
         Route::get('/bid-details/{id}', [App\Http\Controllers\Front\AuctionController::class, 'bid_details'])->name('bid-details');
         Route::get('/user-company-detail', [App\Http\Controllers\Front\CompanyController::class, 'user_company_detail'])->name('user-company-detail');
         Route::get('/user-auction-detail', [App\Http\Controllers\Front\AuctionController::class, 'user_auction_detail'])->name('user-auction-detail');
         Route::match(['get', 'post'],'bids',[App\Http\Controllers\Front\AuctionController::class,'updates'])->name('bidadd');
-        Route::get('/add-review/{id}', [App\Http\Controllers\Front\AuctionController::class, 'add_review'])->name('add-review');
+      
    
         Route::get('/all-orders', [App\Http\Controllers\Front\OrderController::class, 'all_order'])->name('all-orders');
         Route::get('/pending-orders', [App\Http\Controllers\Front\OrderController::class, 'pending_order'])->name('pending-orders');

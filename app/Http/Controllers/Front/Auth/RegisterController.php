@@ -65,12 +65,12 @@ class RegisterController extends Controller
     protected function registerSubmit(Request $request)
     {
 
-        // echo "<pre>";print_r($request->all());die;
+       
         $validatedData = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'mobile_number' => ['required'],
+            'mobile_number' => ['required', 'string', 'min:11'],
             'user_id' => ['required'],
             'password' => ['required', 'string', 'min:8'],
         ]);

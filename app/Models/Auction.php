@@ -11,7 +11,7 @@ class Auction extends Model
     use HasFactory;
     protected $table = 'auction';
 
-    protected $fillable = [ 'oder_id',  'name','category','sub_category','quality', 'budget','city','quantity','image','description','status'];
+    protected $fillable = [ 'oder_id',  'name','category','sub_category','quality', 'budget','city','quantity','image','description','status','start_time' , 'end_time'];
 
     function CatId()
     {

@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Str;
 use DB;
+use Illuminate\Support\Facades\Hash;
 
 class AuctionController extends Controller
 {
@@ -115,14 +116,21 @@ class AuctionController extends Controller
        
     }
 
-    public function add_review(){
+    public function add_review($id)
+    {
+
+        $auction =  Auction::with(['CatId'])->findOrFail($id);
+
+        $bit = Auctionitems::with(['CatId' , 'companyId'])->where('auction_id' , $auction->id )->first();
+
+    //    echo "<pre>";print_r($bit);die;
    
-        return view('front.auction.add_review');
+        return view('front.auction.add_review' ,['auction' => $auction , 'bit' => $bit]);
     }
 
     public function add(Request $request)
     {
-        //  echo '<pre>'; print_r($request->all()); die;
+       
         $validator = Validator::make(
             $request->all(),
             [   
@@ -140,7 +148,9 @@ class AuctionController extends Controller
             
             // echo '<pre>'; print_r(new Reviews); die;
         $rating = new Reviews;
-       
+        $rating->category_id = $request->category_id;
+        $rating->auction_id = $request->auction_id;
+        $rating->companie_id = $request->companie_id;
         $rating->ratings = $request->rating;
         $rating->discription = $request->experience;
         $rating->title = $request->title;
@@ -173,7 +183,7 @@ class AuctionController extends Controller
 
    public function store(Request $request)
    {
-   
+    //    echo "<pre>";print_r($request->all());die;
         if($request->id){
                 return $this->update($request);
         }else{
@@ -183,20 +193,17 @@ class AuctionController extends Controller
                 'title'=>'required',
                 'category'=>'required',
                 'sub_category'=>'required',
-                //'quality'=>'required',
                 'budget'=>'required',
                 'city'=>'required',
-               // 'quantity'=>'required',
+                'start_time'=>'required',
+                'end_time'=>'required',
                'message'=>'required',
             ]
         );
-            if($validator->fails()){
-                return response()->json(['status' => 0,'errors' =>  $validator->errors()]);
-            }else{
+        if($validator->fails()){
+            return response()->json(['status' => 0,'errors' =>  $validator->errors()]);
+        }else{
 
-                
-
-            
                 $id = DB::table('auctionodernumber')->insertGetId([]);
                 $opder_id = DB::table('auctionodernumber')->where('id', $id)->first();
                 $date = new DateTime($opder_id->created_at);
@@ -205,19 +212,21 @@ class AuctionController extends Controller
 
                 $info = Auction::create([
                     'oder_id' => $idd,
-                    'title'=> $request->title,
+                    'name'=> $request->title,
                     'category'=> $request->category,
                     'sub_category'=> $request->sub_category,
-                    'quality'=>1,
+                    'quality'=> $request->quality,
                     'budget'=> $request->budget,
                     'city'=>$request->city,
-                    'quantity'=>2,
+                    'quantity'=>$request->quantity,
+                    'start_time'=>$request->start_time,
+                    'end_time'=>$request->end_time,
                     'image'=>$request->image,
-                    'message'=>$request->message,
+                    'description'=>$request->message,
                     'status'=>0,
                 ]);
 
-                return response()->json(['status' => 1, 'message' => $this->single_heading .'saved successfully' ]);
+                return response()->json(['status' => 2, 'message' => 'User Login Successfully', 'surl' => route('dashboard')]);
             }
         }
    }
@@ -358,6 +367,39 @@ class AuctionController extends Controller
 
             return response()->json(['status' => 2, 'message' => 'User Login Successfully', 'surl' => route('dashboard')]);
             }
+   }
+
+   public function change_password(Request $request)
+   {
+    
+
+  //  echo "<pre>";print_r($request->all());die;
+       $validator = Validator::make(
+           $request->all(),
+           [
+               'oldpassword'=>'required',
+               'newpassword'=>'required',
+           ]
+         );  
+         
+         if($validator->fails())
+         {
+           return response()->json(['status'=>0,'errors'=>$validator->errors()]);
+       }else{
+
+           $user = user::find($request->user_id);
+
+           if (Hash::check($request->oldpassword, $user->password)) {
+               
+                  user::find($request->user_id)->fill([
+               'password'=>$request->newpassword,
+                    ])->save();
+                    return response()->json(['status' => 2, 'message' => 'User Login Successfully', 'surl' => route('dashboard')]);
+           } else {
+               return response()->json(['status'=>3, 'message' => 'Old password is not match']);
+           }
+
+         }
    }
 
   

@@ -33,6 +33,10 @@
       <link rel="stylesheet" href="{{asset('front_assets/css/style.css') }}">
       <link rel="stylesheet" href="{{asset('front_assets/css/style-new.css') }}">
       <link rel="stylesheet" href="{{asset('front_assets/css/user.css') }}">
+      <link rel="stylesheet" href="{{asset('assets/vendors/toastr/toastr.min.js') }}">
+      <link rel="stylesheet" href="{{asset('admin/assets/vendors/toastr/toastr.min.css')}}">
+
+      {{-- <script src="{{asset('assets/vendors/toastr/toastr.min.js') }}"></script> --}}
       @yield('page-css-script')  
 
     <!-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) -->
@@ -85,7 +89,15 @@
       <script src="{{asset('front_assets/js/odometer.min.js') }}"></script>
       <script src="{{asset('front_assets/js/viewport.jquery.js') }}"></script>
       <script src="{{asset('front_assets/js/jquery.magnific-popup.min.js') }}"></script>
-      <script src="{{asset('front_assets/js/main.js') }}"></script>    
+      <script src="{{asset('front_assets/js/main.js') }}"></script>
+      
+      <script src="{{asset('assets/js/crud.js') }}"></script>
+      <script src="{{asset('assets/vendors/toastr/toastr.min.js') }}"></script>
+      <script src="{{asset('admin/assets/vendors/toastr/toastr.min.js')}}"></script>
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Your custom JavaScript -->
+<script src="path/to/crud.js"></script>
  @yield('page-js-script')
     
 </body>

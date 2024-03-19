@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 
-use App\Models\{Auction,Auctioncancel,Finishedauctions,Auctionitems,Companies,Payment,Status,Upload};
+use App\Models\{Auction,Auctioncancel,Finishedauctions,Reviews,Auctionitems,Companies,Payment,Status,Upload,Category,SubCategory};
 
 use DateTime;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Str;
 use DB;
 // echo 1; die;
@@ -103,9 +104,43 @@ class AuctionController extends Controller
     }
 
     public function add_review(){
+   
         return view('front.auction.add_review');
     }
 
+    public function add(Request $request)
+    {
+        //  echo '<pre>'; print_r($request->all()); die;
+        $validator = Validator::make(
+            $request->all(),
+            [   
+                'rating' => 'required',
+                'experience' => 'required',
+                'title' => 'required',
+                'email' => 'required',
+                
+            ]
+        );
+
+        if($validator->fails()){
+            return response()->json(['status' => 0,'errors' =>  $validator->errors()]);
+        }else{
+            
+            // echo '<pre>'; print_r(new Reviews); die;
+        $rating = new Reviews;
+       
+        $rating->ratings = $request->rating;
+        $rating->discription = $request->experience;
+        $rating->title = $request->title;
+        $rating->email = $request->email;
+        $rating->save();
+
+        // return redirect()->route('active-auctions')
+        //                  ->with('success', 'Auction updated successfully');  
+        }
+       
+    }
+    
     public function withdraw(){
         return view('front.auction.withdraw');
     }

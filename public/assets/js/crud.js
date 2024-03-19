@@ -70,6 +70,7 @@ function addForm(url, modal = 'modal-lg') {
 
 
   function form_submit(e) {
+    // alert($(e).attr('action'));
     toastr.clear();
     $(e).find('.st_loader').show();
     $.ajax({
@@ -125,7 +126,8 @@ function addForm(url, modal = 'modal-lg') {
       }
     });
   }
-  
+
+
   function clientprofile_submit(e) {
     toastr.clear();
     $(e).find('.st_loader').show();

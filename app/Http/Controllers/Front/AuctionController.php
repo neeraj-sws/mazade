@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 
+
 use App\Models\{Auction,Auctioncancel,Finishedauctions,Reviews,Auctionitems,Companies,Payment,Status,Upload,Category,SubCategory};
+
+use App\Models\{Auction,Auctioncancel,Finishedauctions,Payment,Status,Upload,user};
 
 use DateTime;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +16,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Str;
 use DB;
-// echo 1; die;
+
 class AuctionController extends Controller
 {
 
@@ -28,17 +31,26 @@ class AuctionController extends Controller
 
 
     public function create($cat_id=0,$sub_cat_id=0){
-        $sub_categories =array();    
+        $sub_categories = $cat_info= $sub_cat_info= array();    
         $categories = Category::where('status', 1)->get();
+       
         if($cat_id != 0){
             $sub_categories = SubCategory::where('category_id', $cat_id)->where('status', 1)->get();
+        }
+
+        if($cat_id != 0 AND $sub_cat_id != 0){
+            $cat_info = Category::where('id', $cat_id)->where('status', 1)->first();
+            $sub_cat_info = SubCategory::where('id', $sub_cat_id)->where('status', 1)->first();
         }
 
         return view('front.auction.create',[
             'cat_id'=>$cat_id,
             'sub_cat_id'=>$sub_cat_id,
             'categories' => $categories,
-            'sub_categories'=>$sub_categories]);
+            'sub_categories'=>$sub_categories,
+            'cat_info'=>$cat_info,
+            'sub_cat_info'=>$sub_cat_info,
+        ]);
     }
 
     public function bid_details($id){
@@ -314,6 +326,38 @@ class AuctionController extends Controller
         }
 
     
+   }
+
+   public function user_update(Request $request)
+   {
+          $validator = Validator::make(
+            $request->all(),
+            [  
+                'name'=>'required',
+                'lastname'=>'required',
+                'phone'=>['required', 'string', 'min:11'],
+                'email'=>'required',
+                'message'=>'required',
+                'password'=>['required', 'string', 'min:8'],
+                'password_confirmation' => ['required', 'string', 'min:8']
+            ]
+
+            );
+            if($validator->fails()){
+                return response()->json(['status' => 0,'errors' =>  $validator->errors()]);
+            }else{
+
+            $user = user::find($request->user_id);
+            $user->name = $request->name;
+            $user->last_name = $request->lastname;
+            $user->mobile_number = $request->phone;
+            $user->email = $request->email;
+            $user->address = $request->message;
+            $user->password =  Hash::make($request->password);
+            $user->save();
+
+            return response()->json(['status' => 2, 'message' => 'User Login Successfully', 'surl' => route('dashboard')]);
+            }
    }
 
   

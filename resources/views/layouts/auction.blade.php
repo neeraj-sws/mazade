@@ -69,7 +69,7 @@
       </div>    
       <header class="header-area style-1 justify-content-center">
          <div class="header-logo">
-            <a href="index.html"><img alt="image" src="{{asset('images/main-logo.png') }}"></a>
+            <a href="{{ route('home') }}"><img alt="image" src="{{asset('images/main-logo.png') }}"></a>
          </div>
       </header>
        

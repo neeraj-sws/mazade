@@ -31,6 +31,7 @@ Route::get('/optimize', function () {
 Route::get('send-mail', [MailController::class, 'index']);
 
 Route::get('/', [App\Http\Controllers\Front\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\Front\HomeController::class, 'index'])->name('home');
 Route::get('/categories', [App\Http\Controllers\Front\HomeController::class, 'categories'])->name('categories');
 Route::get('/about', [App\Http\Controllers\Front\HomeController::class, 'about'])->name('about');
 Route::get('/contact', [App\Http\Controllers\Front\HomeController::class, 'contact'])->name('contact');
@@ -39,7 +40,7 @@ Route::get('/contact', [App\Http\Controllers\Front\HomeController::class, 'conta
 
 
 Route::group(['middleware'=>'auth:web'],function(){
-    Route::get('/home', [App\Http\Controllers\Front\HomeController::class, 'index'])->name('home');
+   
     Route::get('/profile', [App\Http\Controllers\Front\UserController::class, 'profile'])->name('profile');
     Route::get('/dashboard', [App\Http\Controllers\Front\UserController::class, 'dashboard'])->name('dashboard');
    
@@ -52,6 +53,8 @@ Route::group(['middleware'=>'auth:web'],function(){
     Route::get('/withdraw', [App\Http\Controllers\Front\AuctionController::class, 'withdraw'])->name('withdraw');
     Route::get('/user-company-detail', [App\Http\Controllers\Front\CompanyController::class, 'user_company_detail'])->name('user-company-detail');
     Route::get('/user-auction-detail', [App\Http\Controllers\Front\AuctionController::class, 'user_auction_detail'])->name('user-auction-detail');
+
+   
     
     Route::get('/user-category-detail', [App\Http\Controllers\Front\CompanyController::class, 'user_category_detail'])->name('user-category-detail');
     
@@ -97,7 +100,9 @@ Route::group(['middleware'=>'auth:web'],function(){
     Route::post('/auctionlist',[App\Http\Controllers\Front\AuctionlictController::class, 'list'])->name('auctionlist');
     
 
- Route::post('/auctionbit',[App\Http\Controllers\Front\AuctionlictController::class, 'bitlist'])->name('auctionbit');       
+     Route::post('/auctionbit',[App\Http\Controllers\Front\AuctionlictController::class, 'bitlist'])->name('auctionbit');   
+ 
+     Route::post('/user/update', [App\Http\Controllers\Front\AuctionController::class, 'user_update'])->name('user.update');
 
 });
     

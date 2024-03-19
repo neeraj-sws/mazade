@@ -68,9 +68,55 @@ function addForm(url, modal = 'modal-lg') {
     });
   }
 
+  function profilte_update(e) {
+           
+    $(e).find('.st_loader').show();
+$.ajax({
+    url: $(e).attr('action'),
+    method: "POST",
+    dataType: "json",
+    data: $(e).serialize(),
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+    success: function (data) {
+        if (data.status == 1) {
+            toastr.success(data.message, 'Success');
+            window.location.href = base_url + 'login';
+        } else if (data.status == 0) {
+          
+        var $err = '';
+        $.each(data.errors, function (key, value) {
+           $err = $err + value + "<br>";
+        });
+        toastr.error($err, 'Error');
+        } else if (data.status === 2) {
+           window.setTimeout(function () {
+       window.location.href = data.surl;
+     }, 1000);
+
+     toastr.success(data.message, 'Success');
+}
+    },
+    error: function (data) {
+        
+        if (typeof data.responseJSON.status !== 'undefined') {
+            toastr.error(data.responseJSON.error, 'Error');
+        } else {
+            var $err = '';
+            $.each(data.responseJSON.errors, function (key, value) {
+                $err = $err + value + "<br>";
+            });
+            toastr.error($err, 'Error');
+        }
+        $(e).find('.st_loader').hide();
+    }
+});
+}
+
 
   function form_submit(e) {
-   
+      alert($(e).attr('action'));
     toastr.clear();
     $(e).find('.st_loader').show();
     $.ajax({

@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="login-section pt-30 pb-120">
-         <img alt="imges" src="assets/images/bg/section-bg.png" class="img-fluid section-bg-top">
-         <img alt="imges" src="assets/images/bg/section-bg.png" class="img-fluid section-bg-bottom">
+         <img alt="imges" src="{{asset('front_assets/images/bg/section-bg.png') }}" class="img-fluid section-bg-top">
+         <img alt="imges" src="{{asset('front_assets/images/bg/section-bg.png') }}" class="img-fluid section-bg-bottom">
          <div class="container">
             <div class="row d-flex justify-content-center g-4">
                <div class="col-xl-8 col-lg-10 col-md-12">

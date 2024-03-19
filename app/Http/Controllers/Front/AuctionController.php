@@ -97,9 +97,9 @@ class AuctionController extends Controller
 
         // $status = Status::select('name')->where('id',8)->first();
         
-           $status = Companies::find($request->company_id);
-        $status->is_bid_add = 1;
-        $status->save();
+        //    $status = Companies::find($request->company_id);
+        // $status->is_bid_add = 1;
+        // $status->save();
     
         $auction = new Auctionitems;
         
@@ -347,8 +347,7 @@ class AuctionController extends Controller
                 'phone'=>['required', 'string', 'min:11'],
                 'email'=>'required',
                 'message'=>'required',
-                'password'=>['required', 'string', 'min:8'],
-                'password_confirmation' => ['required', 'string', 'min:8']
+                
             ]
 
             );
@@ -362,7 +361,6 @@ class AuctionController extends Controller
             $user->mobile_number = $request->phone;
             $user->email = $request->email;
             $user->address = $request->message;
-            $user->password =  Hash::make($request->password);
             $user->save();
 
             return response()->json(['status' => 2, 'message' => 'User Login Successfully', 'surl' => route('dashboard')]);

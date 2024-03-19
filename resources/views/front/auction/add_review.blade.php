@@ -12,7 +12,7 @@
                         <div class="row payment-top-info">
                            <div class="col-md-6 my-4">
                               <div class="detail-box-main">
-                                 <b>Seller Name :</b> {{ $bit->companyId->name }}
+                                 <b>Seller Name :</b> {{ $bit->companyId->companyname }}
                               </div>
                            </div>
                            <div class="col-md-6 my-4">

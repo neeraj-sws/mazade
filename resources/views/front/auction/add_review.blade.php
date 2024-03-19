@@ -12,18 +12,26 @@
                         <div class="row payment-top-info">
                            <div class="col-md-6 my-4">
                               <div class="detail-box-main">
-                                 <b>Seller Name :</b> John doe
+                                 <b>Seller Name :</b> {{ $bit->companyId->name }}
                               </div>
                            </div>
                            <div class="col-md-6 my-4">
                               <div class="detail-box-main">
-                                 <b>Listing Title :</b> Bike
+                                 <b>Listing Title :</b> {{ $auction->name }}
                               </div>
                            </div>
                       </div>
                       <h2>Leave a Review</h2>
                         <form class="row g-3" id="reviewForm" action="{{ route('review-add') }}" method="POST" onsubmit="event.preventDefault();form_submit(this);return false;" enctype="multipart/form-data">
                            @csrf
+
+
+                           <input type="hidden" name="category_id" value="{{ $bit->category_id }} ">
+
+                           <input type="hidden" name="auction_id" value="{{ $bit->auction_id }} ">
+
+                           <input type="hidden" name="companie_id" value="{{ $bit->companie_id }} ">
+
                          <div class="form-group">
                            <label>Select your rating:</label>
                            <div id="stars">

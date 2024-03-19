@@ -33,12 +33,14 @@
       <link rel="stylesheet" href="{{asset('front_assets/css/style.css') }}">
       <link rel="stylesheet" href="{{asset('front_assets/css/style-new.css') }}">
       <link rel="stylesheet" href="{{asset('front_assets/css/user.css') }}">
+
       <link rel="stylesheet" href="{{asset('front_assets/vendors/toastr/toastr.min.js') }}">
       <link rel="stylesheet" href="{{asset('admin/assets/vendors/toastr/toastr.min.css')}}">
 
       @yield('page-css-script'); 
 
-    <!-- @vite(['resources/sass/app.scss', 'resources/js/app.js']) -->
+
+    
 
 </head>
 <body>

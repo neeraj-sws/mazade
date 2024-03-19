@@ -24,28 +24,27 @@
                   <form>
                     <div class="row">
                       <div class="col-md-6 mb-3">
-                        ID Order : 1
                       </div>
                       <div class="col-md-6 mb-3 d-flex justify-content-end">
                          <div id="countdown"></div>
                       </div>
                       <div class="col-md-4 my-4">
                         <div class="detail-box-main">
-                        Category : Real estate
+                        Category : {{ $idss->CatId->title }}
                         </div>
                       </div>
                       <div class="col-md-4 my-4">
                         <div class="detail-box-main">
-                        Budget : $900
+                        Budget : ${{ $idss->budget }}
                         </div>
                       </div>
                       <div class="col-md-4 my-4">
                         <div class="detail-box-main">
-                        Last Price : $900
+                        Last Price : $0
                         </div>
                       </div>
                       <div class="col-md-12 my-3">
-                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                         <p>{{ $idss->description }}</p>
                       </div>
                       <div class="col-md-3 mb-3">
                           <a id="popupBtn" class="end-btn company-end-btn new-bid-btn"></i>Bid</a>
@@ -64,21 +63,32 @@
 
 <div id="popup" class="popup">
   <div class="popup-content popup-new-content">
-   <form>
+   <form action="{{ route('bidadd') }}" method="post">
+      <!-- Form fields here -->
+      @csrf
+
+      <div data-mdb-input-init class="form-outline mb-4">
+         <input type="hidden" name="auction_id"  value="{{ $idss->id }}" id="form4Example1" class="form-control"  readonly/>
+     </div>
+
+     <input type="hidden" name="company_id"  value="{{ $companys->id }}" class="form-control"/>
+
+     <input type="hidden" name="category_id"  value="{{ $idss->category }}" class="form-control"/>
+    
    <div class="row">
       
       <div class="col-md-6 mb-4">
          <div class="detail-box-main">
-         ID Order : 1
+         ID Order : {{ $idss->oder_id }}
           </div>
       </div>
       <div class="col-md-6 mb-4">
       <div class="detail-box-main">
-         Category : Real estate
+         Category : {{ $idss->CatId->title }}
       </div>
       </div>
       <div class="col-md-12 mb-3 all-form-data mb-4">
-         <input type="text" id="Price" placeholder="Price" name="lastPrice">
+         <input type="text" id="Price" placeholder="Price" name="lastPrice" value="">
       </div>
       <div class="col-md-6 pop-btn-main-sec">
              <input class="company-new-popup-btn" type="submit" value="Bid">

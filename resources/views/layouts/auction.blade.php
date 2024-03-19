@@ -65,7 +65,7 @@
       </div>    
       <header class="header-area style-1 justify-content-center">
          <div class="header-logo">
-            <a href="index.html"><img alt="image" src="{{asset('images/main-logo.png') }}"></a>
+            <a href="{{ route('home') }}"><img alt="image" src="{{asset('images/main-logo.png') }}"></a>
          </div>
       </header>
        
@@ -81,7 +81,7 @@
       <script src="{{asset('front_assets/js/wow.min.js') }}"></script>
       <script src="{{asset('front_assets/js/swiper-bundle.min.js') }}"></script>
       <script src="{{asset('front_assets/js/slick.js') }}"></script>
-      <script src="{{asset('front_assets/js/jquery.nice-select.js') }}"></script>
+      <!-- <script src="{{asset('front_assets/js/jquery.nice-select.js') }}"></script> -->
       <script src="{{asset('front_assets/js/odometer.min.js') }}"></script>
       <script src="{{asset('front_assets/js/viewport.jquery.js') }}"></script>
       <script src="{{asset('front_assets/js/jquery.magnific-popup.min.js') }}"></script>

@@ -261,16 +261,22 @@
                     You have 4 active bids with this category
                 </div>
                 <div class="bidding-list">
+                    <?php 
+                    // echo '<pre>'; print_r($list->toArray()); die;
+                    foreach ($list as $lists) {
+                   ?>
+                  
                     <div class="bidding-item">
                      <div class="bidding-item-inner">
                         <div class="biding-info">
-                            <h3 class="bidding-title">I need a bike</h3>
+                            <h3 class="bidding-title">{{ $lists->name; }}</h3>
                             <h4 class="bidding-title-2"><b>current bid:</b> $90  </h4>
-                            <p class="bidding-description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                            <p class="bidding-description">{{ $lists->description; }}</p>
                         </div>
                         <div class="price-info">
-                            <h5 class="bidding-price">$100</h5>
-                            <a href="bid-detail.html"><button class="bid-now-btn">Bid Now</button></a>
+                            <h5 class="bidding-price">${{ $lists->budget; }}</h5>
+                            <a href="{{ route('bid-details', $lists->id) }}"><button class="bid-now-btn">Bid Now</button></a>
+                            
                         </div>
                         </div>
                         <div class="main-review-info-sec">
@@ -291,69 +297,9 @@
                             
                             </div>
                     </div>
+               <?php }
+                ?>
                     <!-- Add more bidding items here -->
-                    <div class="bidding-item">
-                     <div class="bidding-item-inner">
-                        <div class="biding-info">
-                            <h3 class="bidding-title">I need a car</h3>
-                            <h4 class="bidding-title-2"><b>current bid:</b> $90  </h4>
-                            <p class="bidding-description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                        </div>
-                        <div class="price-info">
-                            <h5 class="bidding-price">$100</h5>
-                            <a href="bid-detail.html"><button class="bid-now-btn">Bid Now</button></a>
-                        </div>
-                        </div>
-                        <div class="main-review-info-sec">
-                            <div class="review-stars">
-                              <h5>4.0</h5>
-                                <span class="star">&#9733;</span>
-                                <span class="star">&#9733;</span>
-                                <span class="star">&#9733;</span>
-                                <span class="star">&#9733;</span>
-                                <span class="star">&#9734;</span>
-                                <p>(3 Reviews)</p>
-                            </div>
-                            <div class="bid-loaction-main">
-                              <div class="review-main-back">
-                               <i class="fas fa-history"></i><p><b>Time left:</b><div id="countdowns2"></div></p>
-                               </div>
-                            </div>
-                            
-                            </div>
-                    </div>
-
-
-                    <div class="bidding-item">
-                     <div class="bidding-item-inner">
-                        <div class="biding-info">
-                            <h3 class="bidding-title">I need a bike</h3>
-                            <h4 class="bidding-title-2"><b>current bid:</b> $90  </h4>
-                            <p class="bidding-description">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                        </div>
-                        <div class="price-info">
-                            <h5 class="bidding-price">$100</h5>
-                             <a href="bid-detail.html"><button class="bid-now-btn">Bid Now</button></a>
-                        </div>
-                        </div>
-                        <div class="main-review-info-sec">
-                            <div class="review-stars">
-                              <h5>4.0</h5>
-                                <span class="star">&#9733;</span>
-                                <span class="star">&#9733;</span>
-                                <span class="star">&#9733;</span>
-                                <span class="star">&#9733;</span>
-                                <span class="star">&#9734;</span>
-                                <p>(3 Reviews)</p>
-                            </div>
-                            <div class="bid-loaction-main">
-                              <div class="review-main-back">
-                               <i class="fas fa-history"></i><p><b>Time left:</b><div id="countdowns3"></div></p>
-                               </div>
-                            </div>
-                            
-                            </div>
-                    </div>
 
                     <div class="table-pagination">
                   <p>Showing 10 to 20 of 1 entries</p>

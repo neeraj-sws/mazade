@@ -84,7 +84,7 @@ class CompaniesController extends Controller
         $company = Auth::guard('companie')->user();
         $startauction = Auction::with(['CatId'])->findOrFail($id);
 
-        return view('companies.detaills',['startauction' => $startauction ,'company' => $company ]);
+        return view('bid.detaills',['startauction' => $startauction ,'company' => $company ]);
     }
 
     public function bid($id)

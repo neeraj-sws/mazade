@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 
-use App\Models\{Auction,Auctioncancel,Finishedauctions,Payment,Status,Upload,user};
-=======
 
 use App\Models\{Auction,Auctioncancel,Finishedauctions,Auctionitems,Companies,Payment,Status,Upload};
 

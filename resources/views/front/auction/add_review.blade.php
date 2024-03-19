@@ -22,7 +22,8 @@
                            </div>
                       </div>
                       <h2>Leave a Review</h2>
-                       <form id="reviewForm">
+                        <form class="row g-3" id="reviewForm" action="{{ route('review-add') }}" method="POST" onsubmit="event.preventDefault();form_submit(this);return false;" enctype="multipart/form-data">
+                           @csrf
                          <div class="form-group">
                            <label>Select your rating:</label>
                            <div id="stars">

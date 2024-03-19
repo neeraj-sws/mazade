@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 
 
-use App\Models\{Auction,Auctioncancel,Finishedauctions,Reviews,Auctionitems,Companies,Payment,Status,Upload,Category,SubCategory};
+use App\Models\{Auction,Auctioncancel,Finishedauctions,Reviews,Auctionitems,Companies,Payment,Status,Upload,Category,SubCategory,user};
 
-use App\Models\{Auction,Auctioncancel,Finishedauctions,Payment,Status,Upload,user};
+
 
 use DateTime;
 use Illuminate\Support\Facades\Auth;

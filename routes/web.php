@@ -64,7 +64,7 @@ Route::group(['middleware'=>'auth:web'],function(){
 
 
 
-    Route::get('/new-auction', [App\Http\Controllers\Front\AuctionController::class, 'create']);
+    Route::get('/new-auction', [App\Http\Controllers\Front\AuctionController::class, 'create'])->name('new-auction');
     Route::get('/new-auction/{cate_id}', [App\Http\Controllers\Front\AuctionController::class, 'create']);
     Route::get('/new-auction/{cate_id}/{sub_cat_id}', [App\Http\Controllers\Front\AuctionController::class, 'create']);
 

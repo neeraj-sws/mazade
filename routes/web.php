@@ -41,6 +41,20 @@ Route::get('/contact', [App\Http\Controllers\Front\HomeController::class, 'conta
 
 Route::group(['middleware'=>'auth:web'],function(){
    
+    Route::middleware(['role:1'])->group(function () {
+        
+        Route::get('/new-auction', [App\Http\Controllers\Front\AuctionController::class, 'create'])->name('new-auction');
+        Route::get('/new-auction/{cate_id}', [App\Http\Controllers\Front\AuctionController::class, 'create']);
+        Route::get('/new-auction/{cate_id}/{sub_cat_id}', [App\Http\Controllers\Front\AuctionController::class, 'create']);
+    });
+    
+    // Group for Role 2
+    Route::middleware(['role:2'])->group(function () {
+        Route::get('/company/dashboard', [App\Http\Controllers\Front\CompanyController::class, 'dashboard'])->name('company.dashboard');
+
+    });
+
+
     Route::get('/profile', [App\Http\Controllers\Front\UserController::class, 'profile'])->name('profile');
     Route::get('/dashboard', [App\Http\Controllers\Front\UserController::class, 'dashboard'])->name('dashboard');
    
@@ -58,15 +72,11 @@ Route::group(['middleware'=>'auth:web'],function(){
     
     Route::get('/user-category-detail', [App\Http\Controllers\Front\CompanyController::class, 'user_category_detail'])->name('user-category-detail');
     
-    Route::get('/company/dashboard', [App\Http\Controllers\Front\CompanyController::class, 'dashboard'])->name('company.dashboard');
-
+   
     Route::get('/payment', [App\Http\Controllers\Front\PaymentController::class, 'index'])->name('payment');
 
 
 
-    Route::get('/new-auction', [App\Http\Controllers\Front\AuctionController::class, 'create'])->name('new-auction');
-    Route::get('/new-auction/{cate_id}', [App\Http\Controllers\Front\AuctionController::class, 'create']);
-    Route::get('/new-auction/{cate_id}/{sub_cat_id}', [App\Http\Controllers\Front\AuctionController::class, 'create']);
 
     Route::post('auction/store',[App\Http\Controllers\Front\AuctionController::class, 'store'])->name('auction.store');
 

@@ -51,6 +51,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             // \App\Http\Middleware\AdminMiddleware::class,
+            
       
           ],
     ];
@@ -78,5 +79,6 @@ class Kernel extends HttpKernel
         'client' => \App\Http\Middleware\ClientMiddleware::class,
         'ability' => \Laravel\Sanctum\Http\Middleware\CheckForAnyAbility::class,
         'companie' => \App\Http\Middleware\CompaniesMiddleware::class,
+        'role' => \App\Http\Middleware\CheckRole::class,
     ];
 }

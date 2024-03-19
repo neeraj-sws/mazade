@@ -50,6 +50,15 @@
                         </svg>
                         Profile
                      </button>
+
+                     <button class="nav-link nav-btn-style mx-auto mb-20" id="v-pills-change-password-tab" data-bs-toggle="pill" data-bs-target="#v-pills-change-password" type="button" role="tab" aria-controls="v-pills-change-password" aria-selected="true">
+                        <i class="lar la-user"></i>
+                        <svg width="22" height="22" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+                           <path d="M18.7782 14.2218C17.5801 13.0237 16.1541 12.1368 14.5982 11.5999C16.2646 10.4522 17.3594 8.53136 17.3594 6.35938C17.3594 2.85282 14.5066 0 11 0C7.49345 0 4.64062 2.85282 4.64062 6.35938C4.64062 8.53136 5.73543 10.4522 7.40188 11.5999C5.84598 12.1368 4.41994 13.0237 3.22184 14.2218C1.14421 16.2995 0 19.0618 0 22H1.71875C1.71875 16.8823 5.88229 12.7188 11 12.7188C16.1177 12.7188 20.2812 16.8823 20.2812 22H22C22 19.0618 20.8558 16.2995 18.7782 14.2218ZM11 11C8.44117 11 6.35938 8.91825 6.35938 6.35938C6.35938 3.8005 8.44117 1.71875 11 1.71875C13.5588 1.71875 15.6406 3.8005 15.6406 6.35938C15.6406 8.91825 13.5588 11 11 11Z" />
+                        </svg>
+                        Change Password
+                     </button>
+
                      <button class="nav-link nav-btn-style mx-auto" type="button" role="tab">
                         <svg width="22" height="22" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
                            <g clip-path="url(#clip0_382_377)">
@@ -102,6 +111,7 @@
                            <td data-label="Highest Bid">10 : 00 : 00</td>
                            <td data-label="Status" class="text-green">$90</td>
                            <td data-label="Status" class="text-green"><a href="profile-for-user.html"><i class="far fa-user"></i></a></td>
+
                            @if ($auctions->status == 2)
                            
                            <td data-label="Action"><a href="javascript:void(0);" ><button class="cancel-btn"><i class="fas fa-times" aria-hidden="true"></i> Cancelled </button></a></td> 
@@ -114,6 +124,7 @@
                            @else
                            <td data-label="Status" class="text-green"><a href="javascript:void(0);"><button class="end-btn">End Auction</button></a></td> 
                            @endif
+
                         </tr>
 
                         @endforeach
@@ -171,6 +182,7 @@
                                     </tr>
                                  </thead>
                                  <tbody>
+
                                  <?php
                                     //  echo '<pre>'; print_r($auctionitem); die;
                                       ?>
@@ -187,6 +199,7 @@
                                        <td class="status-price-table" data-label="Bid Amount(USD)"><p>Pending for price</p></td>
                                        <td data-label="Status" class="text-green btn-edit-table"><a href="payment.html"><button id="popupBtn" class="company-pay-end-btn">Pay now</button></a></td>
                                       
+
                                     </tr>
             
                                     @endforeach
@@ -285,20 +298,7 @@
                                           </select>
                                        </div>
                                     </div>
-                                    <div class="col-12">
-                                       <div class="form-inner">
-                                          <label>Password *</label>
-                                          <input type="password" name="password" id="password" placeholder="Create A Password" />
-                                          <i class="bi bi-eye-slash" id="togglePassword"></i>
-                                       </div>
-                                    </div>
-                                    <div class="col-12">
-                                       <div class="form-inner mb-0">
-                                          <label>Confirm Password *</label>
-                                          <input type="password" name="password_confirmation" id="password2" placeholder="Create A Password" />
-                                          <i class="bi bi-eye-slash" id="togglePassword2"></i>
-                                       </div>
-                                    </div>
+                                   
                                     <div class="col-12">
                                        <div class="button-group">
                                           <button type="submit" class="eg-btn profile-btn">Update Profile</button>
@@ -310,6 +310,49 @@
                            </div>
                         </div>
                      </div>
+
+                     <div class="tab-pane fade" id="v-pills-change-password" role="tabpanel" aria-labelledby="v-pills-change-password-tab">
+                        <div class="dashboard-password">
+                           <div class="owner">
+                             
+                              <div class="content">
+                                 
+                                 <h3>{{ $user->name }}</h3> 
+                                 <p class="para"> {{ $user->name }}</p>
+                              </div>
+                           </div>
+                           <div class="form-wrapper">
+                              <form class="row g-3" action="{{ route('change.password') }}" method="POST" onsubmit="event.preventDefault();profilte_update(this);return false;" enctype="multipart/form-data">
+                                 <div class="row">
+
+                                    <input type="hidden"  name="user_id" value="{{ $user->id }}">
+
+                                    <div class="col-12">
+                                       <div class="form-inner">
+                                          <label>Old Password *</label>
+                                          <input type="password" name="oldpassword" id="password" placeholder="Create A Password" />
+                                          <i class="bi bi-eye-slash" id="togglePassword"></i>
+                                       </div>
+                                    </div>
+                                    <div class="col-12">
+                                       <div class="form-inner mb-0">
+                                          <label>New Password *</label>
+                                          <input type="password" name="newpassword" id="password2" placeholder="Create A Password" />
+                                          <i class="bi bi-eye-slash" id="togglePassword2"></i>
+                                       </div>
+                                    </div>
+                                    <div class="col-12">
+                                       <div class="button-group">
+                                          <button type="submit" class="eg-btn profile-btn">Change Password </button>
+                                          <button class="eg-btn cancel-btn">Cancel</button>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </form>
+                           </div>
+                        </div>
+                     </div>
+
 
                      <div class="tab-pane fade" id="v-pills-purchase" role="tabpanel" aria-labelledby="v-pills-purchase-tab">
                         <div class="table-title-area">

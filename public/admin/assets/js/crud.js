@@ -96,6 +96,8 @@ $.ajax({
      }, 1000);
 
      toastr.success(data.message, 'Success');
+}else if (data.status == 3){
+  toastr.error(data.message, 'Error');
 }
     },
     error: function (data) {
@@ -116,7 +118,7 @@ $.ajax({
 
 
   function form_submit(e) {
-      alert($(e).attr('action'));
+      // alert($(e).attr('action'));
     toastr.clear();
     $(e).find('.st_loader').show();
     $.ajax({
@@ -233,6 +235,7 @@ $.ajax({
   }
 
   function adminProfile_submit(e) {
+    // alert('a')
     toastr.clear();
     $(e).find('.st_loader').show();
     $.ajax({

@@ -61,19 +61,20 @@ Route::group(['middleware'=>'auth:web'],function(){
     Route::middleware(['role:2'])->group(function () {
         Route::get('/company/dashboard', [App\Http\Controllers\Front\CompanyController::class, 'dashboard'])->name('company.dashboard');
         Route::get('/withdraw', [App\Http\Controllers\Front\AuctionController::class, 'withdraw'])->name('withdraw');
-        Route::get('/add-review', [App\Http\Controllers\Front\AuctionController::class, 'add_review'])->name('add-review');
-        Route::post('/review-add',[App\Http\Controllers\Front\AuctionController::class, 'add'])->name('review-add');
+         Route::post('/review-add',[App\Http\Controllers\Front\AuctionController::class, 'add'])->name('review-add');
         Route::get('/active-auctions', [App\Http\Controllers\Front\AuctionController::class, 'active_auctions'])->name('active-auctions');
         Route::get('/bid-details', [App\Http\Controllers\Front\AuctionController::class, 'bid_details'])->name('bid-details');
         Route::get('/bid-details/{id}', [App\Http\Controllers\Front\AuctionController::class, 'bid_details'])->name('bid-details');
         Route::get('/user-company-detail', [App\Http\Controllers\Front\CompanyController::class, 'user_company_detail'])->name('user-company-detail');
         Route::get('/user-auction-detail', [App\Http\Controllers\Front\AuctionController::class, 'user_auction_detail'])->name('user-auction-detail');
         Route::match(['get', 'post'],'bids',[App\Http\Controllers\Front\AuctionController::class,'updates'])->name('bidadd');
+        Route::get('/add-review/{id}', [App\Http\Controllers\Front\AuctionController::class, 'add_review'])->name('add-review');
+   
     });
 
 
-//Route::get('about-us', [App\Http\Controllers\Front\HomeController::class, 'about_us'])->name('about-us');
 
+  
     Route::get('/sub-category/{slug}', [App\Http\Controllers\Front\HomeController::class, 'sub_category'])->name('sub.category');
     Route::get('/orderstatus', [App\Http\Controllers\Front\HomeController::class, 'orderstatus'])->name('orderstatus');
     Route::get('/cancelauction/{id}', [App\Http\Controllers\Front\HomeController::class, 'cancel'])->name('cancelauction');
@@ -104,6 +105,8 @@ Route::group(['middleware'=>'auth:web'],function(){
      Route::post('/auctionbit',[App\Http\Controllers\Front\AuctionlictController::class, 'bitlist'])->name('auctionbit');   
  
      Route::post('/user/update', [App\Http\Controllers\Front\AuctionController::class, 'user_update'])->name('user.update');
+
+     Route::post('/change/password', [App\Http\Controllers\Front\AuctionController::class, 'change_password'])->name('change.password');
 
 });
     

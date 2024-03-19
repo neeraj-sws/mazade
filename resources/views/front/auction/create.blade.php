@@ -177,18 +177,18 @@
 <div class="register-main">
             <!-- <h2>Real Estate</h2> -->
               <div id="userFields">
-                   <form action="{{ route('auction.store') }}" onsubmit="event.preventDefault();auctionSubmit(this);return false;"  method="POST">
+                   <form action="{{ route('auction.store') }}" onsubmit="event.preventDefault();form_submit(this);return false;"  method="POST">
                    @csrf
                    <input type="hidden" name="category" class="form-control" value="{{ $cat_id }}">
                    <input type="hidden" name="sub_category" class="form-control" value="{{ $sub_cat_id }}">
                     <div class="all-form-data row">
                     <div class="col-md-12">
-                    <input type="text" id="title" placeholder="Title" name="title" required>
+                    <input type="text" id="title" placeholder="Title" name="title" >
                     </div>
 
                          <div class=" d-flex flex-column">
               
-                          <select name="quality" class="form-select" required>
+                          <select name="quality" class="form-select" >
                               <option value="" disabled selected>Quality</option>
                               <option value="0">High</option>
                               <option value="1">Medium</option>
@@ -197,22 +197,53 @@
                        </div>
                       
                     <div class="col-md-12">
-                    <input type="text" id="budget" placeholder="Budget" name="budget" required>
+                    <input type="number" id="budget" placeholder="Budget" name="budget" >
+                    </div>
+
+                   
+
+                    <div class="col-md-12">
+                    <input type="datetime-local" id="birthdaytime" placeholder="start time" name="start_time" >
                     </div>
 
                     <div class="col-md-12">
-                    <input type="text" id="city" placeholder="City" name="city" required>
-                    </div>
+                        <input type="datetime-local" id="birthdaytime" placeholder="last time" name="end_time">
+                        </div>
+
+                        
+                        <div class="col-md-12">
+                            <input type="text" id="city" placeholder="City" name="city" >
+                            </div>
+        
 
                     <div class="col-md-12">
-                     <label>Upload Images(Optional)</label>
-                    <input type="file" id="file-input" accept="image/*" multiple>
-                    <div id="file-list"></div>
-                    </div>
+                        <div class="col-md-10">
+                            <label>Upload Images(Optional)</label>
+                            <div class="custom-file">
+                                <input type="hidden" name="image_path" value="uploads/category/">
+                                <input type="hidden" name="image_name" value="image">
+                                <input type="file" class="custom-file form-control" name="image"
+                                    onchange="upload_image($(form),'{{ route('imageuplode') }}','image','image');return false;"
+                                    accept=".jpg,.jpeg,.png">
+                                <input type="hidden" name="image" id="image" value="">
+                                <i class="image_loader fa-btn-loader fa fa-refresh fa-spin fa-1x fa-fw"
+                                    style="display:none;"></i>
+                                <label id="lblErrorMessageBannerImage" style="color:red"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-2 mt-3">
+                            <img src="" id="image_prev" class="img-thumbnail " alt="" width="100" height="100"
+                                style="display:none">
+                            <label id="lblErrorMessageBannerImage" style="color:red"></label>
+                        </div>
+                    </div>  
+                    
+
+
 
                      <div class=" d-flex flex-column">
               
-                          <select  name="quantity" class="form-select" required>
+                          <select  name="quantity" class="form-select" >
                               <option value="" disabled selected>Choose the Quantity</option>
                               <option value="1">1</option>
                               <option value="2">2</option>
@@ -234,7 +265,7 @@
                     <div class="col-md-agree">
 
                     <label>
-                      <input type="checkbox" name="terms" value="agree" required>
+                      <input type="checkbox" name="terms" value="agree" >
                       I agree to the <a href="terms_and_conditions.html" target="_blank">Terms and Conditions</a>
                     </label>
                     </div>
@@ -345,6 +376,7 @@
 
 <script>
 function auctionSubmit(e) {
+ 
     //toastr.clear();
     $(e).find('.st_loader').show();
     $.ajax({

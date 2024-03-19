@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Category,Upload,SubCategory,Companies,City,Auction,Oders,Finishedauctions,Auctionitems};
+use App\Models\{Category,Upload,SubCategory,Companies,City,Auction,Oders,Finishedauctions,Auctionitems,Reviews};
 use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
@@ -22,7 +22,13 @@ class CompanyController extends Controller
  
     public function dashboard()
     {
-       return view('front.company.dashboard');
+
+      $auction =  Reviews::get();
+
+      $averageRating = $auction->avg('ratings');
+      
+
+       return view('front.company.dashboard' ,[ 'averageRating' => $averageRating]);
     }
     
 

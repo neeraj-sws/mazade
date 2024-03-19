@@ -110,7 +110,7 @@
                                     <div class="body">
                                        <div class="counter-item">
                                           <h2>$560</h2>
-                                          <a href="withdraw.html"><button class="withdarw-btn">Withdraw</button></a>
+                                          <a href="{{ route('withdraw') }}"><button class="withdarw-btn">Withdraw</button></a>
                                        </div>
                                        <div class="icon">
                                           <svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
@@ -150,7 +150,7 @@
                                     </div>
                                     <div class="body">
                                        <div class="counter-item">
-                                          <h2>5</h2>
+                                          <h2>{{$averageRating }}</h2>
                                           <a href="profile.html"><button class="withdarw-btn">View Profile</button></a>
                                        </div>
                                        <div class="icon">

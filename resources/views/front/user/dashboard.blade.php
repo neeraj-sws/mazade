@@ -111,11 +111,20 @@
                            <td data-label="Highest Bid">10 : 00 : 00</td>
                            <td data-label="Status" class="text-green">$90</td>
                            <td data-label="Status" class="text-green"><a href="profile-for-user.html"><i class="far fa-user"></i></a></td>
-                           <td data-label="Action"><button class="cancel-btn"><i class="fas fa-times" aria-hidden="true"></i> Cancel</button></td>
-                           <td data-label="Status" class="text-green"><button class="end-btn">End Auction</button></td>
 
-                           <td data-label="Status" class="text-green"><a href="{{ route('add-review' , $auctions->id) }}" class="end-btn">Add Review</a></td>
-                         
+                           @if ($auctions->status == 2)
+                           
+                           <td data-label="Action"><a href="javascript:void(0);" ><button class="cancel-btn"><i class="fas fa-times" aria-hidden="true"></i> Cancelled </button></a></td> 
+                           @else
+                           <td data-label="Action"><a href="javascript:void(0);" class="cancel-btn"  onclick="status_change('{{ route('auction-bit') }}','2', {{ $auctions->id }})"><button class="cancel-btn"><i class="fas fa-times" aria-hidden="true"></i> Cancel</button></a></td> 
+                           @endif
+                           
+                           @if ($auctions->is_start == 1)
+                           <td data-label="Status" class="text-green"><a href="javascript:void(0);" class="cancel-btn"  onclick="status_change('{{ route('auction-end') }}','0', {{ $auctions->id }})"><button class="end-btn">End Auction</button></a></td> 
+                           @else
+                           <td data-label="Status" class="text-green"><a href="javascript:void(0);"><button class="end-btn">End Auction</button></a></td> 
+                           @endif
+
                         </tr>
 
                         @endforeach
@@ -164,6 +173,7 @@
                                     <tr>
                                        <th>ID order</th>
                                        <th>Category Name</th>
+                                       <th>Seller Name</th>
                                        <th>Budget</th>
                                        <th>Time Remaining</th>
                                        <th>Last price</th>
@@ -172,15 +182,24 @@
                                     </tr>
                                  </thead>
                                  <tbody>
-                                    @foreach ($auction as $auctions)
+
+                                 <?php
+                                    //  echo '<pre>'; print_r($auctionitem); die;
+                                      ?>
+                                    @foreach ($auctionitem as $auctions)
+                                     <?php //echo '<pre>'; print_r($auctions->CatId);?>
                                     <tr>
+                                     
                                        <td data-label="Image">{{ $auctions->oder_id }}</td>
-                                       <td data-label="Bidding ID">{{ $auctions->CatId->title }}</td>
-                                       <td data-label="Bid Amount(USD)">${{ $auctions->budget }}</td>
-                                       <td data-label="Bid Amount(USD)">12/04/2024</td>
-                                       <td data-label="Bid Amount(USD)">$500</td>
+                                       <td data-label="Bidding ID">{{ @$auctions->CatId->title }}</td>
+                                       <td data-label="Bidding ID">{{ @$auctions->companyId->name }}</td>
+                                       <td data-label="Bid Amount(USD)">{{ @$auctions->AuId->budget }}</td>
+                                       <td data-label="Highest Bid">10 : 00 : 00</td>
+                                       <td data-label="Status" class="text-green">${{ @$auctions->price }}</td>
                                        <td class="status-price-table" data-label="Bid Amount(USD)"><p>Pending for price</p></td>
                                        <td data-label="Status" class="text-green btn-edit-table"><a href="payment.html"><button id="popupBtn" class="company-pay-end-btn">Pay now</button></a></td>
+                                      
+
                                     </tr>
             
                                     @endforeach

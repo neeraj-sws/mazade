@@ -35,7 +35,7 @@ class User extends Authenticatable
         'city_id',
         'image',
         'status',
-        'role_id'
+        'role'
     ];
 
     /**
@@ -57,6 +57,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
 
     function favUdata()
     {

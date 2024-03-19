@@ -26,8 +26,12 @@ class UserController extends Controller
     }
 
     public function dashboard()
-    {
-       return view('front.user.dashboard');
+    { 
+         $auction = Auction::with('CatId')->get();
+
+         $user = Auth::guard('web')->user();
+
+       return view('front.user.dashboard' , ['auction' => $auction , 'user' => $user]);
     }
     
    

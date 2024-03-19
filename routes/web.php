@@ -52,6 +52,8 @@ Route::group(['middleware'=>'auth:web'],function(){
     Route::get('/withdraw', [App\Http\Controllers\Front\AuctionController::class, 'withdraw'])->name('withdraw');
     Route::get('/user-company-detail', [App\Http\Controllers\Front\CompanyController::class, 'user_company_detail'])->name('user-company-detail');
     Route::get('/user-auction-detail', [App\Http\Controllers\Front\AuctionController::class, 'user_auction_detail'])->name('user-auction-detail');
+
+   
     
     Route::get('/user-category-detail', [App\Http\Controllers\Front\CompanyController::class, 'user_category_detail'])->name('user-category-detail');
     
@@ -97,7 +99,9 @@ Route::group(['middleware'=>'auth:web'],function(){
     Route::post('/auctionlist',[App\Http\Controllers\Front\AuctionlictController::class, 'list'])->name('auctionlist');
     
 
- Route::post('/auctionbit',[App\Http\Controllers\Front\AuctionlictController::class, 'bitlist'])->name('auctionbit');       
+     Route::post('/auctionbit',[App\Http\Controllers\Front\AuctionlictController::class, 'bitlist'])->name('auctionbit');   
+ 
+     Route::post('/user/update', [App\Http\Controllers\Front\AuctionController::class, 'user_update'])->name('user.update');
 
 });
     

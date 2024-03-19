@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 
+use App\Models\{Auction,Auctioncancel,Finishedauctions,Payment,Status,Upload,user};
+=======
+
 use App\Models\{Auction,Auctioncancel,Finishedauctions,Auctionitems,Companies,Payment,Status,Upload};
 
 use DateTime;
@@ -12,7 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use DB;
-// echo 1; die;
+
 class AuctionController extends Controller
 {
 
@@ -288,6 +291,38 @@ class AuctionController extends Controller
         }
 
     
+   }
+
+   public function user_update(Request $request)
+   {
+          $validator = Validator::make(
+            $request->all(),
+            [  
+                'name'=>'required',
+                'lastname'=>'required',
+                'phone'=>['required', 'string', 'min:11'],
+                'email'=>'required',
+                'message'=>'required',
+                'password'=>['required', 'string', 'min:8'],
+                'password_confirmation' => ['required', 'string', 'min:8']
+            ]
+
+            );
+            if($validator->fails()){
+                return response()->json(['status' => 0,'errors' =>  $validator->errors()]);
+            }else{
+
+            $user = user::find($request->user_id);
+            $user->name = $request->name;
+            $user->last_name = $request->lastname;
+            $user->mobile_number = $request->phone;
+            $user->email = $request->email;
+            $user->address = $request->message;
+            $user->password =  Hash::make($request->password);
+            $user->save();
+
+            return response()->json(['status' => 2, 'message' => 'User Login Successfully', 'surl' => route('dashboard')]);
+            }
    }
 
   

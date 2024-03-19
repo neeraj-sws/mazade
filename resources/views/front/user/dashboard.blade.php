@@ -91,92 +91,23 @@
                      </thead>
                      <tbody>
 
-                        <tr>
-                           <td data-label="Image">1</td>
-                           <td data-label="Bidding ID">Real Estate</td>
-                           <td data-label="Bid Amount(USD)">$100</td>
-                           <td data-label="Highest Bid">10 : 00 : 00</td>
-                           <td data-label="Status" class="text-green">$90</td>
-                           <td data-label="Status" class="text-green"><a href="profile-for-user.html"><i class="far fa-user"></i></a></td>
-                           <td data-label="Action"><button class="cancel-btn"><i class="fas fa-times" aria-hidden="true"></i> Cancel</button></td>
-                           <td data-label="Status" class="text-green"><button class="end-btn">End Auction</button></td>
-                        </tr>
+                        @foreach ($auction as $auctions)
 
                         <tr>
-                           <td data-label="Image">2</td>
-                           <td data-label="Bidding ID">Real Estate</td>
-                           <td data-label="Bid Amount(USD)">$100</td>
+                         
+                        
+                           <td data-label="Image">{{ $auctions->oder_id }}</td>
+                           <td data-label="Bidding ID">{{ $auctions->CatId->title }}</td>
+                           <td data-label="Bid Amount(USD)">${{ $auctions->budget }}</td>
                            <td data-label="Highest Bid">10 : 00 : 00</td>
                            <td data-label="Status" class="text-green">$90</td>
                            <td data-label="Status" class="text-green"><a href="profile-for-user.html"><i class="far fa-user"></i></a></td>
                            <td data-label="Action"><button class="cancel-btn"><i class="fas fa-times" aria-hidden="true"></i> Cancel</button></td>
                            <td data-label="Status" class="text-green"><button class="end-btn">End Auction</button></td>
+                         
                         </tr>
 
-                        <!-- <tr>
-                           <td data-label="Image">3</td>
-                           <td data-label="Bidding ID">Real Estate</td>
-                           <td data-label="Bid Amount(USD)">$100</td>
-                           <td data-label="Highest Bid">10 : 00 : 00</td>
-                           <td data-label="Status" class="text-green">$90</td>
-                           <td data-label="Action"><button class="cancel-btn"><i class="fas fa-times" aria-hidden="true"></i> Cancel</button></td>
-                           <td data-label="Status" class="text-green"><a href="payment.html"><button class="end-btn">Proceed Payment</button></a></td>
-                        </tr> -->
-
-                         <tr>
-                           <td data-label="Image">2</td>
-                           <td data-label="Bidding ID">Real Estate</td>
-                           <td data-label="Bid Amount(USD)">$100</td>
-                           <td data-label="Highest Bid">10 : 00 : 00</td>
-                           <td data-label="Status" class="text-green">$90</td>
-                           <td data-label="Status" class="text-green"><a href="profile-for-user.html"><i class="far fa-user"></i></a></td>
-                           <td data-label="Action"><button class="cancel-btn"><i class="fas fa-times" aria-hidden="true"></i> Cancel</button></td>
-                           <td data-label="Status" class="text-green"><button class="end-btn">End Auction</button></td>
-                        </tr>
-
-                         <tr>
-                           <td data-label="Image">2</td>
-                           <td data-label="Bidding ID">Real Estate</td>
-                           <td data-label="Bid Amount(USD)">$100</td>
-                           <td data-label="Highest Bid">10 : 00 : 00</td>
-                           <td data-label="Status" class="text-green">$90</td>
-                           <td data-label="Status" class="text-green"><a href="profile-for-user.html"><i class="far fa-user"></i></a></td>
-                           <td data-label="Action"><button class="cancel-btn"><i class="fas fa-times" aria-hidden="true"></i> Cancel</button></td>
-                           <td data-label="Status" class="text-green"><button class="end-btn">End Auction</button></td>
-                        </tr>
-
-                        <tr>
-                           <td data-label="Image">6</td>
-                           <td data-label="Bidding ID">Real Estate</td>
-                           <td data-label="Bid Amount(USD)">$100</td>
-                           <td data-label="Highest Bid">10 : 00 : 00</td>
-                           <td data-label="Status" class="text-green">$90</td>
-                           <td data-label="Status" class="text-green"><a href="profile-for-user.html"><i class="far fa-user"></i></a></td>
-                           <td data-label="Action"><button class="cancel-btn"><i class="fas fa-times" aria-hidden="true"></i> Cancel</button></td>
-                           <td data-label="Status" class="text-green"><button class="end-btn">End Auction</button></td>
-                        </tr>
-
-                        <tr>
-                           <td data-label="Image">7</td>
-                           <td data-label="Bidding ID">Real Estate</td>
-                           <td data-label="Bid Amount(USD)">$100</td>
-                           <td data-label="Highest Bid">10 : 00 : 00</td>
-                           <td data-label="Status" class="text-green">$90</td>
-                           <td data-label="Status" class="text-green"><a href="profile-for-user.html"><i class="far fa-user"></i></a></td>
-                           <td data-label="Action"><button class="cancel-btn"><i class="fas fa-times" aria-hidden="true"></i> Cancel</button></td>
-                           <td data-label="Status" class="text-green"><button class="end-btn">End Auction</button></td>
-                        </tr>
-
-                        <tr>
-                           <td data-label="Image">8</td>
-                           <td data-label="Bidding ID">Real Estate</td>
-                           <td data-label="Bid Amount(USD)">$100</td>
-                           <td data-label="Highest Bid">10 : 00 : 00</td>
-                           <td data-label="Status" class="text-green">$90</td>
-                           <td data-label="Status" class="text-green"><a href="profile-for-user.html"><i class="far fa-user"></i></a></td>
-                           <td data-label="Action"><button class="cancel-btn"><i class="fas fa-times" aria-hidden="true"></i> Cancel</button></td>
-                           <td data-label="Status" class="text-green"><button class="end-btn">End Auction</button></td>
-                        </tr>
+                        @endforeach
                      </tbody>
                   </table>
                </div>
@@ -230,39 +161,32 @@
                                     </tr>
                                  </thead>
                                  <tbody>
+                                    @foreach ($auction as $auctions)
+
                                     <tr>
-                                       <td data-label="Image">1</td>
-                                       <td data-label="Bidding ID">Bike</td>
-                                       <td data-label="Bid Amount(USD)">$500</td>
-                                       <td data-label="Bid Amount(USD)">12/04/2024</td>
-                                       <td data-label="Bid Amount(USD)">$500</td>
-                                       <td class="status-price-table" data-label="Bid Amount(USD)"><p>Pending for price</p></td>
-                                       <td data-label="Status" class="text-green btn-edit-table"><a href="payment.html"><button id="popupBtn" class="company-pay-end-btn">Pay now</button></a></td>
+                                     
+                                    
+                                       <td data-label="Image">{{ $auctions->oder_id }}</td>
+                                       <td data-label="Bidding ID">{{ $auctions->CatId->title }}</td>
+                                       <td data-label="Bid Amount(USD)">${{ $auctions->budget }}</td>
+                                       <td data-label="Highest Bid">10 : 00 : 00</td>
+                                       <td data-label="Status" class="text-green">$90</td>
+                                       <td data-label="Status" class="text-green"><a href="profile-for-user.html"><i class="far fa-user"></i></a></td>
+                                       <td data-label="Action"><button class="cancel-btn"><i class="fas fa-times" aria-hidden="true"></i> Cancel</button></td>
+                                       <td data-label="Action" class="text-green"><button class="end-btn">End Auction</button></td>
+                                     
                                     </tr>
-                                   <tr>
-                                       <td data-label="Image">2</td>
-                                       <td data-label="Bidding ID">Bike</td>
-                                       <td data-label="Bid Amount(USD)">$500</td>
-                                       <td data-label="Bid Amount(USD)">12/04/2024</td>
-                                       <td data-label="Bid Amount(USD)">$500</td>
-                                       <td class="status-code-table" data-label="Bid Amount(USD)"><p>Pending for code</p></td>
-                                       <td data-label="Status" class="text-green btn-edit-table"><button id="openPopup" class="end-btn company-end-btn-3434"><i class="far fa-user"></i></button></td>
-                                    </tr>
-                                    <tr>
-                                       <td data-label="Image">3</td>
-                                       <td data-label="Bidding ID">Bike</td>
-                                       <td data-label="Bid Amount(USD)">$500</td>
-                                       <td data-label="Bid Amount(USD)">12/04/2024</td>
-                                       <td data-label="Bid Amount(USD)">$500</td>
-                                       <td class="status-done-table" data-label="Bid Amount(USD)"><p>Completed</p></td>
-                                       <td data-label="Status" class="text-green btn-edit-table"><a id="openPopup"><button class="end-btn company-end-btn-45454"><i class="fas fa-check"></i></button></a></td>
-                                    </tr>
+            
+                                    @endforeach
+                                 
                               
                                  </tbody>
                               </table>
                            </div>
                         </div>
                      </div>
+
+
                      <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                         <div class="dashboard-profile">
                            <div class="owner">
@@ -270,41 +194,44 @@
                                  <img alt="image" src="{{asset('front_assets/images/bg/pro-pic.png') }}">
                               </div>
                               <div class="content">
-                                 <h3>Johan Martin SR-</h3>
-                                 <p class="para">Johan Martin SR-</p>
+                                 <h3>{{ $user->name }}</h3> 
+                                 <p class="para"> {{ $user->name }}</p>
                               </div>
                            </div>
                            <div class="form-wrapper">
-                              <form action="#">
+                              <form class="row g-3" action="{{ route('user.update') }}" method="POST" onsubmit="event.preventDefault();profilte_update(this);return false;" enctype="multipart/form-data">
                                  <div class="row">
+
+                                    <input type="hidden"  name="user_id" value="{{ $user->id }}">
+
                                     <div class="col-xl-6 col-lg-12 col-md-6">
                                        <div class="form-inner">
                                           <label>Frist Name *</label>
-                                          <input type="text" placeholder="Your first name">
+                                          <input type="text" placeholder="Your first name" name="name" value="{{ $user->name }}">
                                        </div>
                                     </div>
                                     <div class="col-xl-6 col-lg-12 col-md-6">
                                        <div class="form-inner">
                                           <label>Last Name *</label>
-                                          <input type="text" placeholder="Your last name">
+                                          <input type="text" placeholder="Your last name" name="lastname" value="{{ $user->last_name }}">
                                        </div>
                                     </div>
                                     <div class="col-xl-6 col-lg-12 col-md-6">
                                        <div class="form-inner">
                                           <label>Contact Number</label>
-                                          <input type="text" placeholder="+8801">
+                                          <input type="text" placeholder="+8801" name="phone" value="{{ $user->mobile_number }}">
                                        </div>
                                     </div>
                                     <div class="col-xl-6 col-lg-12 col-md-6">
                                        <div class="form-inner">
                                           <label>Email</label>
-                                          <input type="text" placeholder="Your Email">
+                                          <input type="text" placeholder="Your Email" name="email" value="{{ $user->email }}">
                                        </div>
                                     </div>
                                     <div class="col-12">
                                        <div class="form-inner">
                                           <label>Address</label>
-                                          <input type="text" name="message">
+                                          <input type="text" name="message"  value="{{ $user->address }}">
                                        </div>
                                     </div>
                                     <div class="col-xl-6 col-lg-12 col-md-6">
@@ -356,7 +283,7 @@
                                     <div class="col-12">
                                        <div class="form-inner mb-0">
                                           <label>Confirm Password *</label>
-                                          <input type="password" name="password" id="password2" placeholder="Create A Password" />
+                                          <input type="password" name="password_confirmation" id="password2" placeholder="Create A Password" />
                                           <i class="bi bi-eye-slash" id="togglePassword2"></i>
                                        </div>
                                     </div>
@@ -371,6 +298,7 @@
                            </div>
                         </div>
                      </div>
+
                      <div class="tab-pane fade" id="v-pills-purchase" role="tabpanel" aria-labelledby="v-pills-purchase-tab">
                         <div class="table-title-area">
                            <h3>All Purchase</h3>

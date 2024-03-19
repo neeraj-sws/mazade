@@ -66,7 +66,7 @@ class CompaniesAuthController extends Controller
             'last_name' => $request['lastName'],
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
-            'role_id' => $request['role_id'],
+            'role' => $request['role'],
             'mobile_number' => $request['phone'],
         ]);
 

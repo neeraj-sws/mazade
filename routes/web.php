@@ -51,6 +51,7 @@ Route::group(['middleware'=>'auth:web'],function(){
     Route::middleware(['role:1'])->group(function () {
         
         Route::get('/new-auction', [App\Http\Controllers\Front\AuctionController::class, 'create'])->name('new-auction');
+        
         Route::get('/new-auction/{cate_id}', [App\Http\Controllers\Front\AuctionController::class, 'create']);
         Route::get('/new-auction/{cate_id}/{sub_cat_id}', [App\Http\Controllers\Front\AuctionController::class, 'create']);
         Route::post('auction/store',[App\Http\Controllers\Front\AuctionController::class, 'store'])->name('auction.store');
@@ -70,6 +71,10 @@ Route::group(['middleware'=>'auth:web'],function(){
         Route::match(['get', 'post'],'bids',[App\Http\Controllers\Front\AuctionController::class,'updates'])->name('bidadd');
         Route::get('/add-review/{id}', [App\Http\Controllers\Front\AuctionController::class, 'add_review'])->name('add-review');
    
+        Route::get('/all-orders', [App\Http\Controllers\Front\OrderController::class, 'all_order'])->name('all-orders');
+        Route::get('/pending-orders', [App\Http\Controllers\Front\OrderController::class, 'pending_order'])->name('pending-orders');
+        Route::get('/completed-orders', [App\Http\Controllers\Front\OrderController::class, 'completed_order'])->name('completed-orders');
+        Route::get('/last-orders', [App\Http\Controllers\Front\OrderController::class, 'last_order'])->name('last-orders');
     });
 
 

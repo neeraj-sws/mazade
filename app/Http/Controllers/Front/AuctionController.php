@@ -57,7 +57,7 @@ class AuctionController extends Controller
         // echo $id; die;
         $ids['idss'] = Auction::find($id);
         //   echo '<pre>'; print_r( $ids['idss']->toArray()); die;
-        $company['companys'] = Auth::guard('companie')->user();
+        $company['companys'] = Auth::user();
        
         return view('front.auction.bid_details',$ids,$company);
     }

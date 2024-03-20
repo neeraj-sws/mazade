@@ -46,6 +46,7 @@ Route::group(['middleware'=>'auth:web'],function(){
     Route::get('/dashboard', [App\Http\Controllers\Front\UserController::class, 'dashboard'])->name('dashboard');
     Route::get('/last-bidings', [App\Http\Controllers\Front\UserController::class, 'last_bidings'])->name('last-bidings');
     Route::get('/change-password', [App\Http\Controllers\Front\UserController::class, 'change_password'])->name('change-password');
+    Route::get('/user/profile', [App\Http\Controllers\Front\UserController::class, 'user_profile'])->name('user.profile');
    
     Route::post('/auction-bit', [App\Http\Controllers\Front\UserController::class, 'auctionbit'])->name('auction-bit');
     Route::post('/auction-end', [App\Http\Controllers\Front\UserController::class, 'auctionend'])->name('auction-end');
@@ -75,12 +76,15 @@ Route::group(['middleware'=>'auth:web'],function(){
         Route::get('/user-company-detail', [App\Http\Controllers\Front\CompanyController::class, 'user_company_detail'])->name('user-company-detail');
         Route::get('/user-auction-detail', [App\Http\Controllers\Front\AuctionController::class, 'user_auction_detail'])->name('user-auction-detail');
         Route::match(['get', 'post'],'bids',[App\Http\Controllers\Front\AuctionController::class,'updates'])->name('bidadd');
+        Route::get('/company-info', [App\Http\Controllers\Front\UserController::class, 'company_info'])->name('company.info');
       
    
         Route::get('/all-orders', [App\Http\Controllers\Front\OrderController::class, 'all_order'])->name('all-orders');
         Route::get('/pending-orders', [App\Http\Controllers\Front\OrderController::class, 'pending_order'])->name('pending-orders');
         Route::get('/completed-orders', [App\Http\Controllers\Front\OrderController::class, 'completed_order'])->name('completed-orders');
         Route::get('/last-orders', [App\Http\Controllers\Front\OrderController::class, 'last_order'])->name('last-orders');
+
+        
     });
 
 
@@ -116,6 +120,8 @@ Route::group(['middleware'=>'auth:web'],function(){
      Route::post('/auctionbit',[App\Http\Controllers\Front\AuctionlictController::class, 'bitlist'])->name('auctionbit');   
  
      Route::post('/user/update', [App\Http\Controllers\Front\AuctionController::class, 'user_update'])->name('user.update');
+
+     Route::post('/companyinfo/update', [App\Http\Controllers\Front\AuctionController::class, 'companyinfo_update'])->name('companyinfo.update');
 
      Route::post('/change/password', [App\Http\Controllers\Front\AuctionController::class, 'change_password'])->name('change.password');
 

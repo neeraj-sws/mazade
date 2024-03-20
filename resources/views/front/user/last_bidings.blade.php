@@ -19,6 +19,7 @@
          <div class="container">
             <div class="row g-4 dash-main-row-1">
             <div class="col-lg-3">
+               
                @include("front.user.user_profile_sidebar")
                </div>
                <div class="col-lg-9">

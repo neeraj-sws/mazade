@@ -47,7 +47,10 @@ class OrderController extends Controller
     public function last_order(){
         return view('front.orders.last-orders');
     }
-
+    
+    public function withdarw_history(){
+        return view('front.orders.withdraw-history');
+    }
 
 
 

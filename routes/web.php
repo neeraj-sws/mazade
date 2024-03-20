@@ -81,6 +81,7 @@ Route::group(['middleware'=>'auth:web'],function(){
         Route::get('/pending-orders', [App\Http\Controllers\Front\OrderController::class, 'pending_order'])->name('pending-orders');
         Route::get('/completed-orders', [App\Http\Controllers\Front\OrderController::class, 'completed_order'])->name('completed-orders');
         Route::get('/last-orders', [App\Http\Controllers\Front\OrderController::class, 'last_order'])->name('last-orders');
+        Route::get('/withdarw-history', [App\Http\Controllers\Front\OrderController::class, 'withdarw_history'])->name('withdarw-history');
     });
 
 

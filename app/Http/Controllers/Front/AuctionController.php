@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 
 
-use App\Models\{Auction,Auctioncancel,Finishedauctions,Reviews,Auctionitems,Companies,Payment,Status,Upload,Category,SubCategory,user};
+use App\Models\{Auction,Auctioncancel,Finishedauctions,Reviews,Auctionitems,Companies,Payment,Status,Upload,Category,SubCategory,user,Company_info};
 
 
 
@@ -365,6 +365,48 @@ class AuctionController extends Controller
 
             return response()->json(['status' => 2, 'message' => 'User Login Successfully', 'surl' => route('dashboard')]);
             }
+   }
+
+   public function companyinfo_update(Request $request)
+   {
+    //  echo "<pre>";print_r($request->all());die;
+      $validator = Validator::make(
+        $request->all(),
+        [  
+            'name'=>'required',
+            'lastname'=>'required',
+            'phone'=>['required', 'string', 'min:11'],
+            'email'=>'required',
+            'message' => ['required'],
+            'companyName' => ['required', 'string', 'max:255'],
+            'company_phone' => ['required', 'string', 'max:10'],
+            'commercialRegister' => ['required'],
+            
+        ]
+
+        );
+        if($validator->fails()){
+            return response()->json(['status' => 0,'errors' =>  $validator->errors()]);
+        }else{
+
+        $user = user::find($request->user_id);
+        $user->name = $request->name;
+        $user->last_name = $request->lastname;
+        $user->mobile_number = $request->phone;
+        $user->email = $request->email;
+        $user->address = $request->message;
+        $user->save();
+
+        $Company_info = Company_info::find($request->company_id);
+        $Company_info->user_id = $user->id;
+        $Company_info->companyname = $request->companyName;
+        $Company_info->companphone = $request->company_phone;
+        $Company_info->address = $request->message;
+        $Company_info->commercialregister = $request->commercialRegister;
+        $Company_info->save();
+
+        return response()->json(['status' => 2, 'message' => 'User Login Successfully', 'surl' => route('dashboard')]);
+        }
    }
 
    public function change_password(Request $request)

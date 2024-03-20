@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Category,Upload,SubCategory,Companies,City,Auction,Oders,Finishedauctions,Auctionitems,Reviews};
+use App\Models\{Category,Upload,SubCategory,Companies,City,Auction,Oders,Finishedauctions,Auctionitems,Reviews,Company_info};
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -14,10 +14,28 @@ class UserController extends Controller
      *
      * @return void
      */
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+
+    //     $user = Auth::guard('web')->user();
+
+    //     $this->company   = Company_info::where('user_id', $user->id)->first();
+    // }
+
     public function __construct()
     {
-        $this->middleware('auth');
+        
+        $user = auth()->user();
+
+        if ($user) {
+          
+            $this->company = Company_info::where('user_id', $user->id)->first();
+        } else {
+          
+        }
     }
+
 
  
     public function profile()
@@ -56,6 +74,22 @@ class UserController extends Controller
          $user = Auth::guard('web')->user();
 
        return view('front.user.change_password' , ['auction' => $auction ,'auctionitem' =>$auctionitem, 'user' => $user]);
+    }
+
+    public function user_profile()
+    {
+      $user = Auth::guard('web')->user();
+      return view('front.user.profiledashboard' , ['user' => $user]);
+    }
+
+    public function company_info()
+    {
+    
+      $user = Auth::guard('web')->user();
+
+      $company = Company_info::where('user_id', $user->id)->first();
+
+      return view('front.user.companyinfo' , ['user' => $user ,'company' => $company]);
     }
 
     public function auctionbit(Request $request)

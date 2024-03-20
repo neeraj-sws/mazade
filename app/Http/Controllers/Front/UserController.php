@@ -38,6 +38,26 @@ class UserController extends Controller
        return view('front.user.dashboard' , ['auction' => $auction ,'auctionitem' =>$auctionitem, 'user' => $user]);
     }
 
+    public function last_bidings()
+    { 
+         $auction = Auction::with('CatId')->get();
+         $auctionitem = Auctionitems::with('AuId', 'companyId','CatId')->get(); 
+        //  echo '<pre>'; print_r($auctionitem->all()); die;
+         $user = Auth::guard('web')->user();
+
+       return view('front.user.last_bidings' , ['auction' => $auction ,'auctionitem' =>$auctionitem, 'user' => $user]);
+    }
+
+    public function change_password()
+    { 
+         $auction = Auction::with('CatId')->get();
+         $auctionitem = Auctionitems::with('AuId', 'companyId','CatId')->get(); 
+        //  echo '<pre>'; print_r($auctionitem->all()); die;
+         $user = Auth::guard('web')->user();
+
+       return view('front.user.change_password' , ['auction' => $auction ,'auctionitem' =>$auctionitem, 'user' => $user]);
+    }
+
     public function auctionbit(Request $request)
     {
       $status = Auction::find($request->id);

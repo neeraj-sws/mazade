@@ -43,6 +43,10 @@ Route::group(['middleware'=>'auth:web'],function(){
    
     Route::get('/profile', [App\Http\Controllers\Front\UserController::class, 'profile'])->name('profile');
     Route::get('/dashboard', [App\Http\Controllers\Front\UserController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard', [App\Http\Controllers\Front\UserController::class, 'dashboard'])->name('dashboard');
+    Route::get('/last-bidings', [App\Http\Controllers\Front\UserController::class, 'last_bidings'])->name('last-bidings');
+    Route::get('/change-password', [App\Http\Controllers\Front\UserController::class, 'change_password'])->name('change-password');
+   
     Route::post('/auction-bit', [App\Http\Controllers\Front\UserController::class, 'auctionbit'])->name('auction-bit');
     Route::post('/auction-end', [App\Http\Controllers\Front\UserController::class, 'auctionend'])->name('auction-end');
     Route::get('/user-category-detail', [App\Http\Controllers\Front\CompanyController::class, 'user_category_detail'])->name('user-category-detail');

@@ -94,16 +94,16 @@
                </div>
               <div class="row">
                   <div class="bio-row">
-                      <p><span>First Name </span>: {{ Auth::user()->name }}</p>
+                      <p><span>First Name </span>: {{$user->name }}</p>
                   </div>
                   <div class="bio-row">
-                      <p><span>Last Name </span>: {{ Auth::user()->lname }}</p>
+                      <p><span>Last Name </span>: {{ $user->last_name }}</p>
                   </div>
                   <div class="bio-row">
-                      <p><span>Email </span>: {{ Auth::user()->email }}</p>
+                      <p><span>Email </span>: {{ $user->email }}</p>
                   </div>
                   <div class="bio-row">
-                      <p><span>Phone </span>: {{ Auth::user()->phone }}</p>
+                      <p><span>Phone </span>: {{ $user->mobile_number }}</p>
                   </div>
               </div>
           </div>

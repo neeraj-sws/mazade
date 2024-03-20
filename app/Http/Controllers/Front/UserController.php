@@ -14,36 +14,20 @@ class UserController extends Controller
      *
      * @return void
      */
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-
-    //     $user = Auth::guard('web')->user();
-
-    //     $this->company   = Company_info::where('user_id', $user->id)->first();
-    // }
-
     public function __construct()
     {
-        
-        $user = auth()->user();
-
-        if ($user) {
-          
-            $this->company = Company_info::where('user_id', $user->id)->first();
-        } else {
-          
-        }
+        $this->middleware('auth');
     }
-
 
  
     public function profile()
     {
 
+      $user = Auth::guard('web')->user();
+      $company = Company_info::where('user_id', $user->id)->first();
       $reviews = Reviews::get();
 
-       return view('front.user.profile' , [ 'reviews' => $reviews ]);
+       return view('front.user.profile' , [ 'reviews' => $reviews , 'user' => $user ,'company' => $company ]);
     }
 
     public function dashboard()

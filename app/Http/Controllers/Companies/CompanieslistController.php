@@ -50,7 +50,7 @@ class CompanieslistController extends Controller
 
                     $companys = $itame->companyId->is_bid_add; 
 
-                      $company_id =  $itame->companie_id ;
+                      $company_id =  $itame->company_id ;
 
                       $idd = $itame->id;
 

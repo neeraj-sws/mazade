@@ -17,13 +17,15 @@
     <div class="container">
         <div class="row">
             <div class="sidebar">
+            <form>
                <div class="main-cat-title">
                <h2 class="main-cat-title-inner">Search for bid</h2>
                </div>
-                <form>
+               <div class="search_panel">
+               
                     <input type="text" id="searchInput" placeholder="Search...">
-                    <button type="submit">Search</button>
-                </form>
+                    <button class="searchButton" onclick="action_filter()" type="button">Search</button>
+                </div>
                 <div class="main-cat-title">
                <h2 class="main-cat-title-inner">Select Categories</h2>
                </div>
@@ -34,247 +36,53 @@
 
                      <!-- Category-1 -->
 
+                    @foreach($categories as $category) 
 
                         <div class="category">
-                            <input type="checkbox" id="category1" class="category-checkbox">
-                            <label for="category1" class="category-label">Bike</label>
+                            <input onchange="action_filter()" type="checkbox" name="cat_id[]" id="category{{ $category->id }}" class="category-checkbox">
+                            <label for="category{{ $category->id }}" class="category-label">{{ $category->title }}</label>
+                            @if(count($category->sub_category) > 0)
                             <div class="subcategories">
+                                @foreach($category->sub_category as $sub_cat) 
                                 <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-1" class="subcategory-checkbox">
-                                    <label for="subcategory1-1" class="subcategory-label">Cruiser</label>
+                                    <input onchange="action_filter()" type="checkbox" name="sub_cat_id[]" id="subcategory1-{{ $sub_cat->id }}" class="subcategory-checkbox">
+                                    <label for="subcategory1-{{ $sub_cat->id }}" class="subcategory-label">{{ $sub_cat->title }}</label>
                                 </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-2" class="subcategory-checkbox">
-                                    <label for="subcategory1-2" class="subcategory-label">Sport bikes</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-3" class="subcategory-checkbox">
-                                    <label for="subcategory1-3" class="subcategory-label">Road bikes</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-4" class="subcategory-checkbox">
-                                    <label for="subcategory1-4" class="subcategory-label">Scooter</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-5" class="subcategory-checkbox">
-                                    <label for="subcategory1-5" class="subcategory-label">Dual sport</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-6" class="subcategory-checkbox">
-                                    <label for="subcategory1-6" class="subcategory-label">Enduro</label>
-                                </div>
+                                @endforeach
                             </div>
+                            @endif
                         </div>
-
+                    @endforeach
                         <!-- category-1-end -->
 
 
-                        <!-- Category-2 -->
-
-
-                        <div class="category">
-                            <input type="checkbox" id="category1" class="category-checkbox">
-                            <label for="category1" class="category-label">Car</label>
-                            <div class="subcategories">
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-1" class="subcategory-checkbox">
-                                    <label for="subcategory1-1" class="subcategory-label">Cruiser</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-2" class="subcategory-checkbox">
-                                    <label for="subcategory1-2" class="subcategory-label">Sport bikes</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-3" class="subcategory-checkbox">
-                                    <label for="subcategory1-3" class="subcategory-label">Road bikes</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-4" class="subcategory-checkbox">
-                                    <label for="subcategory1-4" class="subcategory-label">Scooter</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-5" class="subcategory-checkbox">
-                                    <label for="subcategory1-5" class="subcategory-label">Dual sport</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-6" class="subcategory-checkbox">
-                                    <label for="subcategory1-6" class="subcategory-label">Enduro</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- category-2-end -->
-
-                        <!-- Category-3 -->
-
-
-                        <div class="category">
-                            <input type="checkbox" id="category1" class="category-checkbox">
-                            <label for="category1" class="category-label">Real Estate</label>
-                            <div class="subcategories">
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-1" class="subcategory-checkbox">
-                                    <label for="subcategory1-1" class="subcategory-label">Cruiser</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-2" class="subcategory-checkbox">
-                                    <label for="subcategory1-2" class="subcategory-label">Sport bikes</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-3" class="subcategory-checkbox">
-                                    <label for="subcategory1-3" class="subcategory-label">Road bikes</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-4" class="subcategory-checkbox">
-                                    <label for="subcategory1-4" class="subcategory-label">Scooter</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-5" class="subcategory-checkbox">
-                                    <label for="subcategory1-5" class="subcategory-label">Dual sport</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-6" class="subcategory-checkbox">
-                                    <label for="subcategory1-6" class="subcategory-label">Enduro</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- category-3-end -->
-
-                        <!-- Category-4 -->
-
-
-                        <div class="category">
-                            <input type="checkbox" id="category1" class="category-checkbox">
-                            <label for="category1" class="category-label">Electronics</label>
-                            <div class="subcategories">
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-1" class="subcategory-checkbox">
-                                    <label for="subcategory1-1" class="subcategory-label">Cruiser</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-2" class="subcategory-checkbox">
-                                    <label for="subcategory1-2" class="subcategory-label">Sport bikes</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-3" class="subcategory-checkbox">
-                                    <label for="subcategory1-3" class="subcategory-label">Road bikes</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-4" class="subcategory-checkbox">
-                                    <label for="subcategory1-4" class="subcategory-label">Scooter</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-5" class="subcategory-checkbox">
-                                    <label for="subcategory1-5" class="subcategory-label">Dual sport</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-6" class="subcategory-checkbox">
-                                    <label for="subcategory1-6" class="subcategory-label">Enduro</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- category-4-end -->
-
-
-                        <!-- Category-5 -->
-
-
-                        <div class="category">
-                            <input type="checkbox" id="category1" class="category-checkbox">
-                            <label for="category1" class="category-label">Health</label>
-                            <div class="subcategories">
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-1" class="subcategory-checkbox">
-                                    <label for="subcategory1-1" class="subcategory-label">Cruiser</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-2" class="subcategory-checkbox">
-                                    <label for="subcategory1-2" class="subcategory-label">Sport bikes</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-3" class="subcategory-checkbox">
-                                    <label for="subcategory1-3" class="subcategory-label">Road bikes</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-4" class="subcategory-checkbox">
-                                    <label for="subcategory1-4" class="subcategory-label">Scooter</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-5" class="subcategory-checkbox">
-                                    <label for="subcategory1-5" class="subcategory-label">Dual sport</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-6" class="subcategory-checkbox">
-                                    <label for="subcategory1-6" class="subcategory-label">Enduro</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- category-5-end -->
-
-
-                        <!-- Category-6 -->
-
-
-                        <div class="category">
-                            <input type="checkbox" id="category1" class="category-checkbox">
-                            <label for="category1" class="category-label">Furniture</label>
-                            <div class="subcategories">
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-1" class="subcategory-checkbox">
-                                    <label for="subcategory1-1" class="subcategory-label">Cruiser</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-2" class="subcategory-checkbox">
-                                    <label for="subcategory1-2" class="subcategory-label">Sport bikes</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-3" class="subcategory-checkbox">
-                                    <label for="subcategory1-3" class="subcategory-label">Road bikes</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-4" class="subcategory-checkbox">
-                                    <label for="subcategory1-4" class="subcategory-label">Scooter</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-5" class="subcategory-checkbox">
-                                    <label for="subcategory1-5" class="subcategory-label">Dual sport</label>
-                                </div>
-                                <div class="subcategory">
-                                    <input type="checkbox" id="subcategory1-6" class="subcategory-checkbox">
-                                    <label for="subcategory1-6" class="subcategory-label">Enduro</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- category-6-end -->
 
 
                         <!-- Add more categories and subcategories here -->
                     </div>
                 </div>
+                </form>
             </div>
             <div id="main-bid-list-new" class="bid-list">
                 <div class="top-bar-bid">
-                    You have 4 active bids with this category
+                    You have {{ count($list) }} active bids with this category
                 </div>
                 <div class="bidding-list">
                     <?php 
                     // echo '<pre>'; print_r($list->toArray()); die;
                     foreach ($list as $lists) {
+                        
                    ?>
                   
                     <div class="bidding-item">
                      <div class="bidding-item-inner">
                         <div class="biding-info">
-                            <h3 class="bidding-title">{{ $lists->name; }}</h3>
-                            <h4 class="bidding-title-2"><b>current bid:</b> $90  </h4>
-                            <p class="bidding-description">{{ $lists->description; }}</p>
+                            <h3 class="bidding-title">{{ $lists->title }}</h3>
+                            <h4 class="bidding-title-2"><b>Current bid:</b> ${{ $lists->latestBid($lists->id)}}  </h4>
+                            <p class="bidding-description">{{ $lists->message }}</p>
                         </div>
                         <div class="price-info">
-                            <h5 class="bidding-price">${{ $lists->budget; }}</h5>
+                            <h5 class="bidding-price">${{ $lists->budget }}</h5>
                             <a href="{{ route('bid-details', $lists->id) }}"><button class="bid-now-btn">Bid Now</button></a>
                             
                         </div>
@@ -291,7 +99,7 @@
                             </div>
                             <div class="bid-loaction-main">
                               <div class="review-main-back">
-                               <i class="fas fa-history"></i><p><b>Time left:</b><div id="countdowns"></div></p>
+                               <i class="fas fa-history"></i><p><b>Time left:</b><div id="countdown_{{ $lists->id }}"></div></p>
                                </div>
                             </div>
                             
@@ -299,26 +107,7 @@
                     </div>
                <?php }
                 ?>
-                    <!-- Add more bidding items here -->
-
-                    <div class="table-pagination">
-                  <p>Showing 10 to 20 of 1 entries</p>
-                  <nav class="pagination-wrap">
-                     <ul class="pagination style-two d-flex justify-content-center gap-md-3 gap-2">
-                        <li class="page-item">
-                           <a class="page-link" href="#" tabindex="-1">Prev</a>
-                        </li>
-                        <li class="page-item active" aria-current="page"><a class="page-link" href="#">01</a></li>
-                        <li class="page-item">
-                           <a class="page-link" href="#">02</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">03</a></li>
-                        <li class="page-item">
-                           <a class="page-link" href="#">Next</a>
-                        </li>
-                     </ul>
-                  </nav>
-               </div>
+                 
                 </div>
             </div>
         </div>
@@ -330,55 +119,63 @@
 
 
 @section('page-js-script')
-<script>
-         function createCountdown(targetDate) {
-             const countdownElement = document.createElement('div');
-         
-             // Update the countdown every second
-             const countdownInterval = setInterval(() => {
-                 const now = new Date();
-                 const difference = targetDate - now;
-         
-                 if (difference <= 0) {
-                     clearInterval(countdownInterval);
-                     countdownElement.innerHTML = 'Countdown expired';
-                 } else {
-                     const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-                     const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                     const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-                     const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-         
-                     countdownElement.innerHTML = `${days} days ${hours}h ${minutes}m ${seconds}s`;
-                 }
-             }, 1000);
-         
-             return countdownElement;
-         }
-         
-         // Add countdown timers to multiple places
-         const countdownsElement = document.getElementById('countdowns');
-         countdownsElement.appendChild(createCountdown(getTargetDate()));
-         
-         const countdownsElement2 = document.getElementById('countdowns2');
-         countdownsElement2.appendChild(createCountdown(getTargetDate()));
-         
-         const countdownsElement3 = document.getElementById('countdowns3');
-         countdownsElement3.appendChild(createCountdown(getTargetDate()));
-         
-         const countdownsElement4 = document.getElementById('countdowns4');
-         countdownsElement4.appendChild(createCountdown(getTargetDate()));
-         
-         const countdownsElement5 = document.getElementById('countdowns5');
-         countdownsElement5.appendChild(createCountdown(getTargetDate()));
-         
-         function getTargetDate() {
-             const targetDate = new Date();
-             targetDate.setDate(targetDate.getDate() + 10);
-             targetDate.setHours(12);
-             targetDate.setMinutes(20);
-             targetDate.setSeconds(13);
-             return targetDate;
-         }
-      </script>
 
+<script>
+    // Loop through each row and calculate countdown for each end time
+    @foreach($list as $item)
+    var endDateTime_{{ $item->id }} = new Date("{{ $item->end_time }}").getTime();
+    var countdownElement_{{ $item->id }} = document.getElementById("countdown_{{ $item->id }}");
+
+    // Update the countdown every second
+    setInterval(function() {
+        var now = new Date().getTime();
+        var distance = endDateTime_{{ $item->id }} - now;
+
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        countdownElement_{{ $item->id }}.innerHTML = days + "days " + hours + "h " + minutes + "m " + seconds + "s ";
+
+        // If the countdown is over, display 'EXPIRED' or take appropriate action
+        if (distance < 0) {
+            countdownElement_{{ $item->id }}.innerHTML = "EXPIRED";
+        }
+    }, 1000);
+    @endforeach
+
+
+
+function action_filter() {
+    // $('#st_loader_' + id).show();
+    
+    // if(type){
+    //   var statusText = type;
+    // }else{
+    //   var statusText = newStatus === 1 ? 'Active' : 'Inactive';
+    // }
+
+    // if (confirm("Are you sure you want to set the status to " + statusText + "?")) {
+    //     $.ajax({
+    //         'headers': {
+    //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //         },
+    //         url: url,
+    //         method: "POST",
+    //         dataType: "JSON",
+    //         data: { id: id, status: newStatus },
+    //         success: function (res) {
+    //             $('#st_loader_' + id).hide();
+
+    //             toastr.success('Status changed successfully', 'Success');
+    //             dataTable.draw(false);
+    //         }
+    //     });
+    // } else {
+    //     // Optionally handle the case when the user cancels the confirmation
+    // }
+}
+
+    </script>
 @endsection

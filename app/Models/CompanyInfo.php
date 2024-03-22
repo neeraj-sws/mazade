@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Upload;
 
-class Company_info extends Model
+class CompanyInfo extends Model
 {
     use HasFactory;
 
@@ -16,11 +16,23 @@ class Company_info extends Model
 
     protected $fillable = [
         'user_id',
-        'companyname',
-        'companphone',
+        'company_name',
+        'compan_phone',
         'address',
-        'commercialregister',
+        'commercial_register',
     ];
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+
+    public function Auctionitems()
+    {
+        return $this->hasMany(Auctionitems::class,'company_id');
+    }
 
 }
 

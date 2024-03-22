@@ -10,7 +10,7 @@
                           <div class="btn-group">
                               <a href="{{ route('categoryshow') }}" class="btn btn-primary"><i class="bx bxs-plus-square"></i>New Auction</a>
                               @foreach ($auctionbit as $aucti)
-                              <input type="hidden" name="auction_id" value="{{ $aucti->companie_id }}" class="form-control" />
+                              <input type="hidden" name="auction_id" value="{{ $aucti->company_id }}" class="form-control" />
                               @endforeach
                           </div>
                       </div>

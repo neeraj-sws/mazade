@@ -13,14 +13,14 @@
             </nav>
          </div>
       </div>
-      <div class="dashboard-section pt-120 pb-40">
+      <div class="dashboard-section pt-25 pb-40">
          <img alt="image" src="{{asset('front_assets/images/bg/section-bg.png') }}" class="img-fluid section-bg-top">
          <img alt="image" src="{{asset('front_assets/images/bg/section-bg.png') }}" class="img-fluid section-bg-bottom">
          <div class="container">
             <div class="row g-4 dash-main-row-1">
-            <div class="col-lg-3">
+           
                @include("front.user.user_profile_sidebar")
-               </div>
+             
                <div class="col-lg-9">
                   <div class="tab-content" id="v-pills-tabContent">
                     
@@ -28,14 +28,10 @@
 
                      <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
                      <div class="dashboard-password">
-                           <div class="owner">
-                             
-                              <div class="content">
-                                 
-                                 <h3>{{ $user->name }}</h3> 
-                                 <p class="para"> {{ $user->name }}</p>
-                              </div>
-                           </div>
+                     <div class="bio-main-3434 px-2 pt-3">
+                           <h1>Change Password</h1>
+                        </div>
+                           
                            <div class="form-wrapper">
                               <form class="row g-3" action="{{ route('change.password') }}" method="POST" onsubmit="event.preventDefault();profilte_update(this);return false;" enctype="multipart/form-data">
                                  <div class="row">

@@ -13,6 +13,11 @@ class Category extends Model
 
     protected $fillable = [ 'title','icon','description','status','slug'];
 
+    function sub_category()
+    {
+        return $this->hasMany(SubCategory::class,'category_id');
+    }
+
     function photo()
     {
         return $this->belongsTo(Upload::class, 'icon');

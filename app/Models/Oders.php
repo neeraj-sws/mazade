@@ -11,7 +11,7 @@ class Oders extends Model
     use HasFactory;
     protected $table = 'orders';
 
-    protected $fillable = [ 'category_id','companie_id','auction_id','price'];
+    protected $fillable = [ 'category_id','company_id','auction_id','price'];
 
     function CatId()
     {
@@ -25,7 +25,7 @@ class Oders extends Model
 
     function comid()
     {
-        return $this->belongsTo(Companies::class,'companie_id');
+        return $this->belongsTo(Companies::class,'company_id');
     }
     
 }

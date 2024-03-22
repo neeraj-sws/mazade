@@ -37,7 +37,7 @@ class AuctionlictController extends Controller
              $itames = Auctionitems::where('auction_id' , $row->id)->get();
              foreach($itames as $itame){
                 $price = $itame->price;
-                  $company_id =  $itame->companie_id ;
+                  $company_id =  $itame->company_id ;
              }
               
             }else{
@@ -93,7 +93,7 @@ class AuctionlictController extends Controller
    {
          
     // echo $id;die;
-       $auctionbit = Auctionitems::where('companie_id' , $id)->get();
+       $auctionbit = Auctionitems::where('company_id' , $id)->get();
 
        $route = route('auctionbit');
 
@@ -113,7 +113,7 @@ class AuctionlictController extends Controller
        $columnSortOrder = $_POST['order'][0]['dir'];
        $searchValue = $_POST['search']['value']; 
  
-       $qry = Auctionitems::with(['CatId','AuId'])->where('companie_id' , $id);
+       $qry = Auctionitems::with(['CatId','AuId'])->where('company_id' , $id);
        $result = $qry->get();
 
  

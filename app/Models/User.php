@@ -60,6 +60,11 @@ class User extends Authenticatable
 
 
 
+    function company()
+    {
+        return $this->hasOne(CompanyInfo::class,'user_id');
+    }
+
     function favUdata()
     {
         return $this->hasMany(Favorite::class,'client_id');

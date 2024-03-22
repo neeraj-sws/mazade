@@ -13,6 +13,10 @@
             </div>
             <ul class="menu-list">
                <li class="menu-item-has-children"><a href="{{ route('home') }}">Home</a></li>
+              
+               @if (Auth::check() && Auth::guard('web')->user()->company)
+               <li><a href="{{ route('active-auctions') }}">Active Auctions</a></li>
+               @endif
                <li><a href="{{ route('categories') }}">Categories</a></li>
                <li><a href="{{ route('about') }}">About</a></li>
                <li><a href="{{ route('contact') }}">Contact </a></li>
@@ -29,7 +33,7 @@
          @if (Auth::check())
          <div class="nav-right d-flex align-items-center">
             <div class="user-new-menu-icon">
-               <a href="{{ route('profile') }}"><img src="{{asset('front_assets/images/user-icon/user.png') }}"></a>
+               <a href="{{ route('dashboard') }}"><img src="{{asset('front_assets/images/user-icon/user.png') }}"></a>
             </div>
             <div class="user-new-menu-icon">
                <img src="{{asset('front_assets/images/user-icon/chat.png') }}">

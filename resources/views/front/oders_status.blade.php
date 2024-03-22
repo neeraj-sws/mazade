@@ -42,7 +42,7 @@
                             <form class="row g-3"action="{{ route('finishedauction') }}"  method="POST">
                                 @csrf
                               <input type="hidden" name="category_id" value="{{ $oder->category_id }}" class="form-control" />
-                              <input type="hidden" name="company_id" value="{{ $oder->companie_id }}" class="form-control" />
+                              <input type="hidden" name="company_id" value="{{ $oder->company_id }}" class="form-control" />
                               <input type="hidden" name="username" value="{{ $user->id }}" class="form-control" />
                               <input type="hidden" name="Paid" value="{{ $oder->price }}" class="form-control" />
                                 <div class="col-xs-12 col-sm-12 col-md-12 text-center">

@@ -18,6 +18,12 @@ class SubCategory extends Model
         return $this->belongsTo(Upload::class, 'icon');
     }
 
+    function category()
+    {
+        return $this->belongsTo(Category::class,'category_id');
+    }
+
+
     function CatId()
     {
         return $this->belongsTo(Category::class,'category_id');

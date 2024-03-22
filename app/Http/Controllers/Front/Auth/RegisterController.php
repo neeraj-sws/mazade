@@ -70,7 +70,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'mobile_number' => ['required', 'string', 'min:11'],
+            'mobile_number' => ['required', 'string', 'min:10'],
             'role' => ['required'],
             'password' => ['required', 'string', 'min:8'],
         ]);
@@ -84,7 +84,7 @@ class RegisterController extends Controller
             'mobile_number' => $request['mobile_number'],
         ]);
 
-        return response()->json(['status' => 2, 'message' => 'User Login Successfully', 'surl' => route('home')]);
+        return response()->json(['status' => 2, 'message' => 'Registration Successfully', 'surl' => route('home')]);
     }
         catch (\Exception $e) {
             // If an error occurs during registration

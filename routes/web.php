@@ -41,17 +41,22 @@ Route::get('/contact', [App\Http\Controllers\Front\HomeController::class, 'conta
 
 Route::group(['middleware'=>'auth:web'],function(){
    
+    
+    Route::get('/dashboard', [App\Http\Controllers\Front\UserController::class, 'dashboard'])->name('dashboard');
+    
     Route::get('/profile', [App\Http\Controllers\Front\UserController::class, 'profile'])->name('profile');
-    Route::get('/dashboard', [App\Http\Controllers\Front\UserController::class, 'dashboard'])->name('dashboard');
-    Route::get('/dashboard', [App\Http\Controllers\Front\UserController::class, 'dashboard'])->name('dashboard');
+    Route::get('/all-auction', [App\Http\Controllers\Front\UserController::class, 'all_auction'])->name('all-auction');
+    Route::get('/current-auction', [App\Http\Controllers\Front\UserController::class, 'current_auction'])->name('current-auction');
+    
     Route::get('/last-bidings', [App\Http\Controllers\Front\UserController::class, 'last_bidings'])->name('last-bidings');
     Route::get('/change-password', [App\Http\Controllers\Front\UserController::class, 'change_password'])->name('change-password');
-    Route::get('/user/profile', [App\Http\Controllers\Front\UserController::class, 'user_profile'])->name('user.profile');
+    Route::get('/edit-profile', [App\Http\Controllers\Front\UserController::class, 'edit_profile'])->name('edit-profile');
    
     Route::post('/auction-bit', [App\Http\Controllers\Front\UserController::class, 'auctionbit'])->name('auction-bit');
     Route::post('/auction-end', [App\Http\Controllers\Front\UserController::class, 'auctionend'])->name('auction-end');
     Route::get('/user-category-detail', [App\Http\Controllers\Front\CompanyController::class, 'user_category_detail'])->name('user-category-detail');
-    
+   Route::get('/bid-details/{id}', [App\Http\Controllers\Front\AuctionController::class, 'bid_details'])->name('bid-details');
+
     // Group for Role 1
     Route::middleware(['role:1'])->group(function () {
         
@@ -71,12 +76,11 @@ Route::group(['middleware'=>'auth:web'],function(){
         Route::get('/withdraw', [App\Http\Controllers\Front\AuctionController::class, 'withdraw'])->name('withdraw');
         
         Route::get('/active-auctions', [App\Http\Controllers\Front\AuctionController::class, 'active_auctions'])->name('active-auctions');
-        Route::get('/bid-details', [App\Http\Controllers\Front\AuctionController::class, 'bid_details'])->name('bid-details');
-        Route::get('/bid-details/{id}', [App\Http\Controllers\Front\AuctionController::class, 'bid_details'])->name('bid-details');
+      
         Route::get('/user-company-detail', [App\Http\Controllers\Front\CompanyController::class, 'user_company_detail'])->name('user-company-detail');
         Route::get('/user-auction-detail', [App\Http\Controllers\Front\AuctionController::class, 'user_auction_detail'])->name('user-auction-detail');
         Route::match(['get', 'post'],'bids',[App\Http\Controllers\Front\AuctionController::class,'updates'])->name('bidadd');
-        Route::get('/company-info', [App\Http\Controllers\Front\UserController::class, 'company_info'])->name('company.info');
+        Route::get('/edit-company-info', [App\Http\Controllers\Front\UserController::class, 'edit_company_info'])->name('edit-company-info');
       
    
         Route::get('/all-orders', [App\Http\Controllers\Front\OrderController::class, 'all_order'])->name('all-orders');

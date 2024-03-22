@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
-use App\Models\{Auction,Auctionitems,Oders,Companies,Upload,user,Company_info};
+use App\Models\{Auction,Auctionitems,Oders,Companies,Upload,user,Companyinfo};
 use App\Http\Controllers\Controller;
 
 class CompaniesAuthController extends Controller
@@ -54,9 +54,9 @@ class CompaniesAuthController extends Controller
             'phone' => ['required', 'string', 'max:10'],
             'address' => ['required'],
             'password' => ['required', 'string', 'min:8'],
-            'companyName' => ['required', 'string', 'max:255'],
+            'company_name' => ['required', 'string', 'max:255'],
             'company_phone' => ['required', 'string', 'max:10'],
-            'commercialRegister' => ['required'],
+            'commercial_register' => ['required'],
            
         ]);
     
@@ -70,16 +70,16 @@ class CompaniesAuthController extends Controller
             'mobile_number' => $request['phone'],
         ]);
 
-        $company = Company_info::create([
+        $company = Companyinfo::create([
             'user_id' => $user->id, 
-            'companyname' => $request['companyName'],
-            'companphone' => $request['company_phone'],
+            'company_name' => $request['company_name'],
+            'compan_phone' => $request['company_phone'],
             'address' => $request['address'],
-            'commercialregister'=> $request['commercialRegister'],
+            'commercial_register'=> $request['commercial_register'],
         ]);
     
         // Return the response
-        return response()->json(['status' => 2, 'message' => 'User Login Successfully', 'surl' => route('home')]);
+        return response()->json(['status' => 2, 'message' => 'Company registration Successfully', 'surl' => route('home')]);
     }
     
 

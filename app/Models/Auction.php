@@ -11,7 +11,7 @@ class Auction extends Model
     use HasFactory;
     protected $table = 'auction';
 
-    protected $fillable = [ 'oder_id',  'name','category','sub_category','quality', 'budget','city','quantity','image','description','status','start_time' , 'end_time'];
+    protected $fillable = [ 'oder_id',  'titile','category','sub_category','quality', 'budget','city','quantity','image','message','status','start_time' , 'end_time'];
 
     function CatId()
     {
@@ -31,6 +31,23 @@ class Auction extends Model
     function status_id()
     {
         return $this->belongsTo(Status::class,'status');
+    }
+
+
+    function auctionItem()
+    {
+        return $this->hasMany(Auctionitems::class,'auction_id');
+    }
+
+    public static function latestBid($aid)
+    {
+        $bid = Auctionitems::where('auction_id', $aid)->latest()->first();
+
+        if ($bid) {
+            return $bid->price;
+        } else {
+            return null; // Or any other appropriate value or action if no bid is found
+        }
     }
 
 }

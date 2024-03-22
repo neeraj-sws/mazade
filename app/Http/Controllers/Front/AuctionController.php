@@ -56,18 +56,22 @@ class AuctionController extends Controller
 
     public function bid_details($id){
         // echo $id; die;
-        $ids['idss'] = Auction::find($id);
-        //   echo '<pre>'; print_r( $ids['idss']->toArray()); die;
+        $auction = Auction::find($id);
+       
         $company['companys'] = Auth::user();
        
-        return view('front.auction.bid_details',$ids,$company);
+        return view('front.auction.bid_details',['auction'=>$auction,'company'=>$company]);
     }
 
     public function active_auctions(){
         
-        $qry = Auction::with(['CatId', 'status_id']);
+        $currentDateTime = \Carbon\Carbon::now();
+
+        $qry = Auction::with(['CatId', 'status_id'])->where('status',1)->where('start_time', '<=', $currentDateTime)->where('end_time', '>=', $currentDateTime);
         $result['list'] = $qry->get();
-        // echo '<pre>'; print_r($result['list']->toArray()); die;
+        
+        $result['categories'] = Category::where('status', 1)->get();
+       
         return view('front.auction.active_auctions',$result);
     }
 
@@ -106,7 +110,7 @@ class AuctionController extends Controller
           $auction->oder_id = $idd;
         $auction->category_id = $request->category_id;
         $auction->auction_id = $request->auction_id;
-        $auction->companie_id = $request->company_id;
+        $auction->company_id = $request->company_id;
         $auction->price = $request->lastPrice;
         $auction->save();
 
@@ -150,7 +154,7 @@ class AuctionController extends Controller
         $rating = new Reviews;
         $rating->category_id = $request->category_id;
         $rating->auction_id = $request->auction_id;
-        $rating->companie_id = $request->companie_id;
+        $rating->company_id = $request->company_id;
         $rating->ratings = $request->rating;
         $rating->discription = $request->experience;
         $rating->title = $request->title;
@@ -212,7 +216,7 @@ class AuctionController extends Controller
 
                 $info = Auction::create([
                     'oder_id' => $idd,
-                    'name'=> $request->title,
+                    'title'=> $request->title,
                     'category'=> $request->category,
                     'sub_category'=> $request->sub_category,
                     'quality'=> $request->quality,
@@ -222,11 +226,11 @@ class AuctionController extends Controller
                     'start_time'=>$request->start_time,
                     'end_time'=>$request->end_time,
                     'image'=>$request->image,
-                    'description'=>$request->message,
+                    'message'=>$request->message,
                     'status'=>0,
                 ]);
 
-                return response()->json(['status' => 2, 'message' => 'User Login Successfully', 'surl' => route('dashboard')]);
+                return response()->json(['status' => 2, 'message' => 'Auction Create Successfully', 'surl' => route('dashboard')]);
             }
         }
    }

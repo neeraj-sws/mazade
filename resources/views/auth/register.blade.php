@@ -45,7 +45,7 @@
                                     <input type="password" id="confirmPassword" placeholder="Confirm Password" name="comfirm_password" >
                                  </div>
                                  <div class="col-md-12">
-                                    <input type="tel" id="phone" name="mobile_number" placeholder="Phone:" >
+                                    <input type="tel" id="phone" name="mobile_number" placeholder="Phone" >
                                  </div>
                                  <input class="user-submit" type="submit" value="Register">
                                  {{-- <button type="submit" id="sub" class="user-submit">{{ __('Register') }}</button> --}}
@@ -85,12 +85,12 @@
                                  </div>
 
                                  <div class="col-md-12">
-                                    <input type="tel" id="phone" name="phone" placeholder="Phone:"  >
+                                    <input type="tel" id="phone" name="phone" placeholder="Phone"  >
                                  </div>
 
                                  <h3 class="inner-form-main-title">Company</h3>
                                  <div class="col-md-12">
-                                    <input type="text" id="companyName" placeholder="Company Name" name="companyName" >
+                                    <input type="text" id="companyName" placeholder="Company Name" name="company_name" >
                                  </div>
                                  <div class="col-md-12">
                                     <input id="address" name="address" placeholder="Address">
@@ -101,7 +101,7 @@
                                  </div>
 
                                  <div class="col-md-12">
-                                    <input type="text" id="commercialRegister" placeholder="Commercial Register" name="commercialRegister">
+                                    <input type="text" id="commercialRegister" placeholder="Commercial Register" name="commercial_register">
                                  </div>
                                  <input class="user-submit" type="submit" value="Register">
                                  {{-- <button type="submit" id="sub" class="user-submit">{{ __('Register') }}</button> --}}

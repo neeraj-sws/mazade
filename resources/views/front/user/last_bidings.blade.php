@@ -13,15 +13,15 @@
             </nav>
          </div>
       </div>
-      <div class="dashboard-section pt-120 pb-40">
+      <div class="dashboard-section pt-25 pb-40">
          <img alt="image" src="{{asset('front_assets/images/bg/section-bg.png') }}" class="img-fluid section-bg-top">
          <img alt="image" src="{{asset('front_assets/images/bg/section-bg.png') }}" class="img-fluid section-bg-bottom">
          <div class="container">
             <div class="row g-4 dash-main-row-1">
-            <div class="col-lg-3">
+           
                
                @include("front.user.user_profile_sidebar")
-               </div>
+              
                <div class="col-lg-9">
                   <div class="tab-content" id="v-pills-tabContent">
                     

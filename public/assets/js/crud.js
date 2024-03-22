@@ -543,10 +543,14 @@ function addForm(url, modal = 'modal-lg') {
 });
  }
 
-  function status_change(url,newStatus, id) {
+  function status_change(url,newStatus, id,type) {
     $('#st_loader_' + id).show();
     
-    var statusText = newStatus === 1 ? 'Active' : 'Inactive'
+    if(type){
+      var statusText = type;
+    }else{
+      var statusText = newStatus === 1 ? 'Active' : 'Inactive';
+    }
 
     if (confirm("Are you sure you want to set the status to " + statusText + "?")) {
         $.ajax({

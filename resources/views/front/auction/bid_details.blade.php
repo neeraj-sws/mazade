@@ -1,5 +1,7 @@
 @extends('layouts.front')
-
+@section('page-css-script')
+<link rel="stylesheet" href="{{asset('front_assets/css/profile.css') }}">
+@endsection
 @section('content')
 <div class="inner-banner">
          <div class="container">
@@ -24,43 +26,80 @@
                   <form>
                     <div class="row">
                       <div class="col-md-6 mb-3">
+                      {{ $auction->title }}
                       </div>
                       <div class="col-md-6 mb-3 d-flex justify-content-end">
                          <div id="countdown"></div>
                       </div>
                       <div class="col-md-4 my-4">
                         <div class="detail-box-main">
-                        Category : {{ $idss->CatId->title }}
+                        Category : {{ $auction->CatId->title }}
                         </div>
                       </div>
                       <div class="col-md-4 my-4">
                         <div class="detail-box-main">
-                        Budget : ${{ $idss->budget }}
+                        Budget : ${{ $auction->budget }}
                         </div>
                       </div>
                       <div class="col-md-4 my-4">
                         <div class="detail-box-main">
-                        Last Price : $0
+                        Last Price : ${{ $auction->latestBid($auction->id)}}
                         </div>
                       </div>
                       <div class="col-md-12 my-3">
-                         <p>{{ $idss->description }}</p>
+                         <p>{{ $auction->message }}</p>
                       </div>
+                      @if (Auth::guard('web')->user()->company)
                       <div class="col-md-3 mb-3">
                           <a id="popupBtn" class="end-btn company-end-btn new-bid-btn"></i>Bid</a>
                       </div>
-                   
+                     @endif
                     </div>
                   </form>
                 </div>
 
                   </div>
                </div>
+               @if (!Auth::guard('web')->user()->company)
+               <div class="profile-info col-md-9">
+      <div class="panel">
+          <div class="panel-body bio-graph-info">
+              <div class="bio-main-3434">
+              <h1>Bids</h1>
+               </div>
+              <div class="row">
+                 <table class="table">
+                  <tr>
+                     <th>S.No.</th>
+                     <th>Company</th>
+                     <th>Big amount</th>
+                     <th>Action</th>
+                  </tr>
+               @php $i=1; @endphp   
+               @foreach($auction->auctionItem as $item)
+                  <tr>
+                     <td>{{ $i++; }}</td>
+                     <td>{{ $item->companyId->company_name }}</td>
+                     <td>${{ $item->price }}</td>
+                     <td>
+                     <a href="javascript:void(0)" claSS="btn btn-success">Confirm</a>
+                     </td>
+                  </tr>
+                  @endforeach
+                 </table>
+              </div>
+          </div>
+      </div>
+
+      
+
+  </div>
+  @endif
             </div>
          </div>
       </div>
 
-
+      @if (Auth::guard('web')->user()->company)
 <div id="popup" class="popup">
   <div class="popup-content popup-new-content">
    <form action="{{ route('bidadd') }}" method="post">
@@ -68,23 +107,23 @@
       @csrf
 
       <div data-mdb-input-init class="form-outline mb-4">
-         <input type="hidden" name="auction_id"  value="{{ $idss->id }}" id="form4Example1" class="form-control"  readonly/>
+         <input type="hidden" name="auction_id"  value="{{ $auction->id }}" id="form4Example1" class="form-control"  readonly/>
      </div>
 
-     <input type="hidden" name="company_id"  value="{{ $companys->id }}" class="form-control"/>
+     <input type="hidden" name="company_id"  value="{{ @$companys->id }}" class="form-control"/>
 
-     <input type="hidden" name="category_id"  value="{{ $idss->category }}" class="form-control"/>
+     <input type="hidden" name="category_id"  value="{{ $auction->category }}" class="form-control"/>
     
    <div class="row">
       
       <div class="col-md-6 mb-4">
          <div class="detail-box-main">
-         ID Order : {{ $idss->oder_id }}
+         ID Order : {{ $auction->oder_id }}
           </div>
       </div>
       <div class="col-md-6 mb-4">
       <div class="detail-box-main">
-         Category : {{ $idss->CatId->title }}
+         Category : {{ $auction->CatId->title }}
       </div>
       </div>
       <div class="col-md-12 mb-3 all-form-data mb-4">
@@ -101,12 +140,15 @@
   </form>
 </div>
 </div>
+@endif
 @endsection
 
 @section('page-js-script')
 <script>
         // Set the target date and time
-        const targetDate = new Date();
+   //const targetDate = new Date();
+        const targetDate = new Date("{{ $auction->end_time }}");
+      
         targetDate.setDate(targetDate.getDate() + 10);
         targetDate.setHours(12);
         targetDate.setMinutes(20);

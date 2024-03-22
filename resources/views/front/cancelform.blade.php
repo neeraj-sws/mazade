@@ -12,7 +12,7 @@
                     @csrf
               
                   <input type="hidden" name="category_id" value="{{ $oders->category_id }}" class="form-control" />
-                  <input type="hidden" name="company_id" value="{{ $oders->companie_id }}" class="form-control" />
+                  <input type="hidden" name="company_id" value="{{ $oders->company_id }}" class="form-control" />
                   <input type="hidden" name="username" value="{{ $user->id }}" class="form-control" />
                   <input type="hidden" name="Paid" value="{{ $oders->price }}" class="form-control" />
               

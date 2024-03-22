@@ -67,7 +67,7 @@ class CompaniesbidController extends Controller
           $auction->oder_id = $idd;
         $auction->category_id = $request->category_id;
         $auction->auction_id = $request->auction_id;
-        $auction->companie_id = $request->company_id;
+        $auction->company_id = $request->company_id;
         $auction->status_bit = $status->id;
         $auction->price = $request->price;
         $auction->save();
@@ -92,7 +92,7 @@ class CompaniesbidController extends Controller
         $auction = new Oders;
         $auction->category_id = $request->category_id;
         $auction->user_id = $request->user_id;
-        $auction->companie_id = $request->company_id;
+        $auction->company_id = $request->company_id;
         $auction->auction_id = $request->auction_id;
         $auction->price = $request->price;
         $auction->code = $request->code;    

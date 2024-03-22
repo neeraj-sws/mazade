@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Category,Upload,SubCategory,Companies,City,Auction,Oders,Finishedauctions,Auctionitems,Reviews,Company_info};
+use App\Models\{User,Category,Upload,SubCategory,Companies,City,Auction,Oders,Finishedauctions,Auctionitems,Reviews,CompanyInfo};
 use Illuminate\Support\Facades\Auth;
+use Carbon;
+
 
 class UserController extends Controller
 {
@@ -20,30 +22,40 @@ class UserController extends Controller
     }
 
  
-    public function profile()
+    public function dashboard()
     {
-
       $user = Auth::guard('web')->user();
-      $company = Company_info::where('user_id', $user->id)->first();
+     
       $reviews = Reviews::get();
 
-       return view('front.user.profile' , [ 'reviews' => $reviews , 'user' => $user ,'company' => $company ]);
+       return view('front.user.dashboard' , [ 'reviews' => $reviews , 'user' => $user]);
     }
 
-    public function dashboard()
+    public function all_auction()
     { 
          $auction = Auction::with('CatId')->get();
-         $auctionitem = Auctionitems::with('AuId', 'companyId','CatId')->get(); 
+         $auctionitem = Auctionitems::with('Auction', 'companyId','CatId')->get(); 
         //  echo '<pre>'; print_r($auctionitem->all()); die;
          $user = Auth::guard('web')->user();
 
-       return view('front.user.dashboard' , ['auction' => $auction ,'auctionitem' =>$auctionitem, 'user' => $user]);
+       return view('front.user.all_auction' , ['auction' => $auction ,'auctionitem' =>$auctionitem, 'user' => $user]);
+    }
+
+    public function current_auction()
+    { 
+        $currentDateTime = \Carbon\Carbon::now();
+         $auction = Auction::with('CatId')->where('status',1)->where('start_time', '<=', $currentDateTime)->where('end_time', '>=', $currentDateTime)->get();
+         $auctionitem = Auctionitems::with('Auction', 'companyId','CatId')->get(); 
+        //  echo '<pre>'; print_r($auctionitem->all()); die;
+         $user = Auth::guard('web')->user();
+
+       return view('front.user.current_auction' , ['auction' => $auction ,'auctionitem' =>$auctionitem, 'user' => $user]);
     }
 
     public function last_bidings()
     { 
          $auction = Auction::with('CatId')->get();
-         $auctionitem = Auctionitems::with('AuId', 'companyId','CatId')->get(); 
+         $auctionitem = Auctionitems::with('Auction', 'companyId','CatId')->get(); 
         //  echo '<pre>'; print_r($auctionitem->all()); die;
          $user = Auth::guard('web')->user();
 
@@ -53,27 +65,24 @@ class UserController extends Controller
     public function change_password()
     { 
          $auction = Auction::with('CatId')->get();
-         $auctionitem = Auctionitems::with('AuId', 'companyId','CatId')->get(); 
+         $auctionitem = Auctionitems::with('Auction', 'companyId','CatId')->get(); 
         //  echo '<pre>'; print_r($auctionitem->all()); die;
          $user = Auth::guard('web')->user();
 
        return view('front.user.change_password' , ['auction' => $auction ,'auctionitem' =>$auctionitem, 'user' => $user]);
     }
 
-    public function user_profile()
+    public function edit_profile()
     {
       $user = Auth::guard('web')->user();
-      return view('front.user.profiledashboard' , ['user' => $user]);
+      return view('front.user.edit_profile' , ['user' => $user]);
     }
 
-    public function company_info()
+    public function edit_company_info()
     {
     
       $user = Auth::guard('web')->user();
-
-      $company = Company_info::where('user_id', $user->id)->first();
-
-      return view('front.user.companyinfo' , ['user' => $user ,'company' => $company]);
+      return view('front.user.edit_company_info' , ['user' => $user]);
     }
 
     public function auctionbit(Request $request)

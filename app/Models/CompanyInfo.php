@@ -29,7 +29,7 @@ class CompanyInfo extends Model
     }
 
 
-    public function Auctionitems()
+    public function auctionItem()
     {
         return $this->hasMany(Auctionitems::class,'company_id');
     }

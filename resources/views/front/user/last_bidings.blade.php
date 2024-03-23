@@ -56,7 +56,7 @@
                                     //  echo '<pre>'; print_r($auctionitem); die;
                                       ?>
                                     @foreach ($auctionitem as $auctions)
-                                     <?php //echo '<pre>'; print_r($auctions->CatId);?>
+                                    
                                     <tr>
                                      
                                        <td data-label="Image">{{ $auctions->oder_id }}</td>
@@ -65,8 +65,13 @@
                                        <td data-label="Bid Amount(USD)">{{ @$auctions->AuId->budget }}</td>
                                        <td data-label="Highest Bid">10 : 00 : 00</td>
                                        <td data-label="Status" class="text-green">${{ @$auctions->price }}</td>
-                                       <td class="status-price-table" data-label="Bid Amount(USD)"><p>Pending for price</p></td>
-                                       <td data-label="Status" class="text-green btn-edit-table"><a href="payment.html"><button id="popupBtn" class="company-pay-end-btn">Pay now</button></a></td>
+                                       <td class="status-price-table text-nowrap" data-label="Bid Amount(USD)"><p>Pending for price</p>
+                                          <a href="{{ route('user-company-detail',['id' => $auctions->auction_id])}}"><button id="popupBtn" class="mt-2 btn-primary">Company Info</button></a>
+                                          <a href="{{ route('add-review',['id' => $auctions->auction_id])}}"><button id="popupBtn" class="mt-2 btn-primary">Review</button></a>
+                                       </td>
+                                                                          
+                                       <td data-label="Status" class="text-green btn-edit-table"><a href="{{ route('payment', ['id' => $auctions->id]) }}"><button id="popupBtn" class="company-pay-end-btn text-nowrap">Pay now</button></a>
+                                      <a href="payment.html"><button id="popupBtn" class="company-pay-end-btn text-nowrap mt-2">Cancel</button></a></td>
                                       
 
                                     </tr>

@@ -544,6 +544,7 @@ function addForm(url, modal = 'modal-lg') {
  }
 
   function status_change(url,newStatus, id,type) {
+  //  alert('vake');
     $('#st_loader_' + id).show();
     
     if(type){

@@ -85,12 +85,29 @@
               <div class="thumbnail"> <img src="{{asset('front_assets/images/dummy-profile.png') }}" alt="Comment Images"> </div>
               <div class="comment-content">
                 <div class="comment-top">
-                  <h6 class="title">{{ $review->title }}</h6>
+                  <h6 class="title">{{ $review->companyId->company_name}}</h6>
                   <div class="rating">
-                    @for ($i = 0; $i < $review->ratings; $i++)
-                     <i class="fa fa-star" aria-hidden="true"></i>
-                     @endfor  
+                     
+                     
+                        <?php
+                        $rating =$review->rating; // You can replace this with the dynamic rating value
+                        $filledStars = floor($rating);
+                        $unfilledStars = 5 - $filledStars;
+                        ?>
+                       
+                        <?php
+                        // Filled stars
+                        for ($i = 0; $i < $filledStars; $i++) {
+                            echo '<span class="star" style="color: #e6771f;">★</span>';
+                        }
+                       
+                        for ($i = 0; $i < $unfilledStars; $i++) {
+                            echo '<span class="star">★</span>';
+                        }
+                        ?>
                   </div>
+                  
+                
                   <div class="profile-details-2">
                <div class="social-icons">
                    <a href="#" class="icon facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
@@ -99,7 +116,7 @@
                  </div>
              </div>
                 </div>
-                <span class="subtitle">“ Outstanding Review ”</span>
+                <span class="subtitle">“ {{ $review->title }} ”</span>
                 <p>{{ $review->discription }}</p>
               </div>
             </div>

@@ -25,7 +25,7 @@ class Auctionitems extends Model
 
     function companyId()
     {   
-        return $this->belongsTo(CompanyInfo::class,'id');
+        return $this->belongsTo(CompanyInfo::class,'company_id','user_id');
     }
 
     

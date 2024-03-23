@@ -12,12 +12,12 @@
                         <div class="row payment-top-info">
                            <div class="col-md-6 my-4">
                               <div class="detail-box-main">
-                                 <b>Seller Name :</b> {{ $bit->companyId->companyname }}
+                                 <b>Seller Name :</b> {{ $bit->companyId->company_name }}
                               </div>
                            </div>
                            <div class="col-md-6 my-4">
                               <div class="detail-box-main">
-                                 <b>Listing Title :</b> {{ $auction->name }}
+                                 <b>Listing Title :</b> {{ $auction->title }}
                               </div>
                            </div>
                       </div>

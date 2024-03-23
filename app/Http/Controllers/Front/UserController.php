@@ -26,18 +26,19 @@ class UserController extends Controller
     {
       $user = Auth::guard('web')->user();
      
-      $reviews = Reviews::get();
+      $reviews = Reviews::with(['companyId'])->get();
+      // echo"<pre>";print_r($reviews->companyId);die;
 
        return view('front.user.dashboard' , [ 'reviews' => $reviews , 'user' => $user]);
     }
 
     public function all_auction()
     { 
-         $auction = Auction::with('CatId')->get();
-         $auctionitem = Auctionitems::with('Auction', 'companyId','CatId')->get(); 
-        //  echo '<pre>'; print_r($auctionitem->all()); die;
-         $user = Auth::guard('web')->user();
-
+      $currentDateTime = \Carbon\Carbon::now();
+      $auction = Auction::with('CatId')->get();
+      $auctionitem = Auctionitems::with('Auction', 'companyId','CatId')->get(); 
+     //  echo '<pre>'; print_r($auctionitem->all()); die;
+      $user = Auth::guard('web')->user();
        return view('front.user.all_auction' , ['auction' => $auction ,'auctionitem' =>$auctionitem, 'user' => $user]);
     }
 
@@ -92,11 +93,33 @@ class UserController extends Controller
       $status->save();
       return response()->json(['success' => 1,  'Auction Bit successfully']);
     }
+   
+
+    public function all_auction_data()
+{ 
+    $currentDateTime = \Carbon\Carbon::now();
+    $auction = Auction::with('CatId')->get();
+    $auctionitem = Auctionitems::with('Auction', 'companyId','CatId')->get(); 
+    $user = Auth::guard('web')->user();
+
+    return view('front.user.auction_data' , ['auction' => $auction ,'auctionitem' =>$auctionitem, 'user' => $user]);
+    // return response()->json(['auction' => $auction, 'auctionitem' => $auctionitem, 'user' => $user]);
+}
+public function current_auction_data()
+    { 
+        $currentDateTime = \Carbon\Carbon::now();
+         $auction = Auction::with('CatId')->where('status',1)->where('start_time', '<=', $currentDateTime)->where('end_time', '>=', $currentDateTime)->get();
+         $auctionitem = Auctionitems::with('Auction', 'companyId','CatId')->get(); 
+        //  echo '<pre>'; print_r($auctionitem->all()); die;
+         $user = Auth::guard('web')->user();
+
+       return view('front.user.current_data' , ['auction' => $auction ,'auctionitem' =>$auctionitem, 'user' => $user]);
+    }
 
     public function auctionend(Request $request)
     {
       $status = Auction::find($request->id);
-      $status->is_start = $request->status;
+      $status->status = $request->status;
       $status->save();
       return response()->json(['success' => 1,  'Auction Bit successfully']);
     }

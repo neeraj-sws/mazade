@@ -9,7 +9,7 @@ class Payment extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 'category_id','auction_id','user_id','code','amount'];
+    protected $fillable = [ 'name','auction_id','card_number','security_code','expiration_date','amount'];
 
     function CatId()
     {

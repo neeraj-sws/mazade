@@ -41,7 +41,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 function status_change(url,newStatus, id) {
-    alert('a');
+    // alert('a');
     // $('#st_loader_' + id).show();
         $.ajax({
             'headers': {

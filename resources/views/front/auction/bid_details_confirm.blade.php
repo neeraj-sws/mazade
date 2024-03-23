@@ -77,21 +77,7 @@
                   </tr>
                @php $i=1; @endphp   
                @foreach($auction->auctionItem as $item)
-             
-               @if($item->status == 0)
-                  <tr>
-                     <td>{{ $i++; }}</td>
-                     <td>{{ $item->companyId->company_name }}</td>
-                     <td>${{ $item->price }}</td>
-                     <td>
-
-                       @if($auction->status == 1 )
-                     <a href="javascript:void(0)" claSS="btn btn-success" onclick="confirm_bids('{{ route('bid-confirm') }}', {{ $item->id }})">Confirm</a>
-                     @endif
-                     </td>
-                  </tr>
-                  @endif
-                  @if($item->status == 1)
+               
                   <tr>
                      <td>{{ $i++; }}</td>
                      <td>{{ $item->companyId->company_name }}</td>
@@ -99,11 +85,9 @@
                      <td>
 
                        
-                     <a href="javascript:void(0)">Confirmed</a>
+                     <a href="javascript:void(0)" claSS="btn btn-success" onclick="confirm_bids('{{ route('bid-confirm') }}', {{ $item->id }})">Confirm</a>
                      </td>
                   </tr>
-                 @endif
-
                   @endforeach
                  </table>
               </div>
@@ -248,7 +232,6 @@ $(document).ready(function() {
            success: function (res) {
             if(res.status == 1){
             toastr.success('Bid Confirmed successfully', 'Success');
-            location.reload();
             }else {
                toastr.warnind('Bid Decline successfully', 'Warning');
                }
@@ -256,7 +239,6 @@ $(document).ready(function() {
        });
    } 
  }
-
 
     </script>
 

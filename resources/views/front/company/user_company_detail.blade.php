@@ -1,3 +1,4 @@
+
 @extends('layouts.front')
 
 
@@ -20,17 +21,21 @@
         <div class="row company-box p-5">
           <h2 class="mb-5">Company Details</h2>
           <div class="col-md-6">
-            <form action="your-server-endpoint" method="POST" class="all-form-data">
+            <form action="{{ route('user-company-update') }} "method="POST" class="all-form-data">
+               @csrf
                 <div class="form-group">
-                   <input type="cname" id="cname" placeholder="Company Name" name="cname">
+                   <input type="cname" id="cname" placeholder="Company Name" name="cname" value="{{ $info->company_name }}">
+                   
+
                 </div>
                 <div class="form-group mt-3">
-                   <input type="code" id="code" placeholder="Code" name="code">
+                   <input type="code" id="code" placeholder="Code" name="code" value="{{ $random_code}}">
                 </div>
                 <div class="form-group mt-3">
-                   <input type="location" id="location" placeholder="Location" name="location">
+                   <input type="location" id="location" placeholder="Location" name="location" value="{{ $info->address }}">
                 </div>
                 <div class="form-group login-btn-new">
+                  <input type="hidden"name="id" value="{{ request('id') }}">
                     <button type="submit">Submit</button>
                 </div>
 

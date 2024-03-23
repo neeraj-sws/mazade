@@ -595,7 +595,7 @@ $.ajax({
 
 
  function status_change(url, newStatus, id, checkbox) {
-   
+  //  alert('hello')
 
   $('#st_loader_' + id).show();
 
@@ -611,9 +611,19 @@ $.ajax({
           dataType: "JSON",
           data: { id: id, status: newStatus },
           success: function (res) {
+            // console.log(res);
               $('#st_loader_' + id).hide();
               toastr.success('Status changed successfully', 'Success');
-              // Optionally update UI or refresh data table here
+
+           
+            var currentURL = window.location.href;
+                if (currentURL.includes('current-auction')) {
+                    current_data();
+                } else {
+                    new_auction();
+                }
+                
+          
           },
           error: function(xhr, status, error) {
               console.error(xhr.responseText);

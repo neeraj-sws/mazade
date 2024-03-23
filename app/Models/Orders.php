@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Upload;
 
-class Oders extends Model
+class Orders extends Model
 {
     use HasFactory;
     protected $table = 'orders';
 
-    protected $fillable = [ 'category_id','company_id','auction_id','price'];
+    protected $fillable = [ 'category_id','company_id','auction_id','price','is_payment','code'];
 
     function CatId()
     {

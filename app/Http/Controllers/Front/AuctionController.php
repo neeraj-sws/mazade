@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use Helper;
 
-
-use App\Models\{Auction,Auctioncancel,Finishedauctions,Reviews,Auctionitems,Companies,Payment,Status,Upload,Category,SubCategory,user,Company_info};
+use App\Models\{Auction,Auctioncancel,Finishedauctions,Reviews,Auctionitems,Companies,Payment,Status,Upload,Category,SubCategory,user,CompanyInfo,Orders};
 
 
 
@@ -57,23 +57,120 @@ class AuctionController extends Controller
     public function bid_details($id){
         // echo $id; die;
         $auction = Auction::find($id);
+        // echo"<pre>";print_r($auction);die;
        
         $company['companys'] = Auth::user();
        
         return view('front.auction.bid_details',['auction'=>$auction,'company'=>$company]);
     }
 
+    public function payment($id){
+
+        $auction = Auction::find($id);
+        return view('front.auction.payment',['auction'=>$auction]);
+    }
+
+    public function bid_confirm(Request $request){
+
+        // echo "<pre>";print_r($request->all());die;
+        $auctionitem = Auctionitems::find($request->id);
+        $auctionitem->status = 1;
+        $auctionitem->save();
+
+        $auction = Auction::where('id', $auctionitem->auction_id)->first();
+        // echo "<pre>";print_r($auction);die;
+        $auction->status = 3;
+        $auction->save();
+
+        $order = new Orders;
+        $order->auction_id = $auction->id;
+        $order->auction_item_id = $auctionitem->id;
+        $order->company_id = $auctionitem->company_id;
+        $order->price = $auctionitem->price;
+        $order->status = 0;
+        $order->save();
+        // echo "<pre>";print_r($order);die;
+
+        if($order->id){
+            return response()->json(['status' => 1]);
+        }else{
+            return response()->json(['status' => 0]);
+        }
+
+
+    }
+
     public function active_auctions(){
         
         $currentDateTime = \Carbon\Carbon::now();
 
-        $qry = Auction::with(['CatId', 'status_id'])->where('status',1)->where('start_time', '<=', $currentDateTime)->where('end_time', '>=', $currentDateTime);
-        $result['list'] = $qry->get();
-        
         $result['categories'] = Category::where('status', 1)->get();
        
         return view('front.auction.active_auctions',$result);
     }
+
+    public function active_auctions_list(){
+        
+        $currentDateTime = \Carbon\Carbon::now();
+
+
+        $qry = Auction::with(['CatId','subcatid', 'status_id'])->where('status',1)->where('start_time', '<=', $currentDateTime)->where('end_time', '>=', $currentDateTime);
+        $qry->whereDoesntHave('auctionItem', function ($query){
+            $query->where('auction_items.company_id', Auth::user()->id);
+        });
+        $result['list'] = $qry->get();
+        $result['rating'] = CompanyInfo::where('user_id', Auth::guard('web')->user()->id)->first();
+     
+      $view =  view('front.auction.active_aution_list',$result)->render();
+
+      return response()->json(['view' => $view]);
+
+    }
+
+    public function categories_auctions_filter(){
+        
+        $currentDateTime = \Carbon\Carbon::now();
+
+        $result['categories'] = Category::where('status', 1)->get();
+    
+       
+      $view =  view('front.auction.categories_auctions_filter',$result)->render();
+
+      return response()->json(['view' => $view]);
+
+    }
+
+    public function auctions_filter(Request $request) {
+        $currentDateTime = \Carbon\Carbon::now();
+        $search = $request->input('search');
+    
+        $qry = Auction::with(['CatId', 'subcatid', 'status_id'])
+            ->where('status', 1)
+            ->where('start_time', '<=', $currentDateTime)
+            ->where('end_time', '>=', $currentDateTime);
+    
+        if ($search) {
+            $qry->where(function($query) use ($search) {
+                $query->where('title', 'like', "%$search%");
+                $query->orWhereHas('CatId', function($catQuery) use ($search) {
+                    $catQuery->where('title', 'like', "%$search%");
+                });
+                $query->orWhereHas('subcatid', function($subCatQuery) use ($search) {
+                    $subCatQuery->where('title', 'like', "%$search%");
+                });
+            });
+        }
+    
+        $result['list'] = $qry->get();
+    
+        $view = view('front.auction.active_aution_list', $result)->render();
+    
+        return response()->json(['view' => $view]);
+    }
+    
+    
+    
+
 
     public function updates(Request $request)
     {
@@ -120,8 +217,10 @@ class AuctionController extends Controller
        
     }
 
-    public function add_review($id)
+    public function add_review($id) 
     {
+       $id=request('id');
+    //    echo"<pre>";print_r($id);die;
 
         $auction =  Auction::with(['CatId'])->findOrFail($id);
 
@@ -133,40 +232,48 @@ class AuctionController extends Controller
     }
 
     public function add(Request $request)
-    {
-       
-        $validator = Validator::make(
-            $request->all(),
-            [   
-                'rating' => 'required',
-                'experience' => 'required',
-                'title' => 'required',
-                'email' => 'required',
-                
-            ]
-        );
+{
+    $validator = Validator::make(
+        $request->all(),
+        [   
+            'rating' => 'required',
+            'experience' => 'required',
+            'title' => 'required',
+            'email' => 'required',
+        ]
+    );
 
-        if($validator->fails()){
-            return response()->json(['status' => 0,'errors' =>  $validator->errors()]);
-        }else{
-            
-            // echo '<pre>'; print_r(new Reviews); die;
+    if($validator->fails()){
+        return response()->json(['status' => 0,'errors' =>  $validator->errors()]);
+    } else {
         $rating = new Reviews;
-        $rating->category_id = $request->category_id;
         $rating->auction_id = $request->auction_id;
         $rating->company_id = $request->company_id;
-        $rating->ratings = $request->rating;
+        $rating->rating = $request->rating;
         $rating->discription = $request->experience;
         $rating->title = $request->title;
         $rating->email = $request->email;
         $rating->save();
 
-        // return redirect()->route('active-auctions')
-        //                  ->with('success', 'Auction updated successfully');  
-        }
-       
+        $this->review($request->company_id,$request->rating); // Call the review function
+
+        // Return your response here if needed
     }
+}
+
+public function review($id,$rating)
+{
+    $company = CompanyInfo::where('user_id', $id)->first();
+    $reviews = Reviews::where('company_id', $id)->get();
+    $sumRatings = $reviews->sum('rating');
+    $totalReviews = $reviews->count();
+    $averageRating = $totalReviews > 0 ? $sumRatings / $totalReviews : 0;
     
+    $company->total_rating += $rating; 
+    $company->avg_rating = $averageRating;
+    $company->save();
+}
+
     public function withdraw(){
         return view('front.auction.withdraw');
     }
@@ -187,7 +294,7 @@ class AuctionController extends Controller
 
    public function store(Request $request)
    {
-    //    echo "<pre>";print_r($request->all());die;
+    //    echo "<pre>";print_r($request->title);die;
         if($request->id){
                 return $this->update($request);
         }else{
@@ -227,8 +334,10 @@ class AuctionController extends Controller
                     'end_time'=>$request->end_time,
                     'image'=>$request->image,
                     'message'=>$request->message,
-                    'status'=>0,
+                    'status'=>1,
                 ]);
+
+              
 
                 return response()->json(['status' => 2, 'message' => 'Auction Create Successfully', 'surl' => route('dashboard')]);
             }

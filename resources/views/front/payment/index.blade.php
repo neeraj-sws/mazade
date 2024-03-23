@@ -359,7 +359,7 @@ transform: rotateY(180deg);
 
          <div class="col-md-4 my-4">
                         <div class="detail-box-main">
-                        Amount : $900
+                        Amount : @if(!empty($price)) {{$price}} @endif
                         </div>
                       </div>
     </div>
@@ -464,28 +464,38 @@ transform: rotateY(180deg);
             </div>
         </div>
     </div>
+    <form action="{{ route('payment.store') }}" method="POST">
+        @csrf 
     <div class="form-container34">
         <div class="field-container34">
             <label for="name">Name</label>
-            <input id="name" maxlength="20" type="text">
+            <input id="name" name="name"maxlength="20" type="text">
         </div>
         <div class="field-container34">
-            <label for="cardnumber">Card Number</label><span id="generatecard">generate random</span>
-            <input id="cardnumber" type="text" pattern="[0-9]*" inputmode="numeric">
+            <label for="cardnumber">Card Number</label><span id="generatecard">generate random</span>           
+            <input id="cardnumber" type="text" pattern="[0-9]*" min="16" max="16" name="cardnumber" inputmode="numeric">
             <svg id="ccicon" class="ccicon" width="750" height="471" viewBox="0 0 750 471" version="1.1" xmlns="http://www.w3.org/2000/svg"
                 xmlns:xlink="http://www.w3.org/1999/xlink">
 
             </svg>
+            
         </div>
         <div class="field-container34">
             <label for="expirationdate">Expiration (mm/yy)</label>
-            <input id="expirationdate" type="text" pattern="[0-9]*" inputmode="numeric">
+            <input id="expirationdate" type="text" name="expirationdate"   inputmode="numeric">
         </div>
         <div class="field-container34">
             <label for="securitycode">Security Code</label>
-            <input id="securitycode" type="text" pattern="[0-9]*" inputmode="numeric">
+            <input id="securitycode" type="text" name="securitycode" pattern="[0-9]*" inputmode="numeric">
+        </div>
+
+        <div class="field-container34">
+            <input type="hidden" name="id" value="{{ request('id') }}">
+            <button type="submit" class="btn btn-primary mt-4">Save</button>
+
         </div>
     </div>
+    </form>
 
     </div>
     </div>

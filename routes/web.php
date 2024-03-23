@@ -46,6 +46,15 @@ Route::group(['middleware'=>'auth:web'],function(){
     
     Route::get('/profile', [App\Http\Controllers\Front\UserController::class, 'profile'])->name('profile');
     Route::get('/all-auction', [App\Http\Controllers\Front\UserController::class, 'all_auction'])->name('all-auction');
+    Route::get('/all-auction_data', [App\Http\Controllers\Front\UserController::class, 'all_auction_data'])->name('all-auction-data');
+    Route::get('/current-auction-data', [App\Http\Controllers\Front\UserController::class, 'current_auction_data'])->name('current-auction-data');
+    // Route::get('/all-auction-data', 'YourController@all_auction_data')->name('all-auction-data');
+
+
+    // Route::post('/categories-auctions_filter', [App\Http\Controllers\Front\AuctionController::class, 'categories_auctions_filter'])->name('categories-auctions_filter');
+        
+
+    
     Route::get('/current-auction', [App\Http\Controllers\Front\UserController::class, 'current_auction'])->name('current-auction');
     
     Route::get('/last-bidings', [App\Http\Controllers\Front\UserController::class, 'last_bidings'])->name('last-bidings');
@@ -55,7 +64,9 @@ Route::group(['middleware'=>'auth:web'],function(){
     Route::post('/auction-bit', [App\Http\Controllers\Front\UserController::class, 'auctionbit'])->name('auction-bit');
     Route::post('/auction-end', [App\Http\Controllers\Front\UserController::class, 'auctionend'])->name('auction-end');
     Route::get('/user-category-detail', [App\Http\Controllers\Front\CompanyController::class, 'user_category_detail'])->name('user-category-detail');
-   Route::get('/bid-details/{id}', [App\Http\Controllers\Front\AuctionController::class, 'bid_details'])->name('bid-details');
+    Route::get('/bid-details/{id}', [App\Http\Controllers\Front\AuctionController::class, 'bid_details'])->name('bid-details');
+    Route::post('/bid-confirm', [App\Http\Controllers\Front\AuctionController::class, 'bid_confirm'])->name('bid-confirm');
+
 
     // Group for Role 1
     Route::middleware(['role:1'])->group(function () {
@@ -65,19 +76,35 @@ Route::group(['middleware'=>'auth:web'],function(){
         Route::get('/new-auction/{cate_id}', [App\Http\Controllers\Front\AuctionController::class, 'create']);
         Route::get('/new-auction/{cate_id}/{sub_cat_id}', [App\Http\Controllers\Front\AuctionController::class, 'create']);
         Route::post('auction/store',[App\Http\Controllers\Front\AuctionController::class, 'store'])->name('auction.store');
-        Route::get('/payment', [App\Http\Controllers\Front\PaymentController::class, 'index'])->name('payment');
+        Route::get('/payment/{id}', [App\Http\Controllers\Front\PaymentController::class, 'index'])->name('payment');
+        // Route::get('/payment/{id}', [App\Http\Controllers\Front\PaymentController::class, 'index'])->name('payment');
+        Route::post('/payment', [App\Http\Controllers\Front\PaymentController::class, 'store'])->name('payment.store');
+        Route::get('/payment/{id}', [App\Http\Controllers\Front\PaymentController::class, 'index'])->name('payment');
+
+
         Route::get('/add-review/{id}', [App\Http\Controllers\Front\AuctionController::class, 'add_review'])->name('add-review');
         Route::post('/review-add',[App\Http\Controllers\Front\AuctionController::class, 'add'])->name('review-add');
+        Route::get('/user-company-detail/{id}', [App\Http\Controllers\Front\CompanyController::class, 'user_company_detail'])->name('user-company-detail');
+        Route::post('user-company-detail', [App\Http\Controllers\Front\CompanyController::class, 'updateCompanyDetails'])->name('user-company-update');
+        // Route::post('user-company-update', 'YourController@updateCompanyDetails')->name('user-company-update');
+
+        
     });
        
     // Group for Role 2
     Route::middleware(['role:2'])->group(function () {
         Route::get('/company/dashboard', [App\Http\Controllers\Front\CompanyController::class, 'dashboard'])->name('company.dashboard');
         Route::get('/withdraw', [App\Http\Controllers\Front\AuctionController::class, 'withdraw'])->name('withdraw');
-        
         Route::get('/active-auctions', [App\Http\Controllers\Front\AuctionController::class, 'active_auctions'])->name('active-auctions');
-      
-        Route::get('/user-company-detail', [App\Http\Controllers\Front\CompanyController::class, 'user_company_detail'])->name('user-company-detail');
+        Route::post('/active-auctions_list', [App\Http\Controllers\Front\AuctionController::class, 'active_auctions_list'])->name('active-auctions_list');
+        Route::post('/categories-auctions_filter', [App\Http\Controllers\Front\AuctionController::class, 'categories_auctions_filter'])->name('categories-auctions_filter');
+        
+        Route::post('/auctions_filter', [App\Http\Controllers\Front\AuctionController::class, 'auctions_filter'])->name('auctions_filter');
+
+        // Route::get('/user-company-detail', [App\Http\Controllers\Front\CompanyController::class, 'user_company_detail'])->name('user-company-detail');
+
+        // Route::get('/user-company-detail/{id}', [App\Http\Controllers\Front\CompanyController::class, 'user_company_detail'])->name('user-company-detail');
+
         Route::get('/user-auction-detail', [App\Http\Controllers\Front\AuctionController::class, 'user_auction_detail'])->name('user-auction-detail');
         Route::match(['get', 'post'],'bids',[App\Http\Controllers\Front\AuctionController::class,'updates'])->name('bidadd');
         Route::get('/edit-company-info', [App\Http\Controllers\Front\UserController::class, 'edit_company_info'])->name('edit-company-info');

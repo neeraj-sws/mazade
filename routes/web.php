@@ -30,7 +30,7 @@ Route::get('/optimize', function () {
 
 Route::get('send-mail', [MailController::class, 'index']);
 
-Route::get('/', [App\Http\Controllers\Front\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\Front\HomeController::class, 'index']);
 Route::get('/home', [App\Http\Controllers\Front\HomeController::class, 'index'])->name('home');
 Route::get('/categories', [App\Http\Controllers\Front\HomeController::class, 'categories'])->name('categories');
 Route::get('/about', [App\Http\Controllers\Front\HomeController::class, 'about'])->name('about');

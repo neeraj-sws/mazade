@@ -17,7 +17,7 @@
                            </div>
                            <div class="col-md-6 my-4">
                               <div class="detail-box-main">
-                                 <b>Listing Title :</b> {{ $auction->title }}
+                                 <b>Listing Title :</b> {{ $orders->AuId->title }}
                               </div>
                            </div>
                       </div>

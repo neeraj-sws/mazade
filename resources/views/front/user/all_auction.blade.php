@@ -64,6 +64,10 @@ $(document).ready(function() {
     });
 }
 
+document.getElementById("closeBtn2").onclick = function() {
+          document.getElementById("popup2").style.display = "none";
+      }
+
 </script>
 
 

@@ -351,7 +351,7 @@ transform: rotateY(180deg);
          <div class="container">
             <div class="payment-box-shadow">
             <div class="payment-title mt-5">
-        <h1>Bike</h1>
+        <h1>{{ @$data->CatId->title}}</h1>
     </div>
 
 
@@ -359,7 +359,7 @@ transform: rotateY(180deg);
 
          <div class="col-md-4 my-4">
                         <div class="detail-box-main">
-                        Amount : @if(!empty($price)) {{$price}} @endif
+                        Amount : @if(!empty($data->price)) {{$data->price}} @endif
                         </div>
                       </div>
     </div>
@@ -464,9 +464,11 @@ transform: rotateY(180deg);
             </div>
         </div>
     </div>
-    <form action="{{ route('payment.store') }}" method="POST">
-        @csrf 
     <div class="form-container34">
+
+    <form action="{{ route('payment.store') }}" method="POST" onsubmit="event.preventDefault();form_submit(this);return false;">
+        @csrf 
+ 
         <div class="field-container34">
             <label for="name">Name</label>
             <input id="name" name="name"maxlength="20" type="text">
@@ -482,7 +484,7 @@ transform: rotateY(180deg);
         </div>
         <div class="field-container34">
             <label for="expirationdate">Expiration (mm/yy)</label>
-            <input id="expirationdate" type="text" name="expirationdate"   inputmode="numeric">
+            <input id="expirationdate" type="date" name="expirationdate"   inputmode="numeric">
         </div>
         <div class="field-container34">
             <label for="securitycode">Security Code</label>
@@ -494,8 +496,9 @@ transform: rotateY(180deg);
             <button type="submit" class="btn btn-primary mt-4">Save</button>
 
         </div>
-    </div>
+   
     </form>
+</div>
 
     </div>
     </div>

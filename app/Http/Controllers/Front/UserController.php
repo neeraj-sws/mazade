@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{User,Category,Upload,SubCategory,Companies,City,Auction,Oders,Finishedauctions,Auctionitems,Reviews,CompanyInfo};
+use App\Models\{User,Category,Upload,SubCategory,Companies,City,Auction,Oders,Finishedauctions,Auctionitems,Reviews,CompanyInfo,Orders};
 use Illuminate\Support\Facades\Auth;
 use Carbon;
 
@@ -57,15 +57,28 @@ class UserController extends Controller
     { 
          $auction = Auction::with('CatId')->get();
          $auctionitem = Auctionitems::with('Auction', 'companyId','CatId')->get(); 
-        //  echo '<pre>'; print_r($auctionitem->all()); die;
+         $orders = Orders::with('comid','AuId')->get();
+       
+        //  echo '<pre>'; print_r($orders); die;
          $user = Auth::guard('web')->user();
 
-       return view('front.user.last_bidings' , ['auction' => $auction ,'auctionitem' =>$auctionitem, 'user' => $user]);
+       return view('front.user.last_bidings' , ['auction' => $auction ,'auctionitem' =>$auctionitem, 'user' => $user,'orders' =>$orders]);
     }
+
+    public function enter_code(Request $request)
+    { 
+         $orders = Orders::with('comid','AuId')->get();
+       
+         return  view('front.user.last_bidings_code',['orders' =>$orders]);
+
+        
+      
+    }
+
 
     public function change_password()
     { 
-         $auction = Auction::with('CatId')->get();
+         $auction = Auction::with('','CatId')->get();
          $auctionitem = Auctionitems::with('Auction', 'companyId','CatId')->get(); 
         //  echo '<pre>'; print_r($auctionitem->all()); die;
          $user = Auth::guard('web')->user();

@@ -55,25 +55,28 @@
                                  <?php
                                     //  echo '<pre>'; print_r($auctionitem); die;
                                       ?>
-                                    @foreach ($auctionitem as $auctions)
+                                    @foreach ($orders as $orders)
                                     
                                     <tr>
                                      
-                                       <td data-label="Image">{{ $auctions->oder_id }}</td>
-                                       <td data-label="Bidding ID">{{ @$auctions->CatId->title }}</td>
-                                       <td data-label="Bidding ID">{{ @$auctions->companyId->name }}</td>
-                                       <td data-label="Bid Amount(USD)">{{ @$auctions->AuId->budget }}</td>
+                                       <td data-label="Image">{{ $orders->AuId->oder_id }}</td>
+                                       <td data-label="Bidding ID">{{ @$orders->CatId->title }}</td>
+                                       <td data-label="Bidding ID">{{ @$orders->comid->name }}</td>
+                                       <td data-label="Bid Amount(USD)">{{ @$orders->AuId->budget }}</td>
                                        <td data-label="Highest Bid">10 : 00 : 00</td>
-                                       <td data-label="Status" class="text-green">${{ @$auctions->price }}</td>
-                                       <td class="status-price-table text-nowrap" data-label="Bid Amount(USD)"><p>Pending for price</p>
-                                          <a href="{{ route('user-company-detail',['id' => $auctions->auction_id])}}"><button id="popupBtn" class="mt-2 btn-primary">Company Info</button></a>
-                                          <a href="{{ route('add-review',['id' => $auctions->auction_id])}}"><button id="popupBtn" class="mt-2 btn-primary">Review</button></a>
+                                       <td data-label="Status" class="text-green">${{ @$orders->price }}</td>
+                                       <td class="status-price-table text-nowrap" data-label="Bid Amount(USD)"><p>Pending  @if($orders->is_payment == 0)for price @endif</p>
+                                          <a href="{{ route('user-company-detail',['id' =>  @$orders->id])}}"><button id="popupBtn" class="mt-2 btn-primary">Company Info</button></a>
+                                          <a href="{{ route('add-review',['id' => @$orders->id])}}"><button id="popupBtn" class="mt-2 btn-primary">Review</button></a>
                                        </td>
-                                                                          
-                                       <td data-label="Status" class="text-green btn-edit-table"><a href="{{ route('payment', ['id' => $auctions->id]) }}"><button id="popupBtn" class="company-pay-end-btn text-nowrap">Pay now</button></a>
-                                      <a href="payment.html"><button id="popupBtn" class="company-pay-end-btn text-nowrap mt-2">Cancel</button></a></td>
-                                      
-
+                                       <td data-label="Status" class="text-green btn-edit-table">
+                                          @if($orders->is_payment == 0)
+                                          <a href="{{ route('payment', ['id' => @$orders->id]) }}"><button id="popupBtn" class="company-pay-end-btn text-nowrap">Pay now</button></a>
+                                          <a href="payment.html"><button id="popupBtn" class="company-pay-end-btn text-nowrap mt-2">Cancel</button></a>
+                                          @else
+                                          <button id="popupBtn6" onclick="code_enter('{{ route('enter_code') }}', {{$orders->id}})" class="end-btn company-end-btn text-nowrap" oncli><i class="fa-regular fa-pen-to-square"></i> Enter Code</button>
+                                          @endif
+                                       </td> 
                                     </tr>
             
                                     @endforeach
@@ -94,5 +97,31 @@
          </div>
       </div>
 
-
+      <div id="codeenter" class="popup">
+         
+      </div>
 @endsection
+<script>
+
+
+function code_enter(url,id) {
+   
+ 
+       $.ajax({
+           headers: {
+               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+           },
+           url: url,
+           method: "POST",
+        data: {id: id },
+           success: function (res) {
+            console.log(res);
+            document.getElementById("codeenter").style.display = "block";        
+           $('#codeenter').html(res);
+            }
+       });
+   } 
+ 
+
+    
+</script>

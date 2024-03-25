@@ -30,7 +30,7 @@ class PaymentController extends Controller
         $data=Auctionitems::where('id',$id)->first();     
         // echo"<pre>";print_r($data);die;
         $price=$data->price;
-       return view('front.payment.index',compact('price'));
+       return view('front.payment.index',compact('data'));
     }
     
     public function store(Request $request)
@@ -66,7 +66,8 @@ class PaymentController extends Controller
         if ($order) {
             // Update the is_payment field to 1
             $order->update(['is_payment' => 1]);
-    
+
+            return response()->json(['status' => 2, 'message' => 'Payment Done Successfully', 'surl' => route('last-bidings')]);
           
           $order->save();
         }

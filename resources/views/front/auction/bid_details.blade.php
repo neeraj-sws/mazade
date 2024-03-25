@@ -5,11 +5,11 @@
 @section('content')
 <div class="inner-banner">
          <div class="container">
-            <h2 class="inner-banner-title wow fadeInLeft" data-wow-duration="1.5s" data-wow-delay=".2s">Name category</h2>
+            <h2 class="inner-banner-title wow fadeInLeft" data-wow-duration="1.5s" data-wow-delay=".2s"> {{ $auction->CatId->title }}</h2>
             <nav aria-label="breadcrumb">
                <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Name category</li>
+                  <li class="breadcrumb-item active" aria-current="page">{{ $auction->title }}</li>
                </ol>
             </nav>
          </div>

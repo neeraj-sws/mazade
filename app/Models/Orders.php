@@ -23,6 +23,11 @@ class Orders extends Model
         return $this->belongsTo(Auction::class,'auction_id');
     }
 
+    function Auction()
+    {
+        return $this->belongsTo(Auctionitems::class);
+    }
+
     function comid()
     {
         return $this->belongsTo(Companies::class,'company_id');

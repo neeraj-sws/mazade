@@ -83,6 +83,7 @@ class AuctionController extends Controller
         $auction->save();
 
         $order = new Orders;
+        $order->order_id = $auction->oder_id;
         $order->auction_id = $auction->id;
         $order->auction_item_id = $auctionitem->id;
         $order->company_id = $auctionitem->company_id;
@@ -221,14 +222,14 @@ class AuctionController extends Controller
     {
        $id=request('id');
     //    echo"<pre>";print_r($id);die;
+        $orders = Orders::with('AuId')->findOrFail($id);
+      
 
-        $auction =  Auction::with(['CatId'])->findOrFail($id);
-
-        $bit = Auctionitems::with(['CatId' , 'companyId'])->where('auction_id' , $auction->id )->first();
+        $bit = Auctionitems::with(['CatId' , 'companyId'])->where('auction_id' , $orders->AuId->id )->first();
 
     //    echo "<pre>";print_r($bit);die;
    
-        return view('front.auction.add_review' ,['auction' => $auction , 'bit' => $bit]);
+        return view('front.auction.add_review' ,['orders' => $orders , 'bit' => $bit]);
     }
 
     public function add(Request $request)

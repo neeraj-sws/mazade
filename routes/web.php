@@ -58,6 +58,8 @@ Route::group(['middleware'=>'auth:web'],function(){
     Route::get('/current-auction', [App\Http\Controllers\Front\UserController::class, 'current_auction'])->name('current-auction');
     
     Route::get('/last-bidings', [App\Http\Controllers\Front\UserController::class, 'last_bidings'])->name('last-bidings');
+    Route::post('/enter_code', [App\Http\Controllers\Front\UserController::class, 'enter_code'])->name('enter_code');
+
     Route::get('/change-password', [App\Http\Controllers\Front\UserController::class, 'change_password'])->name('change-password');
     Route::get('/edit-profile', [App\Http\Controllers\Front\UserController::class, 'edit_profile'])->name('edit-profile');
    

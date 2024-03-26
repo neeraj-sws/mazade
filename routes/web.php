@@ -35,6 +35,7 @@ Route::get('/home', [App\Http\Controllers\Front\HomeController::class, 'index'])
 Route::get('/categories', [App\Http\Controllers\Front\HomeController::class, 'categories'])->name('categories');
 Route::get('/about', [App\Http\Controllers\Front\HomeController::class, 'about'])->name('about');
 Route::get('/contact', [App\Http\Controllers\Front\HomeController::class, 'contact'])->name('contact');
+Route::post('/contact-add', [App\Http\Controllers\Front\HomeController::class, 'contact_add'])->name('contact-add');
 
 
 
@@ -44,7 +45,7 @@ Route::group(['middleware'=>'auth:web'],function(){
     
     Route::get('/dashboard', [App\Http\Controllers\Front\UserController::class, 'dashboard'])->name('dashboard');
     
-    Route::get('/profile', [App\Http\Controllers\Front\UserController::class, 'profile'])->name('profile');
+    // Route::get('/profile', [App\Http\Controllers\Front\UserController::class, 'profile'])->name('profile');
     Route::get('/all-auction', [App\Http\Controllers\Front\UserController::class, 'all_auction'])->name('all-auction');
     Route::get('/current-auction', [App\Http\Controllers\Front\UserController::class, 'current_auction'])->name('current-auction');
     
@@ -54,6 +55,7 @@ Route::group(['middleware'=>'auth:web'],function(){
    
     Route::post('/auction-bit', [App\Http\Controllers\Front\UserController::class, 'auctionbit'])->name('auction-bit');
     Route::post('/auction-end', [App\Http\Controllers\Front\UserController::class, 'auctionend'])->name('auction-end');
+    Route::post('/comfirm-order', [App\Http\Controllers\Front\UserController::class, 'comfirm_order'])->name('comfirm-order');
     Route::get('/user-category-detail', [App\Http\Controllers\Front\CompanyController::class, 'user_category_detail'])->name('user-category-detail');
    Route::get('/bid-details/{id}', [App\Http\Controllers\Front\AuctionController::class, 'bid_details'])->name('bid-details');
 
@@ -88,6 +90,7 @@ Route::group(['middleware'=>'auth:web'],function(){
         Route::get('/completed-orders', [App\Http\Controllers\Front\OrderController::class, 'completed_order'])->name('completed-orders');
         Route::get('/last-orders', [App\Http\Controllers\Front\OrderController::class, 'last_order'])->name('last-orders');
         Route::get('/withdarw-history', [App\Http\Controllers\Front\OrderController::class, 'withdarw_history'])->name('withdarw-history');
+        Route::get('/profile', [App\Http\Controllers\Front\OrderController::class, 'profile'])->name('profile');
     });
 
 

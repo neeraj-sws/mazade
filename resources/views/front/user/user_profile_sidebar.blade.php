@@ -3,13 +3,17 @@
 @endsection
 <div class="profile-nav col-md-3">
 <div class="panel">
+       @php 
+         @$photo = Auth::user()->photo->file;
+       @endphp
           <div class="user-heading round">
+            @if (Auth::user())  
               <a href="#">
-                  <img src="{{asset('front_assets/images/dummy-profile.png') }}" alt="">
+                  <img src="{{asset('/uploads/user_profile/'.$photo ) }}" alt="">
               </a>
               <h1>{{ Auth::user()->name }} {{ Auth::user()->lname }}</h1>
               <p>{{ Auth::user()->email }}</p>
-             
+            @endif
           </div>
       </div>
      <div class="mt-4 nav flex-column nav-pills gap-4 wow fadeInUp" data-wow-duration="1.5s" data-wow-delay=".2s" id="v-pills-tab" role="tablist" aria-orientation="vertical">
@@ -19,7 +23,7 @@
               <path d="M18.7782 14.2218C17.5801 13.0237 16.1541 12.1368 14.5982 11.5999C16.2646 10.4522 17.3594 8.53136 17.3594 6.35938C17.3594 2.85282 14.5066 0 11 0C7.49345 0 4.64062 2.85282 4.64062 6.35938C4.64062 8.53136 5.73543 10.4522 7.40188 11.5999C5.84598 12.1368 4.41994 13.0237 3.22184 14.2218C1.14421 16.2995 0 19.0618 0 22H1.71875C1.71875 16.8823 5.88229 12.7188 11 12.7188C16.1177 12.7188 20.2812 16.8823 20.2812 22H22C22 19.0618 20.8558 16.2995 18.7782 14.2218ZM11 11C8.44117 11 6.35938 8.91825 6.35938 6.35938C6.35938 3.8005 8.44117 1.71875 11 1.71875C13.5588 1.71875 15.6406 3.8005 15.6406 6.35938C15.6406 8.91825 13.5588 11 11 11Z" />
            </svg>
            Edit Profile
-</a>
+     </a>
 
 @if (Auth::guard('web')->user()->company)
       <a href="{{ route('edit-company-info') }}" class="nav-link nav-btn-style mx-auto mb-20" id="v-pills-change-password-tab"  type="button" >
@@ -86,8 +90,8 @@
               <path d="M13.9035 10.9263C13.652 10.6746 13.244 10.6746 12.9924 10.9263L10.1154 13.8033L9.00909 12.697C8.75751 12.4454 8.34952 12.4454 8.0979 12.697C7.84627 12.9486 7.84627 13.3566 8.0979 13.6082L9.65977 15.1701C9.78558 15.2959 9.9505 15.3588 10.1153 15.3588C10.2802 15.3588 10.4451 15.2959 10.5709 15.1701L13.9034 11.8375C14.1551 11.5858 14.1551 11.1779 13.9035 10.9263Z" />
            </svg>
            Last Biding List
-</a>
-
+      </a>
+   
      
    
         <button class="nav-link nav-btn-style mx-auto" type="button" role="tab">

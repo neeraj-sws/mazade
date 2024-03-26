@@ -88,12 +88,13 @@ class User extends Authenticatable
     {
       //  echo $this->photo->file;
         if ($this->photo) {
-            return url('/uploads/services/'.$this->photo->file);
+            return url('/uploads/user_profile/'.$this->photo->file);
         }
         else{
             return null;
         }
 
     }
+
 
 }

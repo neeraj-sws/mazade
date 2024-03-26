@@ -1,6 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\{UserController,AdminController,CategoryController,OrderstatusController,CompanybitController,SiteSettingController, PriceController, Sub_categoryController,CityController , CompanieController,ActiveauctionsController,StateController,CanceledAuctionsController,FinishedAuctionsController,AuctionCompletController};
+use App\Http\Controllers\Admin\{UserController,AdminController,CategoryController,OrderstatusController,CompanybitController,SiteSettingController, PriceController, Sub_categoryController,CityController , CompanieController,ActiveauctionsController,StateController,CanceledAuctionsController,FinishedAuctionsController,ContactController,AuctionCompletController};
 
 use App\Http\Controllers\Admin\Auth\LoginController;
 
@@ -107,6 +107,8 @@ Route::group(['middleware'=>'auth:admin',  'prefix' => 'admin', 'as' => 'admin.'
         Route::post('imagesave',[CategoryController::class, 'imageupload'])->name('saveimage');
    });
 
+   
+
       //services
     Route::group(['prefix' => 'sub_category', 'as' => 'sub_category.'],function(){
 
@@ -192,6 +194,13 @@ Route::group(['prefix' => 'auctions', 'as' => 'auctions.'],function(){
             Route::post('list',[CanceledAuctionsController::class, 'list'])->name('list');
 
         });
+
+        Route::group(['prefix' => 'contact', 'as' => 'contact.'],function(){
+
+            Route::get('/',[ContactController::class, 'index'])->name('contact');
+            Route::post('list',[ContactController::class, 'list'])->name('list');
+
+        }); 
 
         Route::group(['prefix' => 'finished', 'as' => 'finished.'],function(){
 

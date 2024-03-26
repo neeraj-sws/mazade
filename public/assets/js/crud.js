@@ -526,8 +526,6 @@ function addForm(url, modal = 'modal-lg') {
     });
   }
 
-
-
  function clientServiceList(){
   $.ajax({
     'headers': {

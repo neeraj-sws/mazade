@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Category,Upload,SubCategory,Companies,City,Auction,Oders,Finishedauctions,Auctionitems};
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\RedirectResponse;
+use App\Models\{Category,Upload,SubCategory,Companies,City,Auction,Oders,Finishedauctions,Auctionitems,Contact};
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -49,6 +51,31 @@ class HomeController extends Controller
     public function contact()
     {
         return view('front.contact');
+    }
+
+    public function contact_add(Request $request)
+    {
+
+        if($request->id){
+                return $this->update($request);
+        }else{
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'name'=>'required',
+                'message'=>'required',
+            ]
+        );
+            if($validator->fails()){
+                return response()->json(['status' => 0,'errors' =>  $validator->errors()]);
+            }else{
+                $info = Contact::create([
+                    'name'=>$request->name,
+                    'message'=>$request->message,
+                ]);
+                return response()->json(['status' => 2, 'message' => 'Contact Saved Successfully', 'surl' => route('contact')]);
+            }
+        }
     }
     
     public function categoryshow()

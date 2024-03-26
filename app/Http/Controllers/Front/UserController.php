@@ -90,7 +90,7 @@ class UserController extends Controller
       $status = Auction::find($request->id);
       $status->status = $request->status;
       $status->save();
-      return response()->json(['success' => 1,  'Auction Bit successfully']);
+      return response()->json(['success' => 1,  'Auction Cancelled successfully']);
     }
 
     public function auctionend(Request $request)
@@ -98,8 +98,27 @@ class UserController extends Controller
       $status = Auction::find($request->id);
       $status->is_start = $request->status;
       $status->save();
-      return response()->json(['success' => 1,  'Auction Bit successfully']);
+      return response()->json(['success' => 1,  'End-Auction successfully']);
     }
+
+    public function comfirm_order(Request $request)
+    {
+   
+      $status = Auctionitems::find($request->id);
+      $status->status = $request->status;
+      $status->save();
+      
+      $orders = Oders::create([
+        'auction_id'=> $status->auction_id,
+        'auction_item_id'=> $status->id,
+        'company_id'=> $status->company_id,
+        'price'=> $status->price,
+      ]);
+
+      return response()->json(['success' => 1,  'Order Confirmed successfully']);
+    }
+
+ 
     
    
 }

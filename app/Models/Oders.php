@@ -11,7 +11,7 @@ class Oders extends Model
     use HasFactory;
     protected $table = 'orders';
 
-    protected $fillable = [ 'category_id','company_id','auction_id','price'];
+    protected $fillable = [ 'category_id','company_id','auction_id','price','auction_item_id'];
 
     function CatId()
     {
@@ -27,6 +27,8 @@ class Oders extends Model
     {
         return $this->belongsTo(Companies::class,'company_id');
     }
+
+
     
 }
    

@@ -77,13 +77,20 @@
                   </tr>
                @php $i=1; @endphp   
                @foreach($auction->auctionItem as $item)
+               @php 
+               // echo '<pre>'; print_r($item->companyId->company_name); die;
+                   @endphp
                   <tr>
                      <td>{{ $i++; }}</td>
-                     <td>{{ $item->companyId->company_name }}</td>
+                     <td>{{ @$item->companyId->company_name }}</td>
                      <td>${{ $item->price }}</td>
+                     @if ($item->status == 1)
                      <td>
-                     <a href="javascript:void(0)" claSS="btn btn-success">Confirm</a>
-                     </td>
+                        <a href="javascript:void(0)" claSS="btn btn-success">Confirmed</a>
+                        </td>
+                     @else
+                     <td data-label="Action"><a href="javascript:void(0);" class="btn btn-danger"  onclick="Order_Confirm('{{ route('comfirm-order') }}','1', {{ $item->id }},'Cancel')">Comfirm</a></td> 
+                     @endif
                   </tr>
                   @endforeach
                  </table>
@@ -102,7 +109,7 @@
       @if (Auth::guard('web')->user()->company)
 <div id="popup" class="popup">
   <div class="popup-content popup-new-content">
-   <form action="{{ route('bidadd') }}" method="post">
+      <form class="row g-3" action="{{ route('bidadd') }}" method="POST" onsubmit="event.preventDefault();form_submit(this);return false;" enctype="multipart/form-data">
       <!-- Form fields here -->
       @csrf
 
@@ -110,7 +117,7 @@
          <input type="hidden" name="auction_id"  value="{{ $auction->id }}" id="form4Example1" class="form-control"  readonly/>
      </div>
 
-     <input type="hidden" name="company_id"  value="{{ @$companys->id }}" class="form-control"/>
+     <input type="hidden" name="company_id"  value="{{ @$company->id }}" class="form-control"/>
 
      <input type="hidden" name="category_id"  value="{{ $auction->category }}" class="form-control"/>
     

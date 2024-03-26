@@ -108,6 +108,8 @@
       <script src="{{asset('front_assets/js/jquery.magnific-popup.min.js') }}"></script>
       <script src="{{asset('front_assets/js/main.js') }}"></script> 
       <script src="{{asset('admin/assets/vendors/toastr/toastr.min.js') }}"></script>
+      <script src="{{asset('assets/js/crud.js') }}"></script>
+      <script src="{{asset('assets/vendors/toastr/toastr.min.js') }}"></script>
       
     
  @yield('page-js-script')

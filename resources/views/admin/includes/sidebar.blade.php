@@ -79,6 +79,13 @@
                         </a>
                     </li>
 
+                    <li class="nav-menu-item {{ ($single_heading == 'Contact')? 'router-link-active': '' }} ">
+                        <a href="{{ route('admin.contact.contact') }}">
+                            <i class="fa-solid fa-phone"></i>
+                            <span class="nav-menu-item-title">Contact</span>
+                        </a>
+                    </li>
+
                     <li class="nav-menu-item {{ ($single_heading == 'Canceled Auctions')? 'router-link-active': '' }} ">
                         <a href="{{ route('admin.canceled.auctions') }}">
                             <i class="fa fa-times-circle-o" aria-hidden="true"></i>

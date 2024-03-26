@@ -64,7 +64,7 @@
       @endif
 
 
-
+@if ($user->role == 1)
 @if(count($reviews) > 0)
   <div class="row">
     <div class="col-md-12 course-details-content">
@@ -79,10 +79,18 @@
         
        
 
- 
+         
+             
+     
            @foreach ($reviews as $review)
+           
+           @php 
+            @$photo = Auth::user()->photo->file;
+            @endphp
             <div class="edu-comment">
-              <div class="thumbnail"> <img src="{{asset('front_assets/images/dummy-profile.png') }}" alt="Comment Images"> </div>
+              {{-- <div class="thumbnail"> <img src="{{asset('front_assets/images/dummy-profile.png') }}" alt="Comment Images"> --}}
+              <div class="thumbnail"> <img src="{{asset('/uploads/user_profile/'.$photo ) }}" alt="Comment Images">  
+              </div>
               <div class="comment-content">
                 <div class="comment-top">
                   <h6 class="title">{{ $review->title }}</h6>
@@ -103,7 +111,9 @@
                 <p>{{ $review->discription }}</p>
               </div>
             </div>
+      
             @endforeach
+            @endif
            <!-- Comment Box end--->
            <!--  Comment Box start--->
            {{-- <div class="edu-comment">

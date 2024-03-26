@@ -52,6 +52,11 @@ class OrderController extends Controller
         return view('front.orders.withdraw-history');
     }
 
+    public function profile(){
+        $user = Auth::guard('web')->user();
+        return view('front.orders.profile' ,[ 'user' => $user]);
+    }
+
 
 
 

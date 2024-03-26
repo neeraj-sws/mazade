@@ -19,6 +19,7 @@ class CompanyInfo extends Model
         'company_name',
         'compan_phone',
         'address',
+        'image',
         'commercial_register',
     ];
 
@@ -31,7 +32,31 @@ class CompanyInfo extends Model
 
     public function Auctionitems()
     {
-        return $this->hasMany(Auctionitems::class,'company_id');
+        return $this->hasMany(Auctionitems::class,'company_id,');
+    }
+
+    function companyId()
+    {   
+        return $this->belongsTo(CompanyInfo::class,'company_id','user_id');
+    }
+
+    function photo()
+    {
+        return $this->belongsTo(Upload::class, 'image');
+    }
+
+    public $appends = ['image_url'];
+
+    public function getImageUrlAttribute()
+    {
+      //  echo $this->photo->file;
+        if ($this->photo) {
+            return url('/uploads/company_profile/'.$this->photo->file);
+        }
+        else{
+            return null;
+        }
+
     }
 
 }

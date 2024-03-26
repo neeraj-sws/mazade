@@ -11,7 +11,7 @@
                      <div class="form-title">
                         <h3>Log In</h3>
                      </div>
-                     <form class="w-100" action="{{ route('submit.login') }}" method="POST" onsubmit="event.preventDefault();loginform_submit(this);return false;">
+                     <form class="w-100" action="{{ route('submit.login') }}" method="POST" onsubmit="event.preventDefault();form_submit(this);return false;">
                      @csrf
                      <div class="row">
                            <div class="col-12">
@@ -45,53 +45,7 @@
          </div>
       </div>
 @endsection
-@section('page-js-script')
-<script>
-    function loginform_submit(e) {
-   
-   //toastr.clear();
-   $(e).find('.st_loader').show();
-   $.ajax({
-     url: $(e).attr('action'),
-     method: "POST",
-     dataType: "json",
-     data: $(e).serialize(),
-     success: function (data) {
-       if (data.status == 1) {
-        // alert('hii');
-         //toastr.success(data.message, 'Success');
-        window.location.href = base_url+'home';
-        
-        //  dataTable.draw(false);
 
-       } else if (data.status == 0) {
- 
-         var $err = '';
-         $.each(data.errors, function (key, value) {
-           $err = $err + value + "<br>";
-         });
-        // toastr.error($err, 'Error');
-       }
-       else if (data.status == 2) {
-        // toastr.success(data.message, 'Success');
-         window.setTimeout(function () {
-           window.location.href = data.surl;
-         }, 1000);
-       }
-     },
-     error: function (data) {
-       if (typeof data.responseJSON.status !== 'undefined') {
-         toastr.error(data.responseJSON.error, 'Error');
-       } else {
-         var $err = '';
-         $.each(data.responseJSON.errors, function (key, value) {
-           $err = $err + value + "<br>";
-         });
-        // toastr.error($err, 'Error');
-       }
-       $(e).find('.st_loader').hide();
-     }
-   });
- }
- </script>
- @endsection
+@section('page-js-script')
+
+@endsection

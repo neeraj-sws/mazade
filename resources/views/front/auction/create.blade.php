@@ -203,8 +203,8 @@
                    
                         
                         <div class="col-md-12">
-                            <input type="text" id="city" placeholder="City" name="city" >
-                            </div>
+                          <input type="text" id="city" placeholder="City" name="city" >
+                        </div>
 
                 <div class="col-md-12">
                     <label>Start Time</label>

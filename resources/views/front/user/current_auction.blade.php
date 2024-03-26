@@ -79,11 +79,11 @@
                            
                            <td data-label="Action"><a href="javascript:void(0);" ><button class="cancel-btn"><i class="fas fa-times" aria-hidden="true"></i> Cancelled </button></a></td> 
                            @else
-                           <td data-label="Action"><a href="javascript:void(0);" class="cancel-btn"  onclick="status_change('{{ route('auction-bit') }}','2', {{ $auctions->id }},'Cancel')"><button class="cancel-btn"><i class="fas fa-times" aria-hidden="true"></i> Cancel</button></a></td> 
+                           <td data-label="Action"><a href="javascript:void(0);" class="cancel-btn"  onclick="Auction_Cancelled('{{ route('auction-bit') }}','2', {{ $auctions->id }},'Cancel')"><button class="cancel-btn"><i class="fas fa-times" aria-hidden="true"></i> Cancel</button></a></td> 
                            @endif
                            
-                           @if ($auctions->is_start == 1)
-                           <td data-label="Status" class="text-green"><a href="javascript:void(0);" class="cancel-btn"  onclick="status_change('{{ route('auction-end') }}','0', {{ $auctions->id }},'End')"><button class="end-btn">End Auction</button></a></td> 
+                           @if ($auctions->is_start == 0)
+                           <td data-label="Status" class="text-green"><a href="javascript:void(0);" class="cancel-btn"  onclick="Auction_End('{{ route('auction-end') }}','1', {{ $auctions->id }},'End')"><button class="end-btn">End Auction</button></a></td> 
                            @else
                            <td data-label="Status" class="text-green"><a href="javascript:void(0);"><button class="end-btn">End Auction</button></a></td> 
                            @endif

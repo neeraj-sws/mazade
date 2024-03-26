@@ -116,6 +116,54 @@ $.ajax({
 });
 }
 
+function profile_update(e) {
+           
+  $(e).find('.st_loader').show();
+$.ajax({
+  url: $(e).attr('action'),
+  method: "POST",
+  dataType: "json",
+  data: $(e).serialize(),
+  headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  },
+  success: function (data) {
+      if (data.status == 1) {
+          toastr.success(data.message, 'Success');
+          window.location.href = base_url + 'login';
+      } else if (data.status == 0) {
+        
+      var $err = '';
+      $.each(data.errors, function (key, value) {
+         $err = $err + value + "<br>";
+      });
+      toastr.error($err, 'Error');
+      } else if (data.status === 2) {
+         window.setTimeout(function () {
+     window.location.href = data.surl;
+   }, 1000);
+
+   toastr.success(data.message, 'Success');
+}else if (data.status == 3){
+toastr.error(data.message, 'Error');
+}
+  },
+  error: function (data) {
+      
+      if (typeof data.responseJSON.status !== 'undefined') {
+          toastr.error(data.responseJSON.error, 'Error');
+      } else {
+          var $err = '';
+          $.each(data.responseJSON.errors, function (key, value) {
+              $err = $err + value + "<br>";
+          });
+          toastr.error($err, 'Error');
+      }
+      $(e).find('.st_loader').hide();
+  }
+});
+}
+
 
   function form_submit(e) {
       // alert($(e).attr('action'));
@@ -176,8 +224,8 @@ $.ajax({
       }
     });
   }
-  
-  function clientprofile_submit(e) {
+
+function clientprofile_submit(e) {
     toastr.clear();
     $(e).find('.st_loader').show();
     $.ajax({
@@ -627,6 +675,142 @@ $.ajax({
       $(checkbox).bootstrapToggle('toggle');
   }
 }
+
+ function status_change(url, newStatus, id, checkbox) {
+   
+
+  $('#st_loader_' + id).show();
+
+  var statusText = newStatus === 1 ? 'Active' : 'Inactive';
+
+  if (confirm("Are you sure you want to set the status to " + statusText + "?")) {
+      $.ajax({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          url: url,
+          method: "POST",
+          dataType: "JSON",
+          data: { id: id, status: newStatus },
+          success: function (res) {
+              $('#st_loader_' + id).hide();
+              toastr.success('Status changed successfully', 'Success');
+              // Optionally update UI or refresh data table here
+          },
+          error: function(xhr, status, error) {
+              console.error(xhr.responseText);
+              toastr.error('Error changing status', 'Error');
+              // Reset toggle button state if there's an error
+              $(checkbox).bootstrapToggle('toggle');
+          }
+      });
+  } else {
+      // Reset toggle button state if user cancels
+      $(checkbox).bootstrapToggle('toggle');
+  }
+}
+
+function Auction_Cancelled(url, newStatus, id, checkbox) {
+   
+ $('#st_loader_' + id).show();
+
+  var statusText = newStatus === 1 ? 'Active' : 'Inactive';
+
+  if (confirm("Are you sure want to Cancel This Auction " + "?")) {
+      $.ajax({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          url: url,
+          method: "POST",
+          dataType: "JSON",
+          data: { id: id, status: newStatus },
+          success: function (res) {
+            window.location.reload();
+              $('#st_loader_' + id).hide();
+              toastr.success('Auction Cancelled successfully', 'Success');
+              
+          },
+          error: function(xhr, status, error) {
+              console.error(xhr.responseText);
+              toastr.error('Error changing status', 'Error');
+              // Reset toggle button state if there's an error
+              $(checkbox).bootstrapToggle('toggle');
+          }
+      });
+  } else {
+      // Reset toggle button state if user cancels
+      $(checkbox).bootstrapToggle('toggle');
+  }
+}
+
+function Auction_End(url, newStatus, id, checkbox) {
+   
+  $('#st_loader_' + id).show();
+ 
+   var statusText = newStatus === 1 ? 'Active' : 'Inactive';
+ 
+   if (confirm("Are you sure want to End This Auction " + "?")) {
+       $.ajax({
+           headers: {
+               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+           },
+           url: url,
+           method: "POST",
+           dataType: "JSON",
+           data: { id: id, status: newStatus },
+           success: function (res) {
+             window.location.reload();
+               $('#st_loader_' + id).hide();
+               toastr.success('Auction End successfully', 'Success');
+               
+           },
+           error: function(xhr, status, error) {
+               console.error(xhr.responseText);
+               toastr.error('Error changing status', 'Error');
+               // Reset toggle button state if there's an error
+               $(checkbox).bootstrapToggle('toggle');
+           }
+       });
+   } else {
+       // Reset toggle button state if user cancels
+       $(checkbox).bootstrapToggle('toggle');
+   }
+ }
+
+ function Order_Confirm(url, newStatus, id, checkbox) {
+   
+  $('#st_loader_' + id).show();
+ 
+   var statusText = newStatus === 1 ? 'Active' : 'Inactive';
+ 
+   if (confirm("Are you sure want to Confirm This Order " + "?")) {
+       $.ajax({
+           headers: {
+               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+           },
+           url: url,
+           method: "POST",
+           dataType: "JSON",
+           data: { id: id, status: newStatus },
+           success: function (res) {
+             window.location.reload();
+               $('#st_loader_' + id).hide();
+               toastr.success('Order Confirmed successfully', 'Success');
+               
+           },
+           error: function(xhr, status, error) {
+               console.error(xhr.responseText);
+               toastr.error('Error changing status', 'Error');
+               // Reset toggle button state if there's an error
+               $(checkbox).bootstrapToggle('toggle');
+           }
+       });
+   } else {
+       // Reset toggle button state if user cancels
+       $(checkbox).bootstrapToggle('toggle');
+   }
+ }
 
 function status_update(url,newStatus, id) {
 

@@ -37,7 +37,7 @@ class UserController extends Controller
     return view('admin.user.index',['single_heading'=>$this->single_heading, 'route'=> $this->route]);
    }
 
-   public function list(Request $request)
+   public function list()
    {
       ## Read value
       $draw = $_POST['draw'];

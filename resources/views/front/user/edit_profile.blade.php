@@ -28,7 +28,7 @@
                         <div class="bio-main-3434 px-2 pt-3">
                            <h1>Edit Profile Details</h1>
                         </div>
-                          
+                           
                            <div class="form-wrapper">
                               <form class="row g-3" action="{{ route('user.update') }}" method="POST" onsubmit="event.preventDefault();profilte_update(this);return false;" enctype="multipart/form-data">
                                  <div class="row">
@@ -65,6 +65,29 @@
                                           <input type="text" name="message"  value="{{ $user->address }}">
                                        </div>
                                     </div>
+
+                                    <div class="row mt-2">
+                                       <div class="col-md-10">
+                                           <label for="Outletname" class="form-label">Image</label>
+                                           <div class="custom-file">
+                                               <input type="hidden" name="image_path" value="uploads/user_profile/">
+                                               <input type="hidden" name="image_name" value="image">
+                                               <input type="file" class="custom-file form-control" name="image"
+                                                   onchange="upload_image($(form),'{{ route('imageuplode') }}','image','image');return false;"
+                                                   accept=".jpg,.jpeg,.png">
+                                               <input type="hidden" name="image" id="image" value="">
+                                               <i class="image_loader fa-btn-loader fa fa-refresh fa-spin fa-1x fa-fw"
+                                                   style="display:none;"></i>
+                                               <label id="lblErrorMessageBannerImage" style="color:red"></label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-2 mt-3">
+                                           <img src="" id="image_prev" class="img-thumbnail " alt="" width="100" height="100"
+                                               style="display:none">
+                                           <label id="lblErrorMessageBannerImage" style="color:red"></label>
+                                       </div>
+                                   </div>
+                                    
                                     <div class="col-xl-6 col-lg-12 col-md-6">
                                        <div class="form-inner">
                                           <label>City</label>

@@ -18,7 +18,9 @@
         <h1 class="contact-title text-center fw-bold pt-5 pb-5">Got Any Questions? <br>Don't Hesitate To Get In Touch.</h1>
         <div class="row mt-5">
           <div class="col-md-6 about-content d-flex flex-column all-form-data">
-            <form action="your-server-endpoint" method="POST">
+            {{-- <form action="{{ route('contact-add') }}" method="POST"> --}}
+              <form class="row g-3" action="{{ route('contact-add') }}" id="addcontact" method="POST" onsubmit="event.preventDefault();form_submit(this);return false;" enctype="multipart/form-data">
+                @csrf
                 <div class="form-group">
                    <input type="text" id="name" placeholder="Name" name="name">
                 </div>

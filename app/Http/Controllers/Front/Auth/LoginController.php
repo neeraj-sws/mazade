@@ -59,8 +59,6 @@ class LoginController extends Controller
          if (Auth::attempt(['email' => $request['email'], 'password' => $request['password']])) {
             // Authentication passed...           
             return response()->json(['status' => 2, 'message' => 'User Login Successfully', 'surl' => route('home')]);
-
-            return response()->json(['status' => 2, 'message' => 'User Login Successfully', 'surl' => route('home')]);
         }else{
             return response()->json(['status' => 0, 'errors' => ['Invalid Email or Password']]);
             }

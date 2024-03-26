@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 
 
-use App\Models\{Auction,Auctioncancel,Finishedauctions,Reviews,Auctionitems,Companies,Payment,Status,Upload,Category,SubCategory,user,Company_info};
+use App\Models\{Auction,Auctioncancel,Finishedauctions,Reviews,Auctionitems,Companies,Payment,Status,Upload,Category,SubCategory,user,CompanyInfo};
 
 
 
@@ -60,7 +60,7 @@ class AuctionController extends Controller
        
         $company['companys'] = Auth::user();
        
-        return view('front.auction.bid_details',['auction'=>$auction,'company'=>$company]);
+        return view('front.auction.bid_details',['auction'=>$auction,'company'=>Auth::user()]);
     }
 
     public function active_auctions(){
@@ -99,23 +99,22 @@ class AuctionController extends Controller
 
               $idd = 'MZ'.$datee.$opder_id->id;
 
-        // $status = Status::select('name')->where('id',8)->first();
+        //$status = Status::select('name')->where('id',8)->first();
         
-        //    $status = Companies::find($request->company_id);
+        // $bit  = User::find('id' , $request->id )->first();
         // $status->is_bid_add = 1;
         // $status->save();
     
         $auction = new Auctionitems;
-        
-          $auction->oder_id = $idd;
+        // echo '<pre>'; print_r($auction->all()); die;
+        $auction->oder_id = $idd;
         $auction->category_id = $request->category_id;
         $auction->auction_id = $request->auction_id;
         $auction->company_id = $request->company_id;
         $auction->price = $request->lastPrice;
         $auction->save();
 
-        return redirect()->route('active-auctions')
-                         ->with('success', 'Auction updated successfully');  
+        return response()->json(['status' => 2, 'message' => 'Auction updated successfully', 'surl' => route('active-auctions')]);                                  
         }
        
     }
@@ -348,9 +347,10 @@ class AuctionController extends Controller
             [  
                 'name'=>'required',
                 'lastname'=>'required',
-                'phone'=>['required', 'string', 'min:11'],
+                'phone'=>['required', 'string', 'min:10'],
                 'email'=>'required',
                 'message'=>'required',
+                'image' => 'required',
                 
             ]
 
@@ -358,58 +358,91 @@ class AuctionController extends Controller
             if($validator->fails()){
                 return response()->json(['status' => 0,'errors' =>  $validator->errors()]);
             }else{
-
+            
             $user = user::find($request->user_id);
             $user->name = $request->name;
             $user->last_name = $request->lastname;
             $user->mobile_number = $request->phone;
             $user->email = $request->email;
             $user->address = $request->message;
+            $user->image = $request->image;
+            //echo '<pre>'; print_r($request->all()); die;
             $user->save();
 
-            return response()->json(['status' => 2, 'message' => 'User Login Successfully', 'surl' => route('dashboard')]);
+            return response()->json(['status' => 2, 'message' => 'User Updated Successfully', 'surl' => route('dashboard')]);
+            }
+   }
+
+   public function company_update(Request $request)
+   {
+          $validator = Validator::make(
+            $request->all(),
+            [  
+                'name'=>'required',
+                'lastname'=>'required',
+                'phone'=>['required', 'string', 'min:10'],
+                'email'=>'required',
+                'message'=>'required',
+                'image' => 'required',
+                
+            ]
+
+            );
+            if($validator->fails()){
+                return response()->json(['status' => 0,'errors' =>  $validator->errors()]);
+            }else{
+            
+            $user = user::find($request->user_id);
+            $user->name = $request->name;
+            $user->last_name = $request->lastname;
+            $user->mobile_number = $request->phone;
+            $user->email = $request->email;
+            $user->address = $request->message;
+            $user->image = $request->image;
+            //echo '<pre>'; print_r($request->all()); die;
+            $user->save();
+
+            return response()->json(['status' => 2, 'message' => 'User Updated Successfully', 'surl' => route('dashboard')]);
             }
    }
 
    public function companyinfo_update(Request $request)
    {
-    //  echo "<pre>";print_r($request->all());die;
+     //echo "<pre>";print_r($request->all());die;
       $validator = Validator::make(
         $request->all(),
         [  
             'name'=>'required',
             'lastname'=>'required',
-            'phone'=>['required', 'string', 'min:11'],
+            'phone'=>['required', 'string', 'min:10'],
             'email'=>'required',
-            'message' => ['required'],
-            'companyName' => ['required', 'string', 'max:255'],
-            'company_phone' => ['required', 'string', 'max:10'],
-            'commercialRegister' => ['required'],
-            
+            'message' => 'required',
+            'image' => 'required',
+            'password' => 'required|confirmed|min:8',
         ]
 
         );
         if($validator->fails()){
             return response()->json(['status' => 0,'errors' =>  $validator->errors()]);
         }else{
-
+       
         $user = user::find($request->user_id);
         $user->name = $request->name;
         $user->last_name = $request->lastname;
         $user->mobile_number = $request->phone;
-        $user->email = $request->email;
-        $user->address = $request->message;
+        $user->email = $request->email; 
         $user->save();
 
-        $Company_info = Company_info::find($request->company_id);
-        $Company_info->user_id = $user->id;
-        $Company_info->companyname = $request->companyName;
-        $Company_info->companphone = $request->company_phone;
+        $Company_info = CompanyInfo::where('user_id',$request->user_id)->first();
+        // $Company_info->user_id = $user->id;
+        // $Company_info->companyname = $request->companyName;
+        // $Company_info->companphone = $request->company_phone;
+        $Company_info->image = $request->image;
         $Company_info->address = $request->message;
-        $Company_info->commercialregister = $request->commercialRegister;
+        // $Company_info->commercialregister = $request->commercialRegister;
         $Company_info->save();
-
-        return response()->json(['status' => 2, 'message' => 'User Login Successfully', 'surl' => route('dashboard')]);
+        
+        return response()->json(['status' => 2, 'message' => 'Company Info Upadeted Successfully', 'surl' => route('dashboard')]);
         }
    }
 

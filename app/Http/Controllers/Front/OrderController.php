@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 
 
-use App\Models\{Auction,Auctioncancel,Finishedauctions,Reviews,Auctionitems,Companies,Payment,Status,Upload,Category,SubCategory,user};
+use App\Models\{Auction,Auctioncancel,Finishedauctions,Reviews,Auctionitems,Companies,Payment,Status,Upload,Category,SubCategory,user,Orders};
 
 
 
@@ -33,15 +33,20 @@ class OrderController extends Controller
 
     
     public function all_order(){
-        return view('front.orders.all-orders');
+
+        $orders = Orders::with('comid','AuId','CatId')->get();
+        return view('front.orders.all-orders' , ['orders' =>$orders]);
     }
 
     public function pending_order(){
-        return view('front.orders.pending-orders');
+
+        $orders = Orders::where('status', 0)->where('is_payment', 1)->with('comid','AuId','CatId')->get();
+        return view('front.orders.pending-orders', ['orders' =>$orders]);
     }
 
     public function completed_order(){
-        return view('front.orders.completed-orders');
+        $orders = Orders::where('status', 1)->where('is_payment', 1)->with('comid','AuId','CatId')->get();
+        return view('front.orders.completed-orders', ['orders' =>$orders]);
     }
 
     public function last_order(){
@@ -49,7 +54,8 @@ class OrderController extends Controller
     }
     
     public function withdarw_history(){
-        return view('front.orders.withdraw-history');
+        $orders = Orders::with('comid','AuId','CatId')->get();
+        return view('front.orders.withdraw-history', ['orders' =>$orders]);
     }
 
 

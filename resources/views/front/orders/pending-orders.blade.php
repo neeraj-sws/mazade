@@ -51,61 +51,25 @@
                                     </tr>
                                  </thead>
                                  <tbody>
+                                    @foreach ($orders as $orders)
+                                    
                                     <tr>
-                                       <td data-label="Image">1</td>
-                                       <td data-label="Bidding ID">Bike</td>
-                                       <td data-label="Bid Amount(USD)">$500</td>
-                                       <td data-label="Bid Amount(USD)">12/04/2024</td>
-                                       <td data-label="Bid Amount(USD)">$500</td>
-                                       <td class="status-price-table" data-label="Bid Amount(USD)">
-                                          <p>Pending</p>
-                                       </td>
-                                       <td data-label="Status" class="text-green btn-edit-table"><button id="popupBtn1" class="end-btn company-end-btn"><i class="fa-regular fa-pen-to-square"></i> Enter Code</button></td>
+                                     
+                                       <td data-label="Image">{{ $orders->AuId->oder_id }}</td>
+                                       <td data-label="Bidding ID">{{ @$orders->CatId->title }}</td>
+                                     
+                                       <td data-label="Bid Amount(USD)">{{ @$orders->AuId->budget }}</td>
+                                       <td data-label="Highest Bid">10 : 00 : 00</td>
+                                       <td data-label="Status" class="text-green">${{ @$orders->price }}</td>
+                                       <td class="status-price-table text-nowrap" data-label="Bid Amount(USD)"><p>Pending </p>
+                                      </td>
+                                       <td data-label="Status" class="text-green btn-edit-table">
+                                       <button id="popupBtn6" onclick="code_enter('{{ route('enter_code') }}', {{$orders->id}})" class="end-btn company-end-btn text-nowrap"><i class="fa-regular fa-pen-to-square"></i> Enter Code</button>
+                                         
+                                       </td> 
                                     </tr>
-                                    <tr>
-                                       <td data-label="Image">1</td>
-                                       <td data-label="Bidding ID">Bike</td>
-                                       <td data-label="Bid Amount(USD)">$500</td>
-                                       <td data-label="Bid Amount(USD)">12/04/2024</td>
-                                       <td data-label="Bid Amount(USD)">$500</td>
-                                       <td class="status-price-table" data-label="Bid Amount(USD)">
-                                          <p>Pending</p>
-                                       </td>
-                                       <td data-label="Status" class="text-green btn-edit-table"><button id="popupBtn2" class="end-btn company-end-btn"><i class="fa-regular fa-pen-to-square"></i> Enter Code</button></td>
-                                    </tr>
-                                    <tr>
-                                       <td data-label="Image">1</td>
-                                       <td data-label="Bidding ID">Bike</td>
-                                       <td data-label="Bid Amount(USD)">$500</td>
-                                       <td data-label="Bid Amount(USD)">12/04/2024</td>
-                                       <td data-label="Bid Amount(USD)">$500</td>
-                                       <td class="status-price-table" data-label="Bid Amount(USD)">
-                                          <p>Pending</p>
-                                       </td>
-                                       <td data-label="Status" class="text-green btn-edit-table"><button id="popupBtn3" class="end-btn company-end-btn"><i class="fa-regular fa-pen-to-square"></i> Enter Code</button></td>
-                                    </tr>
-                                    <tr>
-                                       <td data-label="Image">1</td>
-                                       <td data-label="Bidding ID">Bike</td>
-                                       <td data-label="Bid Amount(USD)">$500</td>
-                                       <td data-label="Bid Amount(USD)">12/04/2024</td>
-                                       <td data-label="Bid Amount(USD)">$500</td>
-                                       <td class="status-price-table" data-label="Bid Amount(USD)">
-                                          <p>Pending</p>
-                                       </td>
-                                       <td data-label="Status" class="text-green btn-edit-table"><button id="popupBtn4" class="end-btn company-end-btn"><i class="fa-regular fa-pen-to-square"></i> Enter Code</button></td>
-                                    </tr>
-                                    <tr>
-                                       <td data-label="Image">1</td>
-                                       <td data-label="Bidding ID">Bike</td>
-                                       <td data-label="Bid Amount(USD)">$500</td>
-                                       <td data-label="Bid Amount(USD)">12/04/2024</td>
-                                       <td data-label="Bid Amount(USD)">$500</td>
-                                       <td class="status-price-table" data-label="Bid Amount(USD)">
-                                          <p>Pending</p>
-                                       </td>
-                                       <td data-label="Status" class="text-green btn-edit-table"><button id="popupBtn5" class="end-btn company-end-btn"><i class="fa-regular fa-pen-to-square"></i> Enter Code</button></td>
-                                    </tr>
+            
+                                    @endforeach
                                  </tbody>
                               </table>
                            </div>

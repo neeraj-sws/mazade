@@ -4,7 +4,7 @@
 @section('content')
 <div class="inner-banner">
          <div class="container">
-            <h2 class="inner-banner-title wow fadeInLeft" data-wow-duration="1.5s" data-wow-delay=".2s">Dashboard</h2>
+            <h2 class="inner-banner-title wow fadeInLeft" data-wow-duration="1.5s" data-wow-delay=".2s">Order Status</h2>
             <nav aria-label="breadcrumb">
                <ol class="breadcrumb">
                   <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -65,16 +65,26 @@
                                        <td data-label="Bid Amount(USD)">{{ @$orders->AuId->budget }}</td>
                                        <td data-label="Highest Bid">10 : 00 : 00</td>
                                        <td data-label="Status" class="text-green">${{ @$orders->price }}</td>
-                                       <td class="status-price-table text-nowrap" data-label="Bid Amount(USD)"><p>Pending  @if($orders->is_payment == 0)for price @endif</p>
+                                       @if($orders->is_payment == 0 AND $orders->status == 0)
+                                       <td class="status-price-table text-nowrap" data-label="Bid Amount(USD)"><p>Pending for price</p>
+                                       @elseif($orders->is_payment == 1 AND $orders->status == 0)
+                                       <td class="status-price-table text-nowrap" data-label="Bid Amount(USD)"><p>Pending </p>
+                                       @elseif($orders->status == 2)
+                                          <td class="status-price-table text-nowrap" data-label="Bid Amount(USD)"><p>Rejected </p>
+                                       @elseif($orders->is_payment == 1 AND $orders->status == 1)
+                                       <td class="status-done-table text-nowrap" data-label="Bid Amount(USD)"><p>Completed </p>
+                                       @endif
                                           <a href="{{ route('user-company-detail',['id' =>  @$orders->id])}}"><button id="popupBtn" class="mt-2 btn-primary">Company Info</button></a>
-                                          <a href="{{ route('add-review',['id' => @$orders->id])}}"><button id="popupBtn" class="mt-2 btn-primary">Review</button></a>
+                                         
                                        </td>
                                        <td data-label="Status" class="text-green btn-edit-table">
-                                          @if($orders->is_payment == 0)
+                                          @if($orders->is_payment == 0 AND $orders->status == 0)
                                           <a href="{{ route('payment', ['id' => @$orders->id]) }}"><button id="popupBtn" class="company-pay-end-btn text-nowrap">Pay now</button></a>
-                                          <a href="payment.html"><button id="popupBtn" class="company-pay-end-btn text-nowrap mt-2">Cancel</button></a>
-                                          @else
-                                          <button id="popupBtn6" onclick="code_enter('{{ route('enter_code') }}', {{$orders->id}})" class="end-btn company-end-btn text-nowrap" oncli><i class="fa-regular fa-pen-to-square"></i> Enter Code</button>
+                                          <button id="popupBtn" class="company-pay-end-btn text-nowrap mt-2"  onclick="cancel_order('{{ route('cancel-request') }}', {{$orders->id}})">Cancel</button>
+                                          @elseif($orders->is_payment == 1 AND $orders->status == 0)
+                                          <button id="popupBtn6" onclick="code_enter('{{ route('enter_code') }}', {{$orders->id}})" class="end-btn company-end-btn text-nowrap"><i class="fa-regular fa-pen-to-square"></i> Enter Code</button>
+                                          @elseif($orders->is_payment == 1 AND $orders->status == 1 And $orders->is_review == 0 )
+                                         <a href="{{ route('add-review',['id' => @$orders->id])}}" class="btn btn-primary text-nowrap">Feedback</a>
                                           @endif
                                        </td> 
                                     </tr>
@@ -106,8 +116,7 @@
 
 function code_enter(url,id) {
    
- 
-       $.ajax({
+      $.ajax({
            headers: {
                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
            },
@@ -115,13 +124,28 @@ function code_enter(url,id) {
            method: "POST",
         data: {id: id },
            success: function (res) {
-            console.log(res);
+           
             document.getElementById("codeenter").style.display = "block";        
            $('#codeenter').html(res);
             }
        });
    } 
  
+   function cancel_order(url,id) {
+   
+   $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: url,
+        method: "POST",
+         data: {id: id },
+        success: function (res) {
+         toastr.success('Request Rejected successfully', 'Success');
+         location.reload();
+        }
+    });
+} 
 
     
 </script>

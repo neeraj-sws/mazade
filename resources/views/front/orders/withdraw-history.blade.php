@@ -50,46 +50,38 @@
                                     </tr>
                                  </thead>
                                  <tbody>
+                                    @foreach ($orders as $orders)
+                                    
                                     <tr>
-                                       <td data-label="Image"><img class="mr-1" src="{{asset('front_assets/images/bg/pro-pic.png') }}"> John doe</td>
-                                       <td data-label="Bidding ID"> 3ZQ3N1BGVYYW</td>
-                                       <td data-label="Bid Amount(USD)">Bank Transfer</td>
-                                       <td data-label="Bid Amount(USD)">$100</td>
-                                       <td data-label="Bid Amount(USD)">$4</td>
-                                       <td class="status-code-table" data-label="Bid Amount(USD)">
-                                          <p>Pending</p>
+                                     
+                                       <td data-label="Image">{{ $orders->AuId->oder_id }}</td>
+                                       <td data-label="Bidding ID">{{ @$orders->CatId->title }}</td>
+                                     
+                                       <td data-label="Bid Amount(USD)">{{ @$orders->AuId->budget }}</td>
+                                       <td data-label="Highest Bid">10 : 00 : 00</td>
+                                       <td data-label="Status" class="text-green">${{ @$orders->price }}</td>
+                                       @if($orders->is_payment == 0 AND $orders->status == 0)
+                                       <td class="status-price-table text-nowrap" data-label="Bid Amount(USD)"><p>Pending for price</p>
+                                       @elseif($orders->is_payment == 1 AND $orders->status == 0)
+                                       <td class="status-price-table text-nowrap" data-label="Bid Amount(USD)"><p>Pending </p>
+                                       @elseif($orders->status == 2)
+                                          <td class="status-price-table text-nowrap" data-label="Bid Amount(USD)"><p>Rejected </p>
+                                       @elseif($orders->is_payment == 1 AND $orders->status == 1)
+                                       <td class="status-done-table text-nowrap" data-label="Bid Amount(USD)"><p>Completed </p>
+                                       @endif
+                                          
                                        </td>
+                                       <td data-label="Status" class="text-green btn-edit-table">
+                                          @if($orders->is_payment == 0 AND $orders->status == 0)
+                                          <a href="{{ route('payment', ['id' => @$orders->id]) }}"><button id="popupBtn" class="company-pay-end-btn text-nowrap">Pay now</button></a>
+                                          <a href="payment.html"><button id="popupBtn" class="company-pay-end-btn text-nowrap mt-2">Cancel</button></a>
+                                          @elseif($orders->is_payment == 1 AND $orders->status == 0)
+                                          <button id="popupBtn6" onclick="code_enter('{{ route('enter_code') }}', {{$orders->id}})" class="end-btn company-end-btn text-nowrap"><i class="fa-regular fa-pen-to-square"></i> Enter Code</button>
+                                          @endif
+                                       </td> 
                                     </tr>
-                                    <tr>
-                                       <td data-label="Image"><img class="mr-1" src="{{asset('front_assets/images/bg/pro-pic.png') }}"> John doe</td>
-                                       <td data-label="Bidding ID"> QMUBGYILAKCX</td>
-                                       <td data-label="Bid Amount(USD)">Bank Transfer</td>
-                                       <td data-label="Bid Amount(USD)">$60</td>
-                                       <td data-label="Bid Amount(USD)">$4</td>
-                                       <td class="status-price-table" data-label="Bid Amount(USD)">
-                                          <p>Rejected</p>
-                                       </td>
-                                    </tr>
-                                    <tr>
-                                       <td data-label="Image"><img class="mr-1" src="{{asset('front_assets/images/bg/pro-pic.png') }}"> John doe</td>
-                                       <td data-label="Bidding ID"> SIECYMVFCTXM</td>
-                                       <td data-label="Bid Amount(USD)">Paypal</td>
-                                       <td data-label="Bid Amount(USD)">$40</td>
-                                       <td data-label="Bid Amount(USD)">$4</td>
-                                       <td class="status-done-table" data-label="Bid Amount(USD)">
-                                          <p>Completed</p>
-                                       </td>
-                                    </tr>
-                                    <tr>
-                                       <td data-label="Image"><img class="mr-1" src="{{asset('front_assets/images/bg/pro-pic.png') }}"> John doe</td>
-                                       <td data-label="Bidding ID"> 2SIDRHMYJLFM</td>
-                                       <td data-label="Bid Amount(USD)">Bank Transfer</td>
-                                       <td data-label="Bid Amount(USD)">$200</td>
-                                       <td data-label="Bid Amount(USD)">$4</td>
-                                       <td class="status-done-table" data-label="Bid Amount(USD)">
-                                          <p>Completed</p>
-                                       </td>
-                                    </tr>
+            
+                                    @endforeach
                                  </tbody>
                               </table>
                            </div>

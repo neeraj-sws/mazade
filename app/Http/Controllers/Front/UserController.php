@@ -55,20 +55,21 @@ class UserController extends Controller
 
     public function last_bidings()
     { 
-         $auction = Auction::with('CatId')->get();
-         $auctionitem = Auctionitems::with('Auction', 'companyId','CatId')->get(); 
-         $orders = Orders::with('comid','AuId')->get();
+       
+         $orders = Orders::with('comid','AuId','CatId')->get();
+         
        
         //  echo '<pre>'; print_r($orders); die;
          $user = Auth::guard('web')->user();
 
-       return view('front.user.last_bidings' , ['auction' => $auction ,'auctionitem' =>$auctionitem, 'user' => $user,'orders' =>$orders]);
+       return view('front.user.last_bidings' , ['user' => $user,'orders' =>$orders]);
     }
 
     public function enter_code(Request $request)
     { 
-         $orders = Orders::with('comid','AuId')->get();
-       
+      // echo '<pre>'; print_r($request->all()); die;
+          $orders = Orders::where('id' , $request->id)->with('comid','AuId','CatId')->first();
+          // echo '<pre>'; print_r($orders[0]->price); die;
          return  view('front.user.last_bidings_code',['orders' =>$orders]);
 
         

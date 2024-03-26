@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use Helper;
 
-use App\Models\{Auction,Auctioncancel,Finishedauctions,Reviews,Auctionitems,Companies,Payment,Status,Upload,Category,SubCategory,user,CompanyInfo,Orders};
+use App\Models\{Auction,Auctioncancel,Finishedauctions,Reviews,Auctionitems,Companies,Payment,Status,Upload,Category,SubCategory,user,CompanyInfo,Orders,WithdrawHistory,WithdrawHistoryDetails};
 
 
 
@@ -64,6 +64,32 @@ class AuctionController extends Controller
         return view('front.auction.bid_details',['auction'=>$auction,'company'=>$company]);
     }
 
+    public function bidings_code(Request $request){
+        
+
+        $company = Auth::user();
+
+
+        $order = Orders::find($request->id);
+       
+        if($order->code == $request->checkcode){
+        $order->status = 1;
+        $order->save();
+
+        $company =User::find($order->company_id);
+        $company->wallet += $order->price;
+        $company->save();
+
+            return response()->json(['status' => 2, 'message' => 'Code Matched Successfully', 'surl' => route('last-bidings')]);
+        }else{
+            return response()->json(['status' => 0, 'message' => 'Code MisMatched', 'surl' => route('last-bidings')]);
+        }
+       
+        
+       
+        
+    }
+
     public function payment($id){
 
         $auction = Auction::find($id);
@@ -84,6 +110,7 @@ class AuctionController extends Controller
 
         $order = new Orders;
         $order->order_id = $auction->oder_id;
+        $order->cat_id = $auction->category;
         $order->auction_id = $auction->id;
         $order->auction_item_id = $auctionitem->id;
         $order->company_id = $auctionitem->company_id;
@@ -100,7 +127,14 @@ class AuctionController extends Controller
 
 
     }
+    public function cancel_request(Request $request){
 
+        $auctionitem = Orders::find($request->id);
+        $auctionitem->status = 2;
+        $auctionitem->save();
+        return response()->json(['status' => 1]);
+
+    }
     public function active_auctions(){
         
         $currentDateTime = \Carbon\Carbon::now();
@@ -256,7 +290,12 @@ class AuctionController extends Controller
         $rating->email = $request->email;
         $rating->save();
 
-        $this->review($request->company_id,$request->rating); // Call the review function
+        $orders = Orders::where('id', $request->order_id)->first();
+        $orders->is_review = 1;
+        $orders->save();
+
+        return response()->json(['status' => 2, 'message' => 'Review Added Successfully', 'surl' => route('last-bidings')]);
+        $this->review($request->company_id,$request->rating); 
 
         // Return your response here if needed
     }
@@ -276,7 +315,39 @@ public function review($id,$rating)
 }
 
     public function withdraw(){
-        return view('front.auction.withdraw');
+
+        $data=request()->user();
+        $info=User::where('id',$data->id)->first();
+        return view('front.auction.withdraw',['info' => $info]);
+    }
+
+    public function withdraw_submit(Request $request){
+
+        // echo "<pre>";print_r($request->all());die;
+
+        $info = new WithdrawHistory ;
+        $info->withdraw_amout = $request->withdrawAmount;
+        $info->payment_method = $request->paymentMethod;
+        $info->type = 1;
+        $info->save();
+
+        $WithdrawHistoryDetails = new WithdrawHistoryDetails ;
+        $WithdrawHistoryDetails->withdraw_id = $info->id;
+        $WithdrawHistoryDetails->type = $request->paymentMethod;
+        $WithdrawHistoryDetails->email = $request->paypalEmail;
+        $WithdrawHistoryDetails->banck_acc_no = $request->bankAccount;
+        $WithdrawHistoryDetails->bank_name = $request->bankName;
+        $WithdrawHistoryDetails->bank_branch = $request->bankBranch;
+        $WithdrawHistoryDetails->Crypto_address = $request->cryptoAddress;
+        $WithdrawHistoryDetails->save();
+
+
+        $data=request()->user();
+        $data->wallet -= $request->withdrawAmount;
+        $data->save();
+
+        
+        return response()->json(['status' => 2, 'message' => 'WithDraw Done Successfully', 'surl' => route('company.dashboard')]);
     }
 
     public function user_auction_detail()

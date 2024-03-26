@@ -67,8 +67,9 @@ Route::group(['middleware'=>'auth:web'],function(){
     Route::post('/auction-end', [App\Http\Controllers\Front\UserController::class, 'auctionend'])->name('auction-end');
     Route::get('/user-category-detail', [App\Http\Controllers\Front\CompanyController::class, 'user_category_detail'])->name('user-category-detail');
     Route::get('/bid-details/{id}', [App\Http\Controllers\Front\AuctionController::class, 'bid_details'])->name('bid-details');
+    Route::post('/bidings-code', [App\Http\Controllers\Front\AuctionController::class, 'bidings_code'])->name('bidings-code');
     Route::post('/bid-confirm', [App\Http\Controllers\Front\AuctionController::class, 'bid_confirm'])->name('bid-confirm');
-
+    Route::post('/cancel-request', [App\Http\Controllers\Front\AuctionController::class, 'cancel_request'])->name('cancel-request');
 
     // Group for Role 1
     Route::middleware(['role:1'])->group(function () {
@@ -97,6 +98,8 @@ Route::group(['middleware'=>'auth:web'],function(){
     Route::middleware(['role:2'])->group(function () {
         Route::get('/company/dashboard', [App\Http\Controllers\Front\CompanyController::class, 'dashboard'])->name('company.dashboard');
         Route::get('/withdraw', [App\Http\Controllers\Front\AuctionController::class, 'withdraw'])->name('withdraw');
+        Route::post('/withdraw-submit', [App\Http\Controllers\Front\AuctionController::class, 'withdraw_submit'])->name('withdraw-submit');
+
         Route::get('/active-auctions', [App\Http\Controllers\Front\AuctionController::class, 'active_auctions'])->name('active-auctions');
         Route::post('/active-auctions_list', [App\Http\Controllers\Front\AuctionController::class, 'active_auctions_list'])->name('active-auctions_list');
         Route::post('/categories-auctions_filter', [App\Http\Controllers\Front\AuctionController::class, 'categories_auctions_filter'])->name('categories-auctions_filter');

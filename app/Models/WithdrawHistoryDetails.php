@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Upload;
 
-class Orders extends Model
+class WithdrawHistoryDetails extends Model
 {
     use HasFactory;
-    protected $table = 'orders';
+    protected $table = 'withdraw_history_details';
 
-    protected $fillable = [ 'category_id','company_id','auction_id','price','is_payment','code'];
+    protected $fillable = [ 'type','withdraw_id','email','banck_acc_no','bank_name','bank_branch','Crypto_address'];
 
     function CatId()
     {

@@ -1,15 +1,16 @@
 <div class="popup-content">
             <div class="row all-form-data">
-               <form>
+               <form action="{{ route('bidings-code') }}" method="POST" onsubmit="event.preventDefault();form_submit(this);return false;">
+                  @csrf 
                   <div class="row">
                      <div class="col-md-4 my-4">
                         <div class="detail-box-main">
-                           Category : Real estate
+                           Category : {{ @$orders->CatId->title }}
                         </div>
                      </div>
                      <div class="col-md-4 my-4">
                         <div class="detail-box-main">
-                           Price : $500
+                           Price : ${{ $orders->price }}
                         </div>
                      </div>
                      <div class="col-md-4 my-4">
@@ -21,7 +22,8 @@
                         <input type="checkcode" id="checkcode" placeholder="Check Code" name="checkcode">
                      </div>
                      <div class="col-md-3 mb-3">
-                        <input class="company-popup-btn" type="submit" value="Accept">
+                        <input type="hidden" name="id" value="{{ $orders->id }}">
+                        <button type="submit" class="btn btn-primary mt-4">Save</button>
                      </div>
                      <div class="col-md-9 mb-3">
                         <a class="close" id="closeBtn2">Close</a>
@@ -30,3 +32,13 @@
                </form>
             </div>
          </div>
+
+
+<script>
+ $("#closeBtn2").click(function() {
+    $("#codeenter").hide();
+});
+
+
+    
+</script>

@@ -51,61 +51,23 @@
                                     </tr>
                                  </thead>
                                  <tbody>
+                                    @foreach ($orders as $orders)
+                                    
                                     <tr>
-                                       <td data-label="Image">1</td>
-                                       <td data-label="Bidding ID">Car</td>
-                                       <td data-label="Bid Amount(USD)">$2300</td>
-                                       <td data-label="Bid Amount(USD)">18/04/2024</td>
-                                       <td data-label="Bid Amount(USD)">$340</td>
-                                       <td class="status-done-table" data-label="Bid Amount(USD)">
-                                          <p>Completed</p>
-                                       </td>
-                                       <td data-label="Status" class="text-green btn-edit-table"><button class="end-btn company-end-btn company-end-btn-454545"><i class="fa-solid fa-check"></i></button></td>
+                                     
+                                       <td data-label="Image">{{ $orders->AuId->oder_id }}</td>
+                                       <td data-label="Bidding ID">{{ @$orders->CatId->title }}</td>
+                                     
+                                       <td data-label="Bid Amount(USD)">{{ @$orders->AuId->budget }}</td>
+                                       <td data-label="Highest Bid">10 : 00 : 00</td>
+                                       <td data-label="Status" class="text-green">${{ @$orders->price }}</td>
+                                       <td class="status-done-table text-nowrap" data-label="Bid Amount(USD)"><p>Completed </p></td>
+                                       <td data-label="Status" class="text-green btn-edit-table">
+                                         
+                                       </td> 
                                     </tr>
-                                    <tr>
-                                       <td data-label="Image">2</td>
-                                       <td data-label="Bidding ID">Bike</td>
-                                       <td data-label="Bid Amount(USD)">$2300</td>
-                                       <td data-label="Bid Amount(USD)">18/07/2024</td>
-                                       <td data-label="Bid Amount(USD)">$670</td>
-                                       <td class="status-done-table" data-label="Bid Amount(USD)">
-                                          <p>Completed</p>
-                                       </td>
-                                       <td data-label="Status" class="text-green btn-edit-table"><button class="end-btn company-end-btn company-end-btn-454545"><i class="fa-solid fa-check"></i></button></td>
-                                    </tr>
-                                    <tr>
-                                       <td data-label="Image">3</td>
-                                       <td data-label="Bidding ID">Honda Bike</td>
-                                       <td data-label="Bid Amount(USD)">$2300</td>
-                                       <td data-label="Bid Amount(USD)">12/04/2024</td>
-                                       <td data-label="Bid Amount(USD)">$220</td>
-                                       <td class="status-done-table" data-label="Bid Amount(USD)">
-                                          <p>Completed</p>
-                                       </td>
-                                       <td data-label="Status" class="text-green btn-edit-table"><button class="end-btn company-end-btn company-end-btn-454545"><i class="fa-solid fa-check"></i></button></td>
-                                    </tr>
-                                    <tr>
-                                       <td data-label="Image">4</td>
-                                       <td data-label="Bidding ID">Road bikes</td>
-                                       <td data-label="Bid Amount(USD)">$2300</td>
-                                       <td data-label="Bid Amount(USD)">24/05/2024</td>
-                                       <td data-label="Bid Amount(USD)">$500</td>
-                                       <td class="status-done-table" data-label="Bid Amount(USD)">
-                                          <p>Completed</p>
-                                       </td>
-                                       <td data-label="Status" class="text-green btn-edit-table"><button class="end-btn company-end-btn company-end-btn-454545"><i class="fa-solid fa-check"></i></button></td>
-                                    </tr>
-                                    <tr>
-                                       <td data-label="Image">5</td>
-                                       <td data-label="Bidding ID">Car</td>
-                                       <td data-label="Bid Amount(USD)">$2300</td>
-                                       <td data-label="Bid Amount(USD)">05/10/2024</td>
-                                       <td data-label="Bid Amount(USD)">$500</td>
-                                       <td class="status-done-table" data-label="Bid Amount(USD)">
-                                          <p>Completed</p>
-                                       </td>
-                                       <td data-label="Status" class="text-green btn-edit-table"><button class="end-btn company-end-btn company-end-btn-454545"><i class="fa-solid fa-check"></i></button></td>
-                                    </tr>
+            
+                                    @endforeach
                                  </tbody>
                               </table>
                            </div>

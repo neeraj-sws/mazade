@@ -60,7 +60,7 @@
 
                   </div>
                </div>
-               @if (!Auth::guard('web')->user()->company)
+               @if (Auth::guard('web')->user()->company)
                <div class="profile-info col-md-9">
       <div class="panel">
           <div class="panel-body bio-graph-info">
@@ -250,7 +250,7 @@ $(document).ready(function() {
             toastr.success('Bid Confirmed successfully', 'Success');
             location.reload();
             }else {
-               toastr.warnind('Bid Decline successfully', 'Warning');
+               toastr.warning('Bid Decline successfully', 'Warning');
                }
             }
        });

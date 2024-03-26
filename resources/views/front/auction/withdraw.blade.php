@@ -33,9 +33,9 @@
                      <h1>Withdraw</h1>
                      <div class="row payment-top-info">
 
-         <div class="col-md-6 my-4">
+                    <div class="col-md-6 my-4">
                         <div class="detail-box-main">
-                       Current Amount : $900
+                       Current Amount : ${{$info->wallet}}
                         </div>
                       </div>
                       <div class="col-md-6 my-4">
@@ -43,8 +43,9 @@
                        Last Auctions : 5
                         </div>
                       </div>
-    </div>
-                        <form id="withdrawForm">
+                    </div>
+                    <form action="{{ route('withdraw-submit') }}" method="POST" onsubmit="event.preventDefault();form_submit(this);return false;">
+                        @csrf 
                             <label for="withdrawAmount">Withdraw Amount:</label><br>
                             <input type="text" id="withdrawAmount" name="withdrawAmount" required><br><br>
                             
@@ -82,8 +83,8 @@
                                 <label for="cryptoAddress">Cryptocurrency Address:</label><br>
                                 <input type="text" id="cryptoAddress" name="cryptoAddress"><br><br>
                             </div>
+                            <button type="submit" class="btn btn-primary mt-4">Withdraw</button>
                             
-                            <button type="submit">Withdraw</button>
                         </form>
                   </div>
                </div>

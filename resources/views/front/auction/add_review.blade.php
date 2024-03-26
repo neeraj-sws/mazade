@@ -31,6 +31,8 @@
                            <input type="hidden" name="auction_id" value="{{ $bit->auction_id }} ">
 
                            <input type="hidden" name="company_id" value="{{ $bit->company_id }} ">
+                           <input type="hidden" name="order_id" value="{{ $orders->id }} ">
+
 
                          <div class="form-group">
                            <label>Select your rating:</label>

@@ -37,7 +37,7 @@
                                     </div>
                                     <div class="body">
                                        <div class="counter-item">
-                                          <h2>$560</h2>
+                                          <h2>${{ $info->wallet}}</h2>
                                           <a href="{{ route('withdraw') }}"><button class="withdarw-btn">Withdraw</button></a>
                                        </div>
                                        <div class="icon">

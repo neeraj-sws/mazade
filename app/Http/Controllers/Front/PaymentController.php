@@ -49,23 +49,27 @@ class PaymentController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+         
+        $orders = Orders::where('id',$request->id)->first();
         $data=Auctionitems::where('id',$request->id)->first();     
         // $expiration_date=$request->expirationdate;
         // echo"<pre>";print_r($expiration_date);die;
 
         $info = Payment::create([
-            'auction_id'=> $request->id,
+            'auction_id'=> $orders->auction_id,
             'name' => $request->name,
             'card_number'=> $request->cardnumber,
             'expiration_date'=> $request->expirationdate,
             'security_code'=> $request->securitycode,
-            'amount'=>$data->price,           
+            'amount'=>$orders->price,           
         ]);
-        
-        $order=Orders::where('auction_id',$request->id)->first(); 
+        $numericCode = mt_rand(100000, 999999);
+        $order=Orders::where('id',$request->id)->first(); 
         if ($order) {
             // Update the is_payment field to 1
-            $order->update(['is_payment' => 1]);
+            $order->update(['is_payment' => 1,
+            'code' => $numericCode,
+        ]);
 
             return response()->json(['status' => 2, 'message' => 'Payment Done Successfully', 'surl' => route('last-bidings')]);
           

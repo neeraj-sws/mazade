@@ -27,13 +27,19 @@ class CompanyController extends Controller
         // echo "<pre>";print_r($data);die;
             $info=User::where('id',$data->id)->first();
             $auction =  Reviews::get();
+            $averageRating = $auction->avg('ratings');
 
-      $averageRating = $auction->avg('ratings');
+            $currentDateTime = \Carbon\Carbon::now();
+            $auctioncount = Auction::with('CatId')->where('status',1)->where('start_time', '<=', $currentDateTime)->where('end_time', '>=', $currentDateTime)->count();
+     
+            $orders = Orders::with('comid','AuId','CatId')->count();
+
+            // echo $auctioncount;die;
 
 
       
 
-       return view('front.company.dashboard' ,[ 'averageRating' => $averageRating,'info' => $info]);
+       return view('front.company.dashboard' ,[ 'averageRating' => $averageRating,'info' => $info ,'auctioncount' =>$auctioncount,'orders' =>$orders]);
     }
     
 

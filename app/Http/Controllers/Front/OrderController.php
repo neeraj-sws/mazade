@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 
 
-use App\Models\{Auction,Auctioncancel,Finishedauctions,Reviews,Auctionitems,Companies,Payment,Status,Upload,Category,SubCategory,user,Orders};
+use App\Models\{Auction,Auctioncancel,Finishedauctions,Reviews,Auctionitems,Companies,Payment,Status,Upload,Category,SubCategory,user,Orders,WithdrawHistory,WithdrawHistoryDetails};
 
 
 
@@ -50,12 +50,16 @@ class OrderController extends Controller
     }
 
     public function last_order(){
-        return view('front.orders.last-orders');
+        $orders = Orders::with('comid','AuId','CatId')->get();
+        return view('front.orders.last-orders', ['orders' =>$orders]);
     }
     
     public function withdarw_history(){
         $orders = Orders::with('comid','AuId','CatId')->get();
-        return view('front.orders.withdraw-history', ['orders' =>$orders]);
+        $withdraw = WithdrawHistory::with('WithdrawDetails')->get();
+        // echo "<pre>";print_r($withdraw);die;
+
+        return view('front.orders.withdraw-history', ['orders' =>$orders ,'withdraw' => $withdraw]);
     }
 
 

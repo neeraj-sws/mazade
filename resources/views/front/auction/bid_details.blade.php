@@ -38,7 +38,7 @@
                       </div>
                       <div class="col-md-4 my-4">
                         <div class="detail-box-main">
-                           Budget: $<span id="budget">{{ $auction->budget }}</span>
+                           Budget: $<span id="">{{ $auction->budget }}</span>
                         </div>
                       </div>
                       <div class="col-md-4 my-4">
@@ -49,7 +49,7 @@
                       <div class="col-md-12 my-3">
                          <p>{{ $auction->message }}</p>
                       </div>
-                      @if (Auth::guard('web')->user()->company)
+                      @if($company->role == 2)
                       <div class="col-md-3 mb-3">
                           <a id="popupBtn" class="end-btn company-end-btn new-bid-btn"></i>Bid</a>
                       </div>
@@ -57,13 +57,14 @@
                     </div>
                   </form>
                 </div>
-
+                <span id="budget" class="d-none"> @if(empty($auction->last_bid)) {{ $auction->budget }} @else {{ $auction->last_bid }} @endif</span>
                   </div>
                </div>
-               @if (Auth::guard('web')->user()->company)
+               @if($company->role == 1)
                <div class="profile-info col-md-9">
-      <div class="panel">
-          <div class="panel-body bio-graph-info">
+      
+                  <div class="panel">
+                  <div class="panel-body bio-graph-info">
               <div class="bio-main-3434">
               <h1>Bids</h1>
                </div>
@@ -146,7 +147,7 @@
       </div>
       <div class="col-md-12 mb-3 all-form-data mb-4">
          <input type="text" id="Price" placeholder="Price" name="lastPrice" value="">
-         <span class="bid_error">Bid price should be less than ${{ $auction->budget }}</span>
+         <span class="bid_error">Bid price should be less than $@if(empty($auction->last_bid)){{ $auction->budget }} @else{{ $auction->last_bid }} @endif</span>
       </div>
       <div class="col-md-6 pop-btn-main-sec">
          <input id="bidButton" class="company-new-popup-btn" type="submit" value="Bid" disabled>

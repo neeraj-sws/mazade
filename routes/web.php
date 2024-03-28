@@ -59,6 +59,7 @@ Route::group(['middleware'=>'auth:web'],function(){
     
     Route::get('/last-bidings', [App\Http\Controllers\Front\UserController::class, 'last_bidings'])->name('last-bidings');
     Route::post('/enter_code', [App\Http\Controllers\Front\UserController::class, 'enter_code'])->name('enter_code');
+    Route::post('/open_profile', [App\Http\Controllers\Front\UserController::class, 'open_profile'])->name('open_profile');
 
     Route::get('/change-password', [App\Http\Controllers\Front\UserController::class, 'change_password'])->name('change-password');
     Route::get('/edit-profile', [App\Http\Controllers\Front\UserController::class, 'edit_profile'])->name('edit-profile');
@@ -101,6 +102,7 @@ Route::group(['middleware'=>'auth:web'],function(){
         Route::post('/withdraw-submit', [App\Http\Controllers\Front\AuctionController::class, 'withdraw_submit'])->name('withdraw-submit');
 
         Route::get('/active-auctions', [App\Http\Controllers\Front\AuctionController::class, 'active_auctions'])->name('active-auctions');
+        Route::get('/category-detail', [App\Http\Controllers\Front\AuctionController::class, 'category_detail'])->name('category-detail');
         Route::post('/active-auctions_list', [App\Http\Controllers\Front\AuctionController::class, 'active_auctions_list'])->name('active-auctions_list');
         Route::post('/categories-auctions_filter', [App\Http\Controllers\Front\AuctionController::class, 'categories_auctions_filter'])->name('categories-auctions_filter');
         
@@ -118,7 +120,7 @@ Route::group(['middleware'=>'auth:web'],function(){
         Route::get('/all-orders', [App\Http\Controllers\Front\OrderController::class, 'all_order'])->name('all-orders');
         Route::get('/pending-orders', [App\Http\Controllers\Front\OrderController::class, 'pending_order'])->name('pending-orders');
         Route::get('/completed-orders', [App\Http\Controllers\Front\OrderController::class, 'completed_order'])->name('completed-orders');
-        Route::get('/last-orders', [App\Http\Controllers\Front\OrderController::class, 'last_order'])->name('last-orders');
+        Route::get('/last-bid', [App\Http\Controllers\Front\OrderController::class, 'last_order'])->name('last-orders');
         Route::get('/withdarw-history', [App\Http\Controllers\Front\OrderController::class, 'withdarw_history'])->name('withdarw-history');
     });
 

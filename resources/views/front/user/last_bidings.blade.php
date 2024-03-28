@@ -69,21 +69,30 @@
                                        <td class="status-price-table text-nowrap" data-label="Bid Amount(USD)"><p>Pending for price</p>
                                        @elseif($orders->is_payment == 1 AND $orders->status == 0)
                                        <td class="status-price-table text-nowrap" data-label="Bid Amount(USD)"><p>Pending </p>
+                                          @if($user->role == 1)
+                                          <span class="d-block">code: {{$orders->code}}</span>
+                                          @endif
                                        @elseif($orders->status == 2)
                                           <td class="status-price-table text-nowrap" data-label="Bid Amount(USD)"><p>Rejected </p>
                                        @elseif($orders->is_payment == 1 AND $orders->status == 1)
                                        <td class="status-done-table text-nowrap" data-label="Bid Amount(USD)"><p>Completed </p>
                                        @endif
+                                       @if($user->role == 1 )
                                           <a href="{{ route('user-company-detail',['id' =>  @$orders->id])}}"><button id="popupBtn" class="mt-2 btn-primary">Company Info</button></a>
-                                         
+                                          @endif
                                        </td>
                                        <td data-label="Status" class="text-green btn-edit-table">
-                                          @if($orders->is_payment == 0 AND $orders->status == 0)
+                                          @if($user->role == 1 AND $orders->is_payment == 0 AND $orders->status == 0)
                                           <a href="{{ route('payment', ['id' => @$orders->id]) }}"><button id="popupBtn" class="company-pay-end-btn text-nowrap">Pay now</button></a>
                                           <button id="popupBtn" class="company-pay-end-btn text-nowrap mt-2"  onclick="cancel_order('{{ route('cancel-request') }}', {{$orders->id}})">Cancel</button>
                                           @elseif($orders->is_payment == 1 AND $orders->status == 0)
-                                          <button id="popupBtn6" onclick="code_enter('{{ route('enter_code') }}', {{$orders->id}})" class="end-btn company-end-btn text-nowrap"><i class="fa-regular fa-pen-to-square"></i> Enter Code</button>
-                                          @elseif($orders->is_payment == 1 AND $orders->status == 1 And $orders->is_review == 0 )
+                                             @if($user->role == 1)
+
+                                             <button id="openPopup"  onclick="openProfile('{{ route('open_profile') }}', {{$orders->id}})" class="end-btn company-end-btn-3434"><i class="far fa-user"></i></button>
+                                             @else
+                                             <button id="popupBtn6" onclick="code_enter('{{ route('enter_code') }}', {{$orders->id}})" class="end-btn company-end-btn text-nowrap"><i class="fa-regular fa-pen-to-square"></i> Enter Code</button>
+                                          @endif
+                                          @elseif( ($user->role == 1) And $orders->is_payment == 1 AND $orders->status == 1 And $orders->is_review == 0 )
                                          <a href="{{ route('add-review',['id' => @$orders->id])}}" class="btn btn-primary text-nowrap">Feedback</a>
                                           @endif
                                        </td> 
@@ -110,6 +119,9 @@
       <div id="codeenter" class="popup">
          
       </div>
+
+      <div id="profilepopup" class="popup">
+      </div>
 @endsection
 <script>
 
@@ -131,6 +143,24 @@ function code_enter(url,id) {
        });
    } 
  
+   function openProfile(url,id) {
+   
+   $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: url,
+        method: "POST",
+     data: {id: id },
+        success: function (res) {
+        
+         document.getElementById("profilepopup").style.display = "block";        
+        $('#profilepopup').html(res);
+         }
+    });
+} 
+
+
    function cancel_order(url,id) {
    
    $.ajax({

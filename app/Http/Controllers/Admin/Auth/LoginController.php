@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Category,User,SubCategory,Companies,City};
+use App\Models\{Category,User,SubCategory,Companies,City,Transaction};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -44,7 +44,7 @@ class LoginController extends Controller
         $categorys = Category::get()->count();
         $customer  = User::get()->count();
         $sub_category   = SubCategory::get()->count();
-        $city   = City::get()->count();
+        $city   = Transaction::get()->count();
 
          return view('admin.dashboard',['single_heading'=>$this->single_heading ,'categorys'=>$categorys,'companies'=>$companies,'customer'=>$customer, 'sub_category'=>$sub_category,'city'=>$city]);
      }

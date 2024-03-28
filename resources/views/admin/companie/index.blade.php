@@ -23,11 +23,11 @@
                         <thead>
                             <tr>
                                 <th> S.No.</th>
-                                <th>Name</th>
-                                <th>Profile</th>
+                                <th>Company Name</th>
                                 <th>Phone</th>
-                                <th>Email</th>
-                                <th>Status</th>
+                                <th>Address</th>
+                                <th>Rating</th>
+                                {{-- <th>Status</th> --}}
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -62,17 +62,15 @@
                 data: 'name'
             },
             {
-                data: 'file_id'
-            },
-            {
                 data: 'phone'
             },
             {
-                data: 'email'
+                data: 'address'
             },
             {
-                data: 'status'
+                data: 'rating'
             },
+           
             {
                 data: 'action'
             },
@@ -81,7 +79,7 @@
             [1, 'DESC']
         ],
         "columnDefs": [{
-            "targets": [0, 5],
+            "targets": [0, 4],
             "orderable": false,
         }]
 

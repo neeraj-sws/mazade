@@ -4,7 +4,7 @@
        <h2 class="main-cat-title-inner">Search for bid</h2>
        </div>
        <div class="search_panel">
-       
+        <input type="hidden" id="list_type"  name="list_type" value="list">
             <input type="text" id="searchInput" placeholder="Search..." name="search">
             <button class="searchButton" onclick="action_filter()" type="button">Search</button>
         </div>

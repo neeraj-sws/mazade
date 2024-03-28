@@ -1,6 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\{UserController,AdminController,CategoryController,OrderstatusController,CompanybitController,SiteSettingController, PriceController, Sub_categoryController,CityController , CompanieController,ActiveauctionsController,StateController,CanceledAuctionsController,FinishedAuctionsController,AuctionCompletController};
+use App\Http\Controllers\Admin\{UserController,AdminController,CategoryController,OrderstatusController,CompanybitController,SiteSettingController, PriceController, Sub_categoryController,CityController , CompanieController,ActiveauctionsController,StateController,CanceledAuctionsController,FinishedAuctionsController,AuctionCompletController,WithDrawController,TransactionController};
 
 use App\Http\Controllers\Admin\Auth\LoginController;
 
@@ -59,6 +59,7 @@ Route::group(['middleware'=>'auth:admin',  'prefix' => 'admin', 'as' => 'admin.'
         Route::get('appointment-details', [UserController::class, 'customerAppointmentDetails'])->name('customerAppointmentDetails');
         Route::post('status',[UserController::class, 'status'])->name('status');
         Route::post('imagesave',[UserController::class, 'imageupload'])->name('saveimage');
+        
 
     });
 
@@ -175,6 +176,25 @@ Route::group(['prefix' => 'auctions', 'as' => 'auctions.'],function(){
             Route::post('list',[OrderstatusController::class, 'list'])->name('list');
             Route::get('view/{id}',[OrderstatusController::class, 'view'])->name('view');
 
+        });
+
+
+        Route::group(['prefix' => 'transaction', 'as' => 'transaction.'],function(){
+
+            Route::get('/',[TransactionController::class, 'index'])->name('transaction');
+            Route::post('list',[TransactionController::class, 'list'])->name('list');
+            Route::get('view/{id}',[TransactionController::class, 'view'])->name('view');
+
+        });
+
+
+        Route::group(['prefix' => 'withdraw', 'as' => 'withdraw.'],function(){
+
+            Route::get('/',[WithDrawController::class, 'index'])->name('withdraw');
+            Route::post('withdraw',[WithDrawController::class, 'list'])->name('list');
+            Route::post('accept',[WithDrawController::class, 'accept'])->name('accept');
+            Route::post('reject',[WithDrawController::class, 'reject'])->name('reject');
+        
         });
 
         Route::group(['prefix' => 'companybit', 'as' => 'companybit.'],function(){

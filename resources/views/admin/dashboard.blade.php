@@ -74,14 +74,14 @@
                             </div>  
                         </div>
 
-                        {{-- <div class="col-md-3 col-sm-6">
+                        <div class="col-md-3 col-sm-6">
                             <div class="card">
                                 <div class="card-body">
-                                <a href="{{route('admin.city.city')}}">
+                                <a href="{{route('admin.transaction.transaction')}}">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <div>
                                         <span class="text-muted fw-semibold">Total</span>
-                                            <h4>Cities</h4>
+                                            <h4>Transaction</h4>
                                         </div>
                                         <div class="text-dark fw-bold font-size-lg">{{ $city }}</div>
                                     </div>
@@ -89,7 +89,7 @@
                                     <div class="mt-4" id="monthly-revenue" style="max-width: 250px;"></div>
                                 </div>
                             </div>  
-                        </div> --}}
+                        </div>
 
                     </div>
                     

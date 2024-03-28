@@ -359,7 +359,7 @@ transform: rotateY(180deg);
 
          <div class="col-md-4 my-4">
                         <div class="detail-box-main">
-                        Amount : @if(!empty($data->price)) {{$data->price}} @endif
+                        Amount : @if(!empty($data->price)) ${{$data->price}} @endif
                         </div>
                       </div>
     </div>

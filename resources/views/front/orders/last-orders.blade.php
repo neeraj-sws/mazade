@@ -48,36 +48,16 @@
                                     </tr>
                                  </thead>
                                  <tbody>
+                                    
+                                    @foreach ($orders as $orders)
+                                    
                                     <tr>
-                                       <td data-label="Image">first</td>
-                                       <td data-label="Bidding ID">$450</td>
-                                       <td data-label="Bid Amount(USD)">12/04/2024</td>
+                                       <td data-label="Bidding ID">{{ @$orders->CatId->title }}</td>
+                                       <td data-label="Bid Amount(USD)">${{ @$orders->price }}</td>
+                                       <td data-label="Status" class="text-green">{{ date('d/m/Y', strtotime($orders->created_at)) }}</td>
                                        <td data-label="Status" class="text-green"><button class="end-btn">Request Status</button></td>
                                     </tr>
-                                    <tr>
-                                       <td data-label="Image">first</td>
-                                       <td data-label="Bidding ID">$450</td>
-                                       <td data-label="Bid Amount(USD)">12/04/2024</td>
-                                       <td data-label="Status" class="text-green"><button class="end-btn">Request Status</button></td>
-                                    </tr>
-                                    <tr>
-                                       <td data-label="Image">first</td>
-                                       <td data-label="Bidding ID">$450</td>
-                                       <td data-label="Bid Amount(USD)">12/04/2024</td>
-                                       <td data-label="Status" class="text-green"><button class="end-btn">Request Status</button></td>
-                                    </tr>
-                                    <tr>
-                                       <td data-label="Image">first</td>
-                                       <td data-label="Bidding ID">$450</td>
-                                       <td data-label="Bid Amount(USD)">12/04/2024</td>
-                                       <td data-label="Status" class="text-green"><button class="end-btn">Request Status</button></td>
-                                    </tr>
-                                    <tr>
-                                       <td data-label="Image">first</td>
-                                       <td data-label="Bidding ID">$450</td>
-                                       <td data-label="Bid Amount(USD)">12/04/2024</td>
-                                       <td data-label="Status" class="text-green"><button class="end-btn">Request Status</button></td>
-                                    </tr>
+                                    @endforeach
                                  </tbody>
                               </table>
                            </div>

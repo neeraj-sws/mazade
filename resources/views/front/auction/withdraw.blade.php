@@ -34,7 +34,7 @@
                      <div class="row payment-top-info">
 
                     <div class="col-md-6 my-4">
-                        <div class="detail-box-main">
+                        <div class="detail-box-main" id="wallet">
                        Current Amount : ${{$info->wallet}}
                         </div>
                       </div>
@@ -46,9 +46,13 @@
                     </div>
                     <form action="{{ route('withdraw-submit') }}" method="POST" onsubmit="event.preventDefault();form_submit(this);return false;">
                         @csrf 
-                            <label for="withdrawAmount">Withdraw Amount:</label><br>
-                            <input type="text" id="withdrawAmount" name="withdrawAmount" required><br><br>
+                            <label for="transaction_id">Transaction Id:</label><br>
+                            <input type="text" id="transaction_id" name="transaction_id" required><br><br>
                             
+                            <label for="withdrawAmount">Withdraw Amount:</label><br>
+                            <input type="text" id="withdrawAmount" name="withdrawAmount" required>
+                            <p class="withdraw_error m-0 small">WithDraw Amount should be less than ${{$info->wallet}}</p><br><br>
+
                             <label>Payment Method:</label><br>
                             <div class="payment-option">
                                 <input type="radio" id="paypal" name="paymentMethod" value="paypal">
@@ -97,6 +101,33 @@
 
 @section('page-js-script')
 <script>
+
+$(document).ready(function() {
+   
+   $('.withdraw_error').hide();
+   
+  
+   var wallet = parseFloat($('#wallet').text());
+
+
+   function handleInput() {
+       var priceInput = $('#withdrawAmount');
+       var bidButton = $('#bidButton');
+       var price = parseFloat(priceInput.val());
+
+       if (price <= wallet && price > 0) {
+           $('.withdraw_error').hide();
+           
+       } else {
+           $('.withdraw_error').show();
+          
+       }
+   }
+
+ 
+   $('#withdrawAmount').on('input', handleInput);
+});
+
     var options = document.querySelectorAll('input[name="paymentMethod"]');
     options.forEach(function(option) {
         option.addEventListener('change', function() {

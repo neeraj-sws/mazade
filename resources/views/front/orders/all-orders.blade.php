@@ -213,4 +213,29 @@
          </div>
       </div>
 
+
+      <div id="codeenter" class="popup">
+         
+      </div>
+
+      
 @endsection
+
+<script>
+   function code_enter(url,id) {
+   
+   $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: url,
+        method: "POST",
+     data: {id: id },
+        success: function (res) {
+        
+         document.getElementById("codeenter").style.display = "block";        
+        $('#codeenter').html(res);
+         }
+    });
+} 
+   </script>

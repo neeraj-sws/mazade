@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Category,Upload,SubCategory,Companies,City,Auction,Orders,Finishedauctions,Payment,Auctionitems};
+use App\Models\{Category,Upload,SubCategory,Companies,City,Auction,Orders,Finishedauctions,Payment,Auctionitems,Transaction};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\RedirectResponse;
@@ -27,7 +27,7 @@ class PaymentController extends Controller
     public function index()
     {
         $id=request('id') ;
-        $data=Auctionitems::where('id',$id)->first();     
+        $data=Orders::where('id',$id)->first();     
         // echo"<pre>";print_r($data);die;
         $price=$data->price;
        return view('front.payment.index',compact('data'));
@@ -70,6 +70,17 @@ class PaymentController extends Controller
             $order->update(['is_payment' => 1,
             'code' => $numericCode,
         ]);
+        $company = Auth::user();
+
+        Transaction::create([
+            'company_id'=> $company->id,
+            'payment_id'=> $info->id,
+            'transaction_id' => $numericCode,
+            'withdraw_id'=> 0,
+            'type'=> 1,
+               
+        ]);
+
 
             return response()->json(['status' => 2, 'message' => 'Payment Done Successfully', 'surl' => route('last-bidings')]);
           

@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Upload;
 
-class WithdrawHistory extends Model
+class Transaction extends Model
 {
     use HasFactory;
-    protected $table = 'withdraw_history';
+    protected $table = 'transaction';
 
-    protected $fillable = [ 'withdraw_amout','company_id','auction_id','payment_method','type'];
+    protected $fillable = [ 'company_id','payment_id','type','withdraw_id'];
 
     function CatId()
     {
@@ -28,18 +28,20 @@ class WithdrawHistory extends Model
         return $this->hasMany(WithdrawHistoryDetails::class,'withdraw_id');
     }
 
-    function Auction()
+    function Payment()
     {
-        return $this->belongsTo(Auctionitems::class);
+        return $this->belongsTo(Payment::class);
+    }
+
+    function Withdraw()
+    {
+        return $this->belongsTo(WithdrawHistory::class);
     }
 
     function comid()
     {
         return $this->belongsTo(Companies::class,'company_id');
     }
-    function transction()
-    {
-        return $this->hasMany(Transaction::class,'withdraw_id');
-    }
+    
 }
    

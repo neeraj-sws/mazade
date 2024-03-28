@@ -41,44 +41,36 @@
                               <table class="eg-table order-table table mb-0">
                                  <thead>
                                     <tr>
-                                       <th>Buyer</th>
+                                       <th>Date</th>
                                        <th>Transaction no</th>
                                        <th>Payment Method</th>
-                                       <th>Amount  </th>
+                                       <th>WithDraw Amount  </th>
                                        <th>Fee</th>
+                                       <th>Amount</th>
                                        <th>Status</th>
                                     </tr>
                                  </thead>
                                  <tbody>
-                                    @foreach ($orders as $orders)
+                                    @foreach ($withdraw as $withdraws)
                                     
                                     <tr>
                                      
-                                       <td data-label="Image">{{ $orders->AuId->oder_id }}</td>
-                                       <td data-label="Bidding ID">{{ @$orders->CatId->title }}</td>
+                                       <td data-label="Image">{{ date('d-m-Y', strtotime($withdraws->created_at)) }}</td>
+                                       <td data-label="Bidding ID">{{ @$withdraws->transaction_id }}</td>
                                      
-                                       <td data-label="Bid Amount(USD)">{{ @$orders->AuId->budget }}</td>
-                                       <td data-label="Highest Bid">10 : 00 : 00</td>
-                                       <td data-label="Status" class="text-green">${{ @$orders->price }}</td>
-                                       @if($orders->is_payment == 0 AND $orders->status == 0)
-                                       <td class="status-price-table text-nowrap" data-label="Bid Amount(USD)"><p>Pending for price</p>
-                                       @elseif($orders->is_payment == 1 AND $orders->status == 0)
-                                       <td class="status-price-table text-nowrap" data-label="Bid Amount(USD)"><p>Pending </p>
-                                       @elseif($orders->status == 2)
-                                          <td class="status-price-table text-nowrap" data-label="Bid Amount(USD)"><p>Rejected </p>
-                                       @elseif($orders->is_payment == 1 AND $orders->status == 1)
-                                       <td class="status-done-table text-nowrap" data-label="Bid Amount(USD)"><p>Completed </p>
+                                       <td data-label="Bid Amount(USD)">{{ @$withdraws->payment_method }}</td>
+                                       <td data-label="Highest Bid">${{ @$withdraws->withdraw_amout }}</td>
+                                       <td data-label="Status" class="text-green">8%</td>
+                                       <td data-label="Status" class="text-green">${{$withdraws->withdraw_amout  * 0.92 }}</td>
+                                    
+                                       
+                                       @if($withdraws->status == 0)
+                                          <td class="status-code-table text-nowrap" data-label="Bid Amount(USD)"><p>Pending</p></td><div>
+                                       @elseif($withdraws->status == 1)
+                                          <td class="status-done-table text-nowrap" data-label="Bid Amount(USD)"><p>Completed</p></td>
+                                       @else
+                                          <td class="status-price-table text-nowrap" data-label="Bid Amount(USD)"><p>Rejected</p></td>
                                        @endif
-                                          
-                                       </td>
-                                       <td data-label="Status" class="text-green btn-edit-table">
-                                          @if($orders->is_payment == 0 AND $orders->status == 0)
-                                          <a href="{{ route('payment', ['id' => @$orders->id]) }}"><button id="popupBtn" class="company-pay-end-btn text-nowrap">Pay now</button></a>
-                                          <a href="payment.html"><button id="popupBtn" class="company-pay-end-btn text-nowrap mt-2">Cancel</button></a>
-                                          @elseif($orders->is_payment == 1 AND $orders->status == 0)
-                                          <button id="popupBtn6" onclick="code_enter('{{ route('enter_code') }}', {{$orders->id}})" class="end-btn company-end-btn text-nowrap"><i class="fa-regular fa-pen-to-square"></i> Enter Code</button>
-                                          @endif
-                                       </td> 
                                     </tr>
             
                                     @endforeach

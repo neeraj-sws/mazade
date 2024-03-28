@@ -17,9 +17,15 @@
     <div class="container">
         <div class="row">
             <div class="sidebar" id="categories_filter">
-             </div>
-            <div id="main-bid-list-new" class="bid-list">
-            </div>
+            </div>  
+            @if($type == 'grid' )
+            <div class="bid-list" id="category_detail">
+            </div>           
+             @else
+             <div id="main-bid-list-new" class="bid-list">
+            </div>     
+            @endif
+           
         </div>
     </div>
 </div>
@@ -36,31 +42,52 @@
       
         action_data();
         categories_filter();
+        category_detail();
 
         $('#filterForm').submit(function(event) {
             event.preventDefault(); 
             action_filter(); 
+           
         });
     });
     
         // Loop through each row and calculate countdown for each end time
-    function action_data() {
-     
-        $.ajax({
-                'headers': {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: "{{ route('active-auctions_list') }}",
-                method: "POST",
-                dataType: "JSON",
-                data: {},
-                success: function (res) {
-                $("#main-bid-list-new").html(res.view)
-    
-                }
-            });
-       
-    }
+        function action_data() {
+           
+            var formData = $('#filterForm').serialize(); 
+
+    console.log (formData);
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: "{{ route('active-auctions_list') }}",
+        method: "POST",
+        dataType: "JSON",
+        data: formData, // Use formData as the data for the AJAX request
+        success: function(res) {
+            $("#main-bid-list-new").html(res.view);
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+        }
+    });
+}
+    function category_detail() {
+    //  alert();
+     $.ajax({
+             'headers': {
+                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+             },
+             url: "{{ route('category-detail') }}",
+            //  method: "POST",           
+             data: {},
+             success: function (res) {
+             $("#category_detail").html(res) 
+             }
+         });
+        }
+
     function categories_filter() {
      
      $.ajax({
@@ -80,7 +107,7 @@
  }
 
  function action_filter() {
-        var formData = $('#searchInput').serialize(); 
+        var formData = $('#filterForm').serialize(); 
        
         $.ajax({
             'headers': {
@@ -96,6 +123,12 @@
         });
     }
 
+
+    function changelist(val){
+        $('#list_type').val(val)
+        action_data();
+
+    }
     
         </script>
     @endsection

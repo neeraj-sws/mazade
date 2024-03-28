@@ -49,7 +49,7 @@ class UserController extends Controller
          $auctionitem = Auctionitems::with('Auction', 'companyId','CatId')->get(); 
         //  echo '<pre>'; print_r($auctionitem->all()); die;
          $user = Auth::guard('web')->user();
-
+         
        return view('front.user.current_auction' , ['auction' => $auction ,'auctionitem' =>$auctionitem, 'user' => $user]);
     }
 
@@ -61,7 +61,7 @@ class UserController extends Controller
        
         //  echo '<pre>'; print_r($orders); die;
          $user = Auth::guard('web')->user();
-
+        //  echo '<pre>'; print_r($user); die;
        return view('front.user.last_bidings' , ['user' => $user,'orders' =>$orders]);
     }
 
@@ -76,7 +76,18 @@ class UserController extends Controller
       
     }
 
+    public function open_profile(Request $request)
+    { 
+      // echo '<pre>'; print_r($request->all()); die;
+          $orders = Orders::where('id' , $request->id)->with('comid','AuId','CatId')->first();
+          // echo '<pre>'; print_r($orders[0]->price); die;
+         return  view('front.user.last_bidings_profile',['orders' =>$orders]);
 
+        
+      
+    }
+
+   
     public function change_password()
     { 
          $auction = Auction::with('','CatId')->get();

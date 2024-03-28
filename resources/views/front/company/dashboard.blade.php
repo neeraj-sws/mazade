@@ -99,7 +99,7 @@
                                     </div>
                                     <div class="body">
                                        <div class="counter-item">
-                                          <h2>10</h2>
+                                          <h2>{{ $orders }}</h2>
                                           <!-- <a href="#"><button class="withdarw-btn">View</button></a> -->
                                        </div>
                                        <div class="icon">
@@ -117,7 +117,7 @@
                                     </div>
                                     <div class="body">
                                        <div class="counter-item">
-                                          <h2>4</h2>
+                                          <h2>{{$auctioncount}}</h2>
                                           <!-- <a href="#"><button class="withdarw-btn">View</button></a> -->
                                        </div>
                                        <div class="icon">

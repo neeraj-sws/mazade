@@ -18,6 +18,11 @@ class WithdrawHistoryDetails extends Model
         return $this->belongsTo(Category::class,'cat_id');
     }
 
+    function WithdrawHistory()
+    {
+        return $this->belongsTo(WithdrawHistory::class);
+    }
+
       function AuId()
     {
         return $this->belongsTo(Auction::class,'auction_id');

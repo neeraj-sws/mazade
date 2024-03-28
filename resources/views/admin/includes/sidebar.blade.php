@@ -99,6 +99,20 @@
                             <span class="nav-menu-item-title">Cities</span>
                         </a>
                     </li>
+                    <li class="nav-menu-item {{ ($single_heading == 'withdraw')? 'router-link-active': '' }} ">
+                        <a href="{{ route('admin.withdraw.withdraw') }}">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            <span class="nav-menu-item-title">WithDraw</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-menu-item {{ ($single_heading == 'transaction')? 'router-link-active': '' }} ">
+                        <a href="{{ route('admin.transaction.transaction') }}">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            <span class="nav-menu-item-title">Transaction</span>
+                        </a>
+                    </li>
+
 
                     {{-- <li class="nav-menu-item {{ ($single_heading == 'State')? 'router-link-active': '' }} ">
                         <a href="{{ route('admin.state.state') }}">

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Pages,Upload ,Companies,SubCategory};
+use App\Models\{Pages,Upload ,Companies,SubCategory,CompanyInfo};
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -50,9 +50,12 @@ class CompanieController extends Controller
         $searchValue = $_POST['search']['value']; 
        
 
-        $qry = Companies::orderBy($columnName, $columnSortOrder)->where('name', 'LIKE', '%' . $searchValue . '%') ->orWhere('name', 'LIKE', '%' . $searchValue . '%');
+        $qry = CompanyInfo::with('user') ->where('company_name', 'LIKE', '%' . $searchValue . '%')->whereHas('user', function($query) {
+            $query->where('role', 2);
+        });
         $result = $qry->get();
   
+        // echo "<pre>";print_r($result);die;
         $totalRecordwithFilter = $totalRecords = $qry->count();
         $result = $qry->offset($row)->take($rowperpage)->get();
         $data = array();
@@ -72,19 +75,16 @@ class CompanieController extends Controller
                 <input class="form-check-input toggle-class" type="checkbox" data-id="'.$row->id.'" '.($row->status == 1 ? 'checked' : '').' onclick="status_change(\''.$status_url.'\', this.checked ? 1 : 0, '.$row->id.', this)">
                 </div>';
 
-                        $file='';
-                        if ($row->photo) {
-                            $file = '<img src="' . asset('uploads/services/' . @$row->photo->file) . '" class="img-fluid table-image" alt="" width="50" height="50" >';
-                        }
+                
     
          
               $data[] = array(
                   "sno" => $i,
-                  "name"=>ucfirst($row->name),
-                  "file_id"=> $file,
-                  "phone"=>$row->phone,
-                  "email"=>$row->email,
-                  "status"=>$status,
+                  "name"=>ucfirst($row->company_name),
+                  "phone"=>$row->compan_phone,
+                  "address"=>$row->address,
+                  "rating"=>$row->avg_rating,
+                //   "status"=>$status,
                   "action" => $action,
               );
   

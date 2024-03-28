@@ -2,10 +2,20 @@
 <div class="top-bar-bid">
     You have {{ count($list) }} active bids with this category
 </div>
+<div class="float-end mt-2">
+   <a href="javascript:void(0);" onclick="changelist('grid')">
+    <button type="btn" class="bid-now-btn"><i class="fa fa-th" aria-hidden="true"></i></button>
+    </a>
+    <a href="javascript:void(0);" onclick="changelist('list')">
+        <button type="btn" class="bid-now-btn"><i class="fa fa-list" aria-hidden="true"></i>
+        </button>
+    </a>
+</div>
+<div class="clearfix"></div>
 <div class="bidding-list">
     <div>
     <?php 
-    // echo '<pre>'; print_r($list->toArray()); die;
+    
     foreach ($list as $lists) {
         
    ?>
@@ -27,18 +37,7 @@
         </div>
         </div>
         <div class="main-review-info-sec">
-            <div class="review-stars">
-              <h5>{{$rating->avg_rating}}.0</h5>
-              <?php $numberOfStars = 5;
-              for ($i = 0; $i < $numberOfStars; $i++) {  
-                if($i < $rating->avg_rating){
-                echo '<span class="star">&#9733;</span>';
-              }else{
-                echo '<span class="star">&#9734;</span>';
-              } }?>
-
-                <p>({{$rating->total_rating}} Reviews)</p>
-            </div>
+           
             <div class="bid-loaction-main">
               <div class="review-main-back">
                <i class="fas fa-history"></i><p><b>Time left:</b><div id="countdown_{{ $lists->id }}"></div></p>

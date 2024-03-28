@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use Helper;
 
-use App\Models\{Auction,Auctioncancel,Finishedauctions,Reviews,Auctionitems,Companies,Payment,Status,Upload,Category,SubCategory,user,CompanyInfo,Orders,WithdrawHistory,WithdrawHistoryDetails};
+use App\Models\{Auction,Auctioncancel,Finishedauctions,Reviews,Auctionitems,Companies,Payment,Status,Upload,Category,SubCategory,user,CompanyInfo,Orders,WithdrawHistory,WithdrawHistoryDetails,Transaction};
 
 
 
@@ -59,8 +59,9 @@ class AuctionController extends Controller
         $auction = Auction::find($id);
         // echo"<pre>";print_r($auction);die;
        
-        $company['companys'] = Auth::user();
+        $company = Auth::user();
        
+        // echo"<pre>";print_r($company['companys']);die;
         return view('front.auction.bid_details',['auction'=>$auction,'company'=>$company]);
     }
 
@@ -136,15 +137,20 @@ class AuctionController extends Controller
 
     }
     public function active_auctions(){
-        
+        // echo"hello";die;
         $currentDateTime = \Carbon\Carbon::now();
 
         $result['categories'] = Category::where('status', 1)->get();
+
+        $type=request('type');
+        
        
-        return view('front.auction.active_auctions',$result);
+        return view('front.auction.active_auctions', array_merge($result, ['type' => $type]));
     }
 
-    public function active_auctions_list(){
+    public function active_auctions_list(Request $request){
+
+        // echo "<pre>";print_r($request->all());die;
         
         $currentDateTime = \Carbon\Carbon::now();
 
@@ -156,7 +162,12 @@ class AuctionController extends Controller
         $result['list'] = $qry->get();
         $result['rating'] = CompanyInfo::where('user_id', Auth::guard('web')->user()->id)->first();
      
-      $view =  view('front.auction.active_aution_list',$result)->render();
+        if($request->list_type == 'grid'){
+            $view = view('front.auction.category_detail',$result)->render();
+       }else{
+            $view =  view('front.auction.active_aution_list',$result)->render();
+        }
+       
 
       return response()->json(['view' => $view]);
 
@@ -167,8 +178,8 @@ class AuctionController extends Controller
         $currentDateTime = \Carbon\Carbon::now();
 
         $result['categories'] = Category::where('status', 1)->get();
-    
-       
+      
+      
       $view =  view('front.auction.categories_auctions_filter',$result)->render();
 
       return response()->json(['view' => $view]);
@@ -176,6 +187,8 @@ class AuctionController extends Controller
     }
 
     public function auctions_filter(Request $request) {
+
+       
         $currentDateTime = \Carbon\Carbon::now();
         $search = $request->input('search');
     
@@ -197,9 +210,12 @@ class AuctionController extends Controller
         }
     
         $result['list'] = $qry->get();
-    
-        $view = view('front.auction.active_aution_list', $result)->render();
-    
+
+        if($request->list_type == 'grid'){
+            $view = view('front.auction.category_detail',$result)->render();
+       }else{
+            $view =  view('front.auction.active_aution_list',$result)->render();
+        }
         return response()->json(['view' => $view]);
     }
     
@@ -244,8 +260,13 @@ class AuctionController extends Controller
         $auction->auction_id = $request->auction_id;
         $auction->company_id = $request->company_id;
         $auction->price = $request->lastPrice;
+        
         $auction->save();
 
+
+        $qry = Auction::where('id',$request->auction_id)->first();
+        $qry->last_bid = $request->lastPrice;
+        $qry->save();
         return redirect()->route('active-auctions')
                          ->with('success', 'Auction updated successfully');  
         }
@@ -265,6 +286,7 @@ class AuctionController extends Controller
    
         return view('front.auction.add_review' ,['orders' => $orders , 'bit' => $bit]);
     }
+
 
     public function add(Request $request)
 {
@@ -317,6 +339,8 @@ public function review($id,$rating)
     public function withdraw(){
 
         $data=request()->user();
+
+       
         $info=User::where('id',$data->id)->first();
         return view('front.auction.withdraw',['info' => $info]);
     }
@@ -324,10 +348,12 @@ public function review($id,$rating)
     public function withdraw_submit(Request $request){
 
         // echo "<pre>";print_r($request->all());die;
-
+        $data=request()->user();
         $info = new WithdrawHistory ;
         $info->withdraw_amout = $request->withdrawAmount;
         $info->payment_method = $request->paymentMethod;
+        $info->transaction_id = $request->transaction_id;
+        $info->company_id = $data->id;
         $info->type = 1;
         $info->save();
 
@@ -343,9 +369,7 @@ public function review($id,$rating)
 
 
         $data=request()->user();
-        $data->wallet -= $request->withdrawAmount;
-        $data->save();
-
+       
         
         return response()->json(['status' => 2, 'message' => 'WithDraw Done Successfully', 'surl' => route('company.dashboard')]);
     }
@@ -353,6 +377,7 @@ public function review($id,$rating)
     public function user_auction_detail()
     {
        return view('front.auction.user_auction_detail');
+       
     }
 
 

@@ -60,6 +60,7 @@ Route::group(['middleware'=>'auth:web'],function(){
     Route::get('/last-bidings', [App\Http\Controllers\Front\UserController::class, 'last_bidings'])->name('last-bidings');
     Route::post('/enter_code', [App\Http\Controllers\Front\UserController::class, 'enter_code'])->name('enter_code');
     Route::post('/open_profile', [App\Http\Controllers\Front\UserController::class, 'open_profile'])->name('open_profile');
+    Route::post('/end-auctions', [App\Http\Controllers\Front\UserController::class, 'end_auctions'])->name('end-auctions');
 
     Route::get('/change-password', [App\Http\Controllers\Front\UserController::class, 'change_password'])->name('change-password');
     Route::get('/edit-profile', [App\Http\Controllers\Front\UserController::class, 'edit_profile'])->name('edit-profile');
@@ -70,6 +71,7 @@ Route::group(['middleware'=>'auth:web'],function(){
     Route::get('/bid-details/{id}', [App\Http\Controllers\Front\AuctionController::class, 'bid_details'])->name('bid-details');
     Route::post('/bidings-code', [App\Http\Controllers\Front\AuctionController::class, 'bidings_code'])->name('bidings-code');
     Route::post('/bid-confirm', [App\Http\Controllers\Front\AuctionController::class, 'bid_confirm'])->name('bid-confirm');
+    
     Route::post('/cancel-request', [App\Http\Controllers\Front\AuctionController::class, 'cancel_request'])->name('cancel-request');
 
     // Group for Role 1

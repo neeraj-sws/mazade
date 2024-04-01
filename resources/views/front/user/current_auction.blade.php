@@ -44,7 +44,8 @@
 @endsection
 
 @section('page-js-script')
-
+<script src="{{asset('assets/vendors/toastr/toastr.min.js') }}"></script>
+<script src="{{asset('assets/js/crud.js') }}"></script>
 
 <script>
 
@@ -60,6 +61,30 @@ $(document).ready(function() {
         },       
     });
 }
+
+
+function end_auctions(url,id) {
+   
+   if (confirm("Are you sure you want to end this auction")) {
+       $.ajax({
+           headers: {
+               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+           },
+           url: url,
+           method: "POST",
+           dataType: "JSON",
+           data: {id: id },
+           success: function (res) {
+            window.location.reload();
+            if(res.status == 1){
+            toastr.success('Auction End successfully', 'Success');
+            }else {
+               toastr.warnind('Decline successfully', 'Warning');
+               }
+            }
+       });
+   } 
+ }
 
 </script>
 

@@ -9,7 +9,6 @@
             <th class="us-ac-th">Time Left</th>
             <th>Bids</th>
             <th>Current Price</th>
-            <th>Seller <br> Profile</th>
             <th colspan="3">Action</th>
            
          </tr>
@@ -39,7 +38,6 @@
             <td data-label="Highest Bid">{{ $timeDifferenceString; }}</td>
             <td data-label="Highest Bid">{{ $auctions->auctionItem->count(); }}</td>
             <td data-label="Status" class="text-green">${{ $auctions->latestBid($auctions->id)}}</td>
-            <td data-label="Status" class="text-green"><a href="javascript:void(0);"><i class="far fa-user"></i></a></td>
 
 
             <td data-label="Action"><a href="{{ route('bid-details', $auctions->id) }}" ><button class="cancel-btn">Detail </button></a></td> 

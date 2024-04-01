@@ -63,53 +63,7 @@
                @if($company->role == 1)
                <div class="profile-info col-md-9">
       
-                  <div class="panel">
-                  <div class="panel-body bio-graph-info">
-              <div class="bio-main-3434">
-              <h1>Bids</h1>
-               </div>
-              <div class="row" id="bid-now">
-                 <table class="table">
-                  <tr>
-                     <th>S.No.</th>
-                     <th>Company</th>
-                     <th>Big amount</th>
-                     <th>Action</th>
-                  </tr>
-               @php $i=1; @endphp   
-               @foreach($auction->auctionItem as $item)
-             
-               @if($item->status == 0)
-                  <tr>
-                     <td>{{ $i++; }}</td>
-                     <td>{{ $item->companyId->company_name }}</td>
-                     <td>${{ $item->price }}</td>
-                     <td>
 
-                       @if($auction->status == 1 )
-                     <a href="javascript:void(0)" claSS="btn btn-success" onclick="confirm_bids('{{ route('bid-confirm') }}', {{ $item->id }})">Confirm</a>
-                     @endif
-                     </td>
-                  </tr>
-                  @endif
-                  @if($item->status == 1)
-                  <tr>
-                     <td>{{ $i++; }}</td>
-                     <td>{{ $item->companyId->company_name }}</td>
-                     <td>${{ $item->price }}</td>
-                     <td>
-
-                       
-                     <a href="javascript:void(0)">Confirmed</a>
-                     </td>
-                  </tr>
-                 @endif
-
-                  @endforeach
-                 </table>
-              </div>
-          </div>
-      </div>
 
       
 

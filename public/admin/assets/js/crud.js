@@ -318,6 +318,8 @@ $.ajax({
     });
   }
 
+
+
   function delete_row(url, id) {
     url = url.replace(':id', id);
     if (confirm('Are you sure you want to delete this?')) {
@@ -636,6 +638,37 @@ $.ajax({
       // Reset toggle button state if user cancels
       $(checkbox).bootstrapToggle('toggle');
   }
+}
+
+function end_auction(url,newStatus, id,type) {
+  //  alert('vake');
+    $('#st_loader_' + id).show();
+    
+    if(type){
+      var statusText = type;
+    }else{
+      var statusText = newStatus === 1 ? 'Active' : 'Inactive';
+    }
+
+    if (confirm("Are you sure you want to end this auction " + "?")) {
+        $.ajax({
+            'headers': {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: url,
+            method: "POST",
+            dataType: "JSON",
+            data: { id: id, status: newStatus },
+            success: function (res) {
+                $('#st_loader_' + id).hide();
+
+                toastr.success('Auction Ended Successfully', 'Success');
+                dataTable.draw(false);
+            }
+        });
+    } else {
+        // Optionally handle the case when the user cancels the confirmation
+    }
 }
 
 function status_update(url,newStatus, id) {

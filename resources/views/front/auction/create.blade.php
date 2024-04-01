@@ -201,19 +201,30 @@
                     </div>
 
                    
-                        
-                        <div class="col-md-12">
-                            <input type="text" id="city" placeholder="City" name="city" >
-                            </div>
+                       <div class="d-flex flex-column">
+                            <select name="city" class="form-select" id="select2">
+                                <option value="" disabled selected>City</option>
+                                  @foreach ($city as $citys)
+                                <option value="{{ $citys->id }}">{{ $citys->name }}</option>
+                                @endforeach
+                           
+                            </select>
+                        </div>
+                      @php 
+                      
+                     $current = \Carbon\Carbon::now();
+                     $tomorrow = \Carbon\Carbon::now()->addHours(24);
 
+
+                    @endphp 
                 <div class="col-md-12">
                     <label>Start Time</label>
-                    <input type="datetime-local" id="birthdaytime" placeholder="start time" name="start_time" >
+                    <input type="text" id="birthdaytime" placeholder="start time" name="start_time" value="{{ $current }}">
                 </div>
 
                 <div class="col-md-12">
                     <label>End Time</label>
-                    <input type="datetime-local" id="birthdaytime" placeholder="last time" name="end_time">
+                    <input type="text" id="birthdaytime" placeholder="last time" name="end_time" value="{{ $tomorrow }}">
                 </div>
         
 
@@ -294,7 +305,11 @@
 
 
 @section('page-js-script')
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script>
+
+      $('#select2').select2();
+
         function selectBox(box, category) {
             var boxes = document.querySelectorAll('.category-box');
             boxes.forEach(function(item) {
@@ -374,6 +389,10 @@
 
 
 <script>
+
+  
+    
+
 function auctionSubmit(e) {
  
     //toastr.clear();

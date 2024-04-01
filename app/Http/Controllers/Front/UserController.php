@@ -35,8 +35,8 @@ class UserController extends Controller
     public function all_auction()
     { 
       $currentDateTime = \Carbon\Carbon::now();
-      $auction = Auction::with('CatId')->get();
-      $auctionitem = Auctionitems::with('Auction', 'companyId','CatId')->get(); 
+      $auction = Auction::with('CatId')->orderBy('id', 'DESC')->get();
+      $auctionitem = Auctionitems::with('Auction', 'companyId','CatId')->orderBy('id', 'DESC')->get(); 
      //  echo '<pre>'; print_r($auctionitem->all()); die;
       $user = Auth::guard('web')->user();
        return view('front.user.all_auction' , ['auction' => $auction ,'auctionitem' =>$auctionitem, 'user' => $user]);
@@ -123,8 +123,8 @@ class UserController extends Controller
     public function all_auction_data()
 { 
     $currentDateTime = \Carbon\Carbon::now();
-    $auction = Auction::with('CatId')->get();
-    $auctionitem = Auctionitems::with('Auction', 'companyId','CatId')->get(); 
+    $auction = Auction::with('CatId')->orderBy('id', 'DESC')->get();
+    $auctionitem = Auctionitems::with('Auction', 'companyId','CatId')->orderBy('id', 'DESC')->get(); 
     $user = Auth::guard('web')->user();
 
     return view('front.user.auction_data' , ['auction' => $auction ,'auctionitem' =>$auctionitem, 'user' => $user]);
@@ -134,6 +134,7 @@ public function current_auction_data()
     { 
         $currentDateTime = \Carbon\Carbon::now();
          $auction = Auction::with('CatId')->where('status',1)->where('start_time', '<=', $currentDateTime)->where('end_time', '>=', $currentDateTime)->get();
+         
          $auctionitem = Auctionitems::with('Auction', 'companyId','CatId')->get(); 
         //  echo '<pre>'; print_r($auctionitem->all()); die;
          $user = Auth::guard('web')->user();
@@ -148,6 +149,41 @@ public function current_auction_data()
       $status->save();
       return response()->json(['success' => 1,  'Auction Bit successfully']);
     }
+
+    public function end_auctions(Request $request){
+
+      // echo "<pre>";print_r($request->all());die;
+      $auction =  Auction::with('auctionItem')->where('id', $request->id)->first();
+     
+      // echo "<pre>";print_r($auctionitem);die;
+
+      $auction->status = 3;
+      $auction->save();
+
+      $auctionitem = Auctionitems::where('auction_id', $auction->id)->latest()->first();
+      // echo "<pre>";print_r($auction);die;
+      $auctionitem->status = 1;
+      $auctionitem->save();
+
+      $order = new Orders;
+      $order->order_id = $auction->oder_id;
+      $order->cat_id = $auction->category;
+      $order->auction_id = $auction->id;
+      $order->auction_item_id = $auctionitem->id;
+      $order->company_id = $auctionitem->company_id;
+      $order->price = $auctionitem->price;
+      $order->status = 0;
+      $order->save();
+      // echo "<pre>";print_r($order);die;
+
+      if($order->id){
+          return response()->json(['status' => 1]);
+      }else{
+          return response()->json(['status' => 0]);
+      }
+
+
+  }
     
    
 }

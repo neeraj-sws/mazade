@@ -48,7 +48,8 @@
          <td data-label="Action"><a href="javascript:void(0);" class="cancel-btn"  onclick="status_change('{{ route('auction-bit') }}','2', {{ $auctions->id }},'Cancel')"><button class="cancel-btn"><i class="fas fa-times" aria-hidden="true"></i> Cancel</button></a></td> 
       
        
-         <td data-label="Status" class="text-green"><a href="javascript:void(0);" class="cancel-btn"  onclick="status_change('{{ route('auction-end') }}','4', {{ $auctions->id }},'End')"><button class="end-btn">End Auction</button></a></td> 
+         <td data-label="Status"><a href="javascript:void(0)" claSS="btn btn-dark" onclick="end_auctions('{{ route('end-auctions') }}', {{ $auctions->id }})">End Auction</a></td> 
+         
         
 
       </tr>
@@ -57,12 +58,14 @@
    </tbody>
 </table>
    @section('page-js-script')
-
+   <script src="{{asset('admin/assets/vendors/toastr/toastr.min.js') }}"></script>
+   <script src="{{asset('assets/js/crud.js') }}"></script>
 <script>
     $(document).ready(function() {
        
     });
 
-    
+
+
 </script>
     @endsection

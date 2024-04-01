@@ -39,6 +39,7 @@ class Auction extends Model
         return $this->hasMany(Auctionitems::class,'auction_id');
     }
 
+
     public static function latestBid($aid)
     {
         $bid = Auctionitems::where('auction_id', $aid)->latest()->first();

@@ -50,6 +50,8 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script src="{{asset('admin/assets/js/crud.js') }}"></script>
     <script src="{{asset('admin/assets/vendors/toastr/toastr.min.js') }}"></script>
+    <script src="{{asset('assets/js/crud.js') }}"></script>
+    <script src="{{asset('assets/vendors/toastr/toastr.min.js') }}"></script>
     <script src="{{asset('admin/assets/js/vendors.min.js') }}"></script>
         <script src="{{asset('admin/assets/js/app.min.js') }}"></script>
         <script src="{{asset('admin/assets/vendors/datatables/jquery.dataTables.min.js')}}"></script>

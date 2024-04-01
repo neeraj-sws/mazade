@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use Helper;
+Use \Carbon\Carbon;
 
-use App\Models\{Auction,Auctioncancel,Finishedauctions,Reviews,Auctionitems,Companies,Payment,Status,Upload,Category,SubCategory,user,CompanyInfo,Orders,WithdrawHistory,WithdrawHistoryDetails,Transaction};
+use App\Models\{Auction,Auctioncancel,Finishedauctions,Reviews,Auctionitems,Companies,Payment,Status,Upload,Category,SubCategory,user,CompanyInfo,Orders,WithdrawHistory,WithdrawHistoryDetails,Transaction,City};
 
 
 
@@ -25,7 +26,7 @@ class AuctionController extends Controller
 
     public function __construct()
     {
-       
+        date_default_timezone_set('Asia/Kolkata');
           $this->single_heading = "Sub Category";
        
     }
@@ -34,7 +35,9 @@ class AuctionController extends Controller
     public function create($cat_id=0,$sub_cat_id=0){
         $sub_categories = $cat_info= $sub_cat_info= array();    
         $categories = Category::where('status', 1)->get();
-       
+        $city = City::where('status', 1)->get();
+        // echo '<pre>'; print_r($city->toArray()); die;
+
         if($cat_id != 0){
             $sub_categories = SubCategory::where('category_id', $cat_id)->where('status', 1)->get();
         }
@@ -51,6 +54,7 @@ class AuctionController extends Controller
             'sub_categories'=>$sub_categories,
             'cat_info'=>$cat_info,
             'sub_cat_info'=>$sub_cat_info,
+            'city' => $city,
         ]);
     }
 
@@ -99,7 +103,7 @@ class AuctionController extends Controller
 
     public function bid_confirm(Request $request){
 
-        // echo "<pre>";print_r($request->all());die;
+        echo "<pre>";print_r($request->all());die;
         $auctionitem = Auctionitems::find($request->id);
         $auctionitem->status = 1;
         $auctionitem->save();
@@ -128,6 +132,8 @@ class AuctionController extends Controller
 
 
     }
+
+    
     public function cancel_request(Request $request){
 
         $auctionitem = Orders::find($request->id);
@@ -405,7 +411,7 @@ public function review($id,$rating)
                 'city'=>'required',
                 'start_time'=>'required',
                 'end_time'=>'required',
-               'message'=>'required',
+               
             ]
         );
         if($validator->fails()){
@@ -417,7 +423,9 @@ public function review($id,$rating)
                 $date = new DateTime($opder_id->created_at);
                 $datee =   $date->format("Ym");
                 $idd = 'MZ'.$datee.$opder_id->id;
-
+                
+                
+     
                 $info = Auction::create([
                     'oder_id' => $idd,
                     'title'=> $request->title,
@@ -428,7 +436,7 @@ public function review($id,$rating)
                     'city'=>$request->city,
                     'quantity'=>$request->quantity,
                     'start_time'=>$request->start_time,
-                    'end_time'=>$request->end_time,
+                    'end_time'=> $request->end_time,
                     'image'=>$request->image,
                     'message'=>$request->message,
                     'status'=>1,

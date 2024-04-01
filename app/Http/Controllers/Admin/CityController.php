@@ -105,8 +105,6 @@ class CityController extends Controller
         [
             'name'=>'required',
             'state'=>'required',
-            'latitude'=>'required',
-            'longitude'=>'required',
         ]
     );
         if($validator->fails()){
@@ -117,8 +115,6 @@ class CityController extends Controller
                 'name'=>$request->name,
                 'state_id'=>$request->state,
                 'status'=>$request->status,
-                'latitude'=>$request->latitude,
-                'longitude'=>$request->longitude,
             ]);
 
             return response()->json(['status' => 1, 'message' => $this->single_heading .'saved successfully' ]);
@@ -141,8 +137,6 @@ class CityController extends Controller
         [
             'name'=>'required',
             'state'=>'required',
-            'latitude'=>'required',
-            'longitude'=>'required',
         ]
       );  
       
@@ -154,8 +148,6 @@ class CityController extends Controller
             'name'=>$request->name,
             'state_id'=>$request->state,
             'status'=>$request->status,
-            'latitude'=>$request->latitude,
-            'longitude'=>$request->longitude,
         ])->save();
         return response()->json(['status'=> 1 , 'message' => $this->single_heading .' updated successfully']);
 

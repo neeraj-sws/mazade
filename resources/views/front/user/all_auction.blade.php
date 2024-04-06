@@ -29,6 +29,24 @@
                   <h3>Current Auctions </h3>
                      <a class="new-auction-btn-main" href="{{ route('new-auction') }}"><button>Start new auction</button></a>
                </div>
+               <div class="form-group mb-3">
+                       <label for="">Select Auctions</label>
+                       <div class="col-sm-8" id="auction_data">
+                           <label class="radio-inline me-3">
+                               <input type="radio" name="auction" onclick="auction_data(this,1)" class="all align-middle" checked value="1"> All Auction
+                           </label>
+                           <label class="radio-inline me-3">
+                             <input type="radio" name="auction" onclick="auction_data(this,2)" class="all align-middle" value="2"> Current Auction
+                            </label>
+                           <label class="radio-inline me-3">
+                               <input type="radio" name="auction" onclick="auction_data(this,3)" class="all align-middle" value="3"> End Auction
+                           </label>
+                           <label class="radio-inline me-3">
+                               <input type="radio" name="auction" onclick="auction_data(this,4)" class="all align-middle" value="4"> Cancel Auction
+                           </label>
+                                                                                            
+                       </div>
+                    </div>
                <div class="table-wrapper" id="new_auction">
                 
                   
@@ -68,6 +86,53 @@ document.getElementById("closeBtn2").onclick = function() {
           document.getElementById("popup2").style.display = "none";
       }
 
+
+function end_auctions(url,id) {
+   
+   if (confirm("Are you sure you want to end this auction")) {
+       $.ajax({
+           headers: {
+               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+           },
+           url: url,
+           method: "POST",
+           dataType: "JSON",
+           data: {id: id },
+           success: function (res) {
+            window.location.reload();
+            if(res.status == 1){
+            toastr.success('Auction End successfully', 'Success');
+            }else {
+               toastr.warnind('Decline successfully', 'Warning');
+               }
+            }
+       });
+   } 
+ }
+ 
+ function auction_data(e,val){
+
+   
+       $.ajax({
+           headers: {
+               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+           },
+           url: "{{ route('select-auction') }}",
+           method: "POST",
+           data: { 
+            auction_data:val,
+           },
+          
+            success: function (response) {         
+                $("#new_auction").html(response);          
+        },       
+            
+       });
+   
+
+};
+
+ 
 </script>
 
 

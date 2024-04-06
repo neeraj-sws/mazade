@@ -51,7 +51,8 @@ class OrderController extends Controller
 
     public function last_order(){
         $orders = Orders::with('comid','AuId','CatId')->get();
-        return view('front.orders.last-orders', ['orders' =>$orders]);
+        $bit = Auctionitems::with(['Auction','CatId' , 'companyId'])->where('company_id' , Auth::user()->id)->orderBy('id','desc')->get();
+        return view('front.orders.last-orders', ['orders' =>$bit]);
     }
     
     public function withdarw_history(){

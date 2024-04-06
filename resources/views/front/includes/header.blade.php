@@ -14,7 +14,7 @@
             <ul class="menu-list">
                <li class="menu-item-has-children"><a href="{{ route('home') }}">Home</a></li>
               
-               @if (Auth::check() && Auth::guard('web')->user()->company)
+               @if (Auth::check() && Auth::guard('web')->user()->role == 2)
                <li><a href="{{ route('active-auctions') }}">Active Auctions</a></li>
                @endif
                <li><a href="{{ route('categories') }}">Categories</a></li>

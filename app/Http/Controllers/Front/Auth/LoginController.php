@@ -50,21 +50,25 @@ class LoginController extends Controller
     
      protected function login(Request $request)
     {
-        // echo '<pre>'; print_r($request); die;
+       
         $validatedData = $request->validate([
             'email' => ['required', 'string', 'email', 'max:255'],
             'password' => ['required', 'string', 'min:8'],
         ]);
+        $user = User::where("role", $request->user)->where("email", $request->email)->first();
 
-         if (Auth::attempt(['email' => $request['email'], 'password' => $request['password']])) {
-            // Authentication passed...           
-            return response()->json(['status' => 2, 'message' => 'User Login Successfully', 'surl' => route('home')]);
-
-            return response()->json(['status' => 2, 'message' => 'User Login Successfully', 'surl' => route('home')]);
-        }else{
-            return response()->json(['status' => 0, 'errors' => ['Invalid Email or Password']]);
+        if($user) {
+            if (Auth::attempt(['email' => $request['email'], 'password' => $request['password']])) {
+                // Authentication passed...
+                return response()->json(['status' => 2, 'message' => 'User Login Successfully', 'surl' => route('home')]);
+            } else {
+                return response()->json(['status' => 0, 'errors' => ['Invalid Email or Password']]);
             }
-     
-    }
+        } else {
+            return response()->json(['status' => 0, 'errors' => ["Credential doesn't exist"]]);
+        }
+
+
+}
 
 }

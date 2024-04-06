@@ -101,9 +101,9 @@ function addForm(url, modal = 'modal-lg') {
   
           var $err = '';
           $.each(data.errors, function (key, value) {
-            $err = $err + value + "<br>";
+            $('.'+key).text(value);
           });
-          toastr.error($err, 'Error');
+          
         }
         else if (data.status == 2) {
           toastr.success(data.message, 'Success');
@@ -607,6 +607,7 @@ function end_auction(url,newStatus, id,type) {
 
 function upload_image(form, url, id, input) 
 {
+   
   $(form).find('.' + id + '_loader').show();
   $.ajax({
     type: "POST",
@@ -620,6 +621,7 @@ function upload_image(form, url, id, input)
     dataType: "json",
     data: new FormData(form[0]),
     success: function (res) {
+       
       if (res.status == 0) {
         $(form).find('.' + id + '_loader').hide();
         toastr.error(res.msg, 'Error');
@@ -629,6 +631,7 @@ function upload_image(form, url, id, input)
         $('#' + id + '_prev').addClass('form-image');
         $('#' + id + '_prev').show();
         $('#' + input).val(res.file_id);
+         $('#delete_image').show();
       }
 
     }

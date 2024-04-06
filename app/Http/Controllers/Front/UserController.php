@@ -184,6 +184,37 @@ public function current_auction_data()
 
 
   }
+  
+  
+  public function select_auction(Request $request)
+  { 
+    //   echo "<pre>";print_r($request->all());die;
+      
+      $currentDateTime = \Carbon\Carbon::now();
+      
+      $status = $request->auction_data;
+      if($status == 1){
+        $auctions = Auction::with('CatId')->orderBy('id', 'DESC')->get();
+      }
+      elseif($status == 2){
+        $auctions = Auction::with('CatId')->where('status', 1)->orderBy('id', 'DESC')->get();
+      }
+      elseif($status == 3){
+        $auctions = Auction::with('CatId')->where('status', 3)->get();
+      }
+      elseif($status == 4){
+        $auctions = Auction::with('CatId')->where('status', 2)->get();
+      }
+      
+       
+        $auctionitem = Auctionitems::with('Auction', 'companyId','CatId')->get(); 
+        //  echo '<pre>'; print_r($auctionitem->all()); die;
+        $user = Auth::guard('web')->user();
+
+        return view('front.user.auction_data' , ['auction' => $auctions ,'auctionitem' =>$auctionitem, 'user' => $user]);
+     
+     
+  }
     
    
 }

@@ -28,7 +28,7 @@
                      <div class="tab-pane fade show active" id="v-pills-order" role="tabpanel" aria-labelledby="v-pills-order-tab">
                         <div class="dashboard-area box--shadow">
                            <div class="table-title-area">
-                              <h3>Order Status</h3>
+                              <h3>My Order</h3>
                               <select>
                                  <option value="01">Show: Last 05 Order</option>
                                  <option value="02">Show: Last 03 Order</option>
@@ -78,7 +78,7 @@
                                        <td class="status-done-table text-nowrap" data-label="Bid Amount(USD)"><p>Completed </p>
                                        @endif
                                        @if($user->role == 1 )
-                                          <a href="{{ route('user-company-detail',['id' =>  @$orders->id])}}"><button id="popupBtn" class="mt-2 btn-primary">Company Info</button></a>
+                                          <a href="{{ route('user-company-detail',['id' =>  @$orders->id])}}"><button id="popupBtn" class="mt-2 btn-primary">Seller Info</button></a>
                                           @endif
                                        </td>
                                        <td data-label="Status" class="text-green btn-edit-table">

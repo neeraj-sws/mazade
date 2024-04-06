@@ -1,6 +1,6 @@
 @extends('layouts.auction')
 @section('page-css-script')
-
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <style type="text/css">
       .category-box {
         position: relative;
@@ -184,6 +184,7 @@
                     <div class="all-form-data row">
                     <div class="col-md-12">
                     <input type="text" id="title" placeholder="Title" name="title" >
+                     <span class="text-danger title"></span>
                     </div>
 
                          <div class=" d-flex flex-column">
@@ -194,10 +195,12 @@
                               <option value="1">Medium</option>
                               <option value="2">Low</option>
                           </select>
+                           <span class="text-danger quality"></span>
                        </div>
                       
                     <div class="col-md-12">
                     <input type="number" id="budget" placeholder="Budget" name="budget" >
+                     <span class="text-danger budget"></span>
                     </div>
 
                    
@@ -209,6 +212,7 @@
                                 @endforeach
                            
                             </select>
+                             <span class="text-danger city"></span>
                         </div>
                       @php 
                       
@@ -218,17 +222,20 @@
 
                     @endphp 
                 <div class="col-md-12">
-                    <label>Start Time</label>
+                    
                     <input type="text" id="birthdaytime" placeholder="start time" name="start_time" value="{{ $current }}">
+                      <span class="text-danger start_time"></span>
                 </div>
 
                 <div class="col-md-12">
-                    <label>End Time</label>
+                   
                     <input type="text" id="birthdaytime" placeholder="last time" name="end_time" value="{{ $tomorrow }}">
+                     <span class="text-danger end_time"></span>
                 </div>
         
 
-                    <div class="col-md-12">
+                    <div class="row">
+                        
                         <div class="col-md-10">
                             <label>Upload Images(Optional)</label>
                             <div class="custom-file">
@@ -243,11 +250,16 @@
                                 <label id="lblErrorMessageBannerImage" style="color:red"></label>
                             </div>
                         </div>
-                        <div class="col-md-2 mt-3">
+                        <div class="col-md-2 mt-3" id="imgdata">
+                            <a class="btn btn-sm  position-absolute" onclick="delete_image('this')" id="delete_image" style=" z-index: 1111111;right: 11%;top: 50%;">X</a>
+                            <div class="position-relative">
                             <img src="" id="image_prev" class="img-thumbnail " alt="" width="100" height="100"
                                 style="display:none">
+                            </div>
                             <label id="lblErrorMessageBannerImage" style="color:red"></label>
                         </div>
+                    
+                       
                     </div>  
                     
 
@@ -266,6 +278,8 @@
                               <option value="9">9</option>
                               <option value="10">10</option>
                           </select>
+                           <span class="text-danger quantity"></span>
+                         
                        </div>
 
                     <div class="col-md-12">
@@ -305,39 +319,45 @@
 
 
 @section('page-js-script')
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
+$( document ).ready(function() {
+    $('#delete_image').hide();
+     $('#select2').select2();
+});
 
-      $('#select2').select2();
 
-        function selectBox(box, category) {
-            var boxes = document.querySelectorAll('.category-box');
-            boxes.forEach(function(item) {
-                item.classList.remove('selected');
-            });
-            box.classList.add('selected');
-            document.getElementById('selected-category').value = category;
+ 
+    //   $('#select2').select2();
 
-            var subcategories = document.querySelectorAll('.sub-category-box');
-            subcategories.forEach(function(item) {
-                item.style.display = 'none';
-            });
+    //     function selectBox(box, category) {
+    //         var boxes = document.querySelectorAll('.category-box');
+    //         boxes.forEach(function(item) {
+    //             item.classList.remove('selected');
+    //         });
+    //         box.classList.add('selected');
+    //         document.getElementById('selected-category').value = category;
 
-            var selectedSubcategories = document.getElementById(category + '-subcategories');
-            selectedSubcategories.style.display = 'block';
-        }
+    //         var subcategories = document.querySelectorAll('.sub-category-box');
+    //         subcategories.forEach(function(item) {
+    //             item.style.display = 'none';
+    //         });
 
-        function selectSubCategory(subCategory) {
-            var subCategories = document.querySelectorAll('.sub-category');
-            subCategories.forEach(function(item) {
-                item.classList.remove('selected-sub-category');
-            });
-            subCategory.classList.add('selected-sub-category');
-            document.getElementById('selected-sub-category').value = subCategory.innerText;
+    //         var selectedSubcategories = document.getElementById(category + '-subcategories');
+    //         selectedSubcategories.style.display = 'block';
+    //     }
 
-            document.getElementById('bottom-form').style.display = 'block';
-            document.getElementById('selected-subcategory-text').innerText = subCategory.innerText;
-        }
+    //     function selectSubCategory(subCategory) {
+    //         var subCategories = document.querySelectorAll('.sub-category');
+    //         subCategories.forEach(function(item) {
+    //             item.classList.remove('selected-sub-category');
+    //         });
+    //         subCategory.classList.add('selected-sub-category');
+    //         document.getElementById('selected-sub-category').value = subCategory.innerText;
+
+    //         document.getElementById('bottom-form').style.display = 'block';
+    //         document.getElementById('selected-subcategory-text').innerText = subCategory.innerText;
+    //     }
     </script>
 
 
@@ -374,6 +394,37 @@
             fileInput.files = new FileList(files);
         }
 
+ 
+  
+  
+   function delete_image(e) {
+   
+    var id = $('#image').val();
+    
+   if (confirm("Are you sure you want to delete ")) {
+       $.ajax({
+           headers: {
+               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+           },
+           url: '{{ route('imagedelete') }}',
+           method: "POST",
+           dataType: "JSON",
+           data: {id: id },
+           success: function (res) {
+            if(res.status == 1){
+            toastr.success(res.msg, 'Success');
+             $('#imgdata').hide();
+             $('#image').val('');
+             $('.custom-file').val('');
+            }else {
+               toastr.error(res.msg, 'Error');
+               }
+            }
+       });
+   } 
+ }
+  
+  
         function dataURLtoFile(dataurl) {
             const arr = dataurl.split(',');
             const mime = arr[0].match(/:(.*?);/)[1];

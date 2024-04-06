@@ -13,6 +13,17 @@
                      </div>
                      <form class="w-100" action="{{ route('submit.login') }}" method="POST" onsubmit="event.preventDefault();loginform_submit(this);return false;">
                      @csrf
+                     <div class="d-flex justify-content-center gap-3 mb-3">
+                        <div class="d-flex">
+                        <input type="radio" id="seller" name="user" value="2" style="height: 18px;" checked>
+                        <label for="seller" class="text-nowrap"> Seller Login</label>
+                        </div>
+                        <div class="d-flex">
+                        <input type="radio" id="buyer" name="user" value="1" style="height: 18px;">
+                        <label for="buyer" class="text-nowrap">  Buyer Login</label>
+                        </div>
+                     </div>
+                     
                      <div class="row">
                            <div class="col-12">
                               <div class="form-inner">
@@ -59,7 +70,7 @@
      success: function (data) {
        if (data.status == 1) {
         // alert('hii');
-         //toastr.success(data.message, 'Success');
+         toastr.success(data.message, 'Success');
         window.location.href = base_url+'home';
         
         //  dataTable.draw(false);
@@ -70,10 +81,10 @@
          $.each(data.errors, function (key, value) {
            $err = $err + value + "<br>";
          });
-        // toastr.error($err, 'Error');
+        toastr.error($err, 'Error');
        }
        else if (data.status == 2) {
-        // toastr.success(data.message, 'Success');
+        toastr.success(data.message, 'Success');
          window.setTimeout(function () {
            window.location.href = data.surl;
          }, 1000);
@@ -87,7 +98,7 @@
          $.each(data.responseJSON.errors, function (key, value) {
            $err = $err + value + "<br>";
          });
-        // toastr.error($err, 'Error');
+        toastr.error($err, 'Error');
        }
        $(e).find('.st_loader').hide();
      }

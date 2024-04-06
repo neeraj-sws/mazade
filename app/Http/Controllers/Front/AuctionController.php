@@ -398,6 +398,10 @@ public function review($id,$rating)
    public function store(Request $request)
    {
     //    echo "<pre>";print_r($request->title);die;
+    
+     $user = Auth::user();
+     
+     
         if($request->id){
                 return $this->update($request);
         }else{
@@ -408,6 +412,8 @@ public function review($id,$rating)
                 'category'=>'required',
                 'sub_category'=>'required',
                 'budget'=>'required',
+                'quality'=>'required',
+                'quantity'=>'required',
                 'city'=>'required',
                 'start_time'=>'required',
                 'end_time'=>'required',
@@ -417,7 +423,7 @@ public function review($id,$rating)
         if($validator->fails()){
             return response()->json(['status' => 0,'errors' =>  $validator->errors()]);
         }else{
-
+// echo "<pre>";print_r($user->id);die;
                 $id = DB::table('auctionodernumber')->insertGetId([]);
                 $opder_id = DB::table('auctionodernumber')->where('id', $id)->first();
                 $date = new DateTime($opder_id->created_at);
@@ -439,12 +445,13 @@ public function review($id,$rating)
                     'end_time'=> $request->end_time,
                     'image'=>$request->image,
                     'message'=>$request->message,
+                    'user_id'=> $user->id,
                     'status'=>1,
                 ]);
 
               
 
-                return response()->json(['status' => 2, 'message' => 'Auction Create Successfully', 'surl' => route('dashboard')]);
+                return response()->json(['status' => 2, 'message' => 'Auction Create Successfully', 'surl' => route('all-auction')]);
             }
         }
    }
@@ -663,7 +670,7 @@ public function review($id,$rating)
   
     public function imageuplode(Request $request)
     {
-    //    echo '<pre>'; print_r($request->all()); die;
+        // echo '<pre>'; print_r($request->all()); die;
 
         $type = $request->type;
         $path = $type . '_path';
@@ -692,6 +699,23 @@ public function review($id,$rating)
         }
     }
    
+    public function imagedelete(Request $request)
+    {
+        // echo '<pre>'; print_r($request->all()); die;
+
+        $id = $request->id;
+        if (!empty($id)) {
+                $file_data= Upload::find($id);
+                    $file_data->delete();
+
+                return response()->json(['status' => 1,'msg' => 'File deleted successfully' ]);
+
+        }else{ 
+
+            return response()->json(['status' => 0, 'msg' => 'File not deleted']);
+        }
+    }
+    
 
 
 }

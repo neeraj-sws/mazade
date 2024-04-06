@@ -31,7 +31,7 @@
          <tr>
           
          
-            <td data-label="Image">{{ $auctions->oder_id }}</td>
+            <td data-label="Image"><a href="{{ route('bid-details', $auctions->id) }}" class="text-primary text-decoration-underline">{{ $auctions->oder_id }}</a></td>
             <td data-label="Title">{{ $auctions->title }}</td>
             <td data-label="Category">{{ $auctions->CatId->title }}</td>
             <td data-label="Bid Amount(USD)">${{ $auctions->budget }}</td>
@@ -45,15 +45,21 @@
           @if($auctions->status== 2)
             <td data-label="Action">Cancelled</td> 
          @else
-         <td data-label="Action"><a href="javascript:void(0);" class="cancel-btn"  onclick="status_change('{{ route('auction-bit') }}','2', {{ $auctions->id }},'Cancel')"><button class="cancel-btn"><i class="fas fa-times" aria-hidden="true"></i> Cancel</button></a></td> 
+            @if( $auctions->status != 3 )
+            <td data-label="Action"><a href="javascript:void(0);" class="cancel-btn"  onclick="status_change('{{ route('auction-bit') }}','2', {{ $auctions->id }},'Cancel')"><button class="cancel-btn text-nowrap"><i class="fas fa-times" aria-hidden="true"></i> Cancel</button></a></td> 
+            
+            @else
+             <td data-label="Status" class="text-green"></td> 
+             @endif
             @endif
             @if( $auctions->status == 2 )
             <td data-label="Status" class="text-green"></a></td> 
-            @elseif( $auctions->status == 4 )
+            @elseif( $auctions->status == 3 )
             <td data-label="Status" class="text-green">Ended</a></td> 
             @else
-            <td data-label="Status" class="text-green"><a href="javascript:void(0);" class="cancel-btn"  onclick="status_change('{{ route('auction-end') }}','4', {{ $auctions->id }},'End')"><button class="end-btn">End Auction</button></a></td> 
-          
+            @if($auctions->auctionItem->count() > 0)
+             <td data-label="Status"><a href="javascript:void(0)" claSS="btn btn-dark text-nowrap" onclick="end_auctions('{{ route('end-auctions') }}', {{ $auctions->id }})">End Auction</a></td> 
+            @endif
             @endif
 
          </tr>
@@ -69,6 +75,7 @@
        
     });
 
+    
     
 </script>
     @endsection

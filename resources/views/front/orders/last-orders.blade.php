@@ -29,7 +29,7 @@
                      <div class="tab-pane fade active show" id="v-pills-last-order-2" role="tabpanel" aria-labelledby="v-pills-last-order-2">
                         <div class="dashboard-area box--shadow">
                            <div class="table-title-area">
-                              <h3>Last Orders</h3>
+                              <h3>My Bid</h3>
                               <select>
                                  <option value="01">Show: Last 05 Order</option>
                                  <option value="02">Show: Last 03 Order</option>
@@ -41,6 +41,7 @@
                               <table class="eg-table order-table table mb-0">
                                  <thead>
                                     <tr>
+                                       <th>Auction Name</th>
                                        <th>Category Name</th>
                                        <th>Price </th>
                                        <th>Date </th>
@@ -52,10 +53,11 @@
                                     @foreach ($orders as $orders)
                                     
                                     <tr>
+                                       <td data-label="Bidding ID">{{ @$orders->Auction->title }}</td>
                                        <td data-label="Bidding ID">{{ @$orders->CatId->title }}</td>
                                        <td data-label="Bid Amount(USD)">${{ @$orders->price }}</td>
                                        <td data-label="Status" class="text-green">{{ date('d/m/Y', strtotime($orders->created_at)) }}</td>
-                                       <td data-label="Status" class="text-green"><button class="end-btn">Request Status</button></td>
+                                       <td data-label="Status" class="@if($orders->status == 0) status-price-table @elseif($orders->status == 1) status-done-table @endif text-nowrap "><p>@if($orders->status == 0) Pending @elseif($orders->status == 1) Confirmed @endif </p></td>
                                     </tr>
                                     @endforeach
                                  </tbody>

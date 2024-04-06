@@ -48,6 +48,7 @@ Route::group(['middleware'=>'auth:web'],function(){
     Route::get('/all-auction', [App\Http\Controllers\Front\UserController::class, 'all_auction'])->name('all-auction');
     Route::get('/all-auction_data', [App\Http\Controllers\Front\UserController::class, 'all_auction_data'])->name('all-auction-data');
     Route::get('/current-auction-data', [App\Http\Controllers\Front\UserController::class, 'current_auction_data'])->name('current-auction-data');
+    Route::post('/select-auction', [App\Http\Controllers\Front\UserController::class, 'select_auction'])->name('select-auction');
     // Route::get('/all-auction-data', 'YourController@all_auction_data')->name('all-auction-data');
 
 
@@ -136,7 +137,8 @@ Route::group(['middleware'=>'auth:web'],function(){
     Route::get('/auctioncomplet', [App\Http\Controllers\Front\HomeController::class, 'auctioncomplet'])->name('auctioncomplet');
 
     Route::post('/imageuplode', [App\Http\Controllers\Front\AuctionController::class, 'imageuplode'])->name('imageuplode');
-
+    Route::post('/imagedelete', [App\Http\Controllers\Front\AuctionController::class, 'imagedelete'])->name('imagedelete');
+ 
     Route::post('/auctioncancel', [App\Http\Controllers\Front\AuctionController::class, 'auctioncancel'])->name('auctioncancel');
     Route::post('/finishedauction', [App\Http\Controllers\Front\AuctionController::class, 'finishedauction'])->name('finishedauction');
     Route::get('auction/update/{id}',[App\Http\Controllers\Front\AuctionController::class,'auctionupdate'])->name('auctionupdate');

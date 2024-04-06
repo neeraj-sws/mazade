@@ -728,6 +728,7 @@ function status_update(url,newStatus, id) {
 
 function upload_image(form, url, id, input) 
 {
+   
   $(form).find('.' + id + '_loader').show();
   $.ajax({
     type: "POST",
@@ -742,14 +743,17 @@ function upload_image(form, url, id, input)
     data: new FormData(form[0]),
     success: function (res) {
       if (res.status == 0) {
+          
         $(form).find('.' + id + '_loader').hide();
         toastr.error(res.msg, 'Error');
       } else {
+         
         $(form).find('.' + id + '_loader').hide();
         $('#' + id + '_prev').attr('src', res.file_path);
         $('#' + id + '_prev').addClass('form-image');
         $('#' + id + '_prev').show();
         $('#' + input).val(res.file_id);
+        $('#delete_image').show();
       }
 
     }

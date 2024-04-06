@@ -39,7 +39,7 @@
               </div>
           </div>
       </div>
-      @if($user->company)
+      @if($user->role == 2)
       <div class="panel">
           <div class="panel-body bio-graph-info">
               <div class="bio-main-3434">

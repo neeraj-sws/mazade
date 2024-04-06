@@ -4,7 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use App\Models\{SubCategory,Upload,Category};
+use App\Models\{SubCategory,Upload,Category,User};
 use Illuminate\Http\Request;
 use App\Models\Auction;
 
@@ -27,7 +27,9 @@ class ActiveauctionsController extends Controller
 
     public function index()
     {
-           return view('admin.auction.index',['route'=>$this->route, 'single_heading'=>$this->single_heading]);
+        $user = User::where('role', 1)->get();
+        $category = Category::get();
+        return view('admin.auction.index',['route'=>$this->route, 'single_heading'=>$this->single_heading , 'user' => $user ,'category' => $category]);
     }
 
     /**
@@ -36,6 +38,8 @@ class ActiveauctionsController extends Controller
 
      public function list(Request $request)
      {
+         
+        //  echo "<pre>";print_r($request->all());die;
 
         $draw = $_POST['draw'];
         $row = $_POST['start'];
@@ -45,8 +49,45 @@ class ActiveauctionsController extends Controller
         $columnSortOrder = $_POST['order'][0]['dir']; 
         $searchValue = $_POST['search']['value']; 
        
-        $qry = Auction::orderBy($columnName, $columnSortOrder)->with(['CatId','subcatid','city'])->where('category', 'LIKE', '%' . $searchValue . '%') ->orWhere('description', 'LIKE', '%' . $searchValue . '%');
-        $result = $qry->get();
+       
+       $status = $_POST['auction'];
+       $user = $_POST['user'];
+       $catagory = $_POST['catagories'];
+       $subcatagory = $_POST['subcatagories'];
+       
+       
+        $qry = Auction::orderBy($columnName, $columnSortOrder)->with(['CatId','subcatid','city'])->with('CatId');
+        // echo $user;die;
+       if(!empty($user)) {
+         $qry->where('user_id', $user);
+       }
+       if(!empty($catagory)) {
+         $qry->where('category', $catagory);
+       }
+       if(!empty($subcatagory)) {
+         $qry->where('sub_category', $subcatagory);
+       }
+       
+    //   echo $status;die;
+       
+      if(!empty($status)) {
+      if($status == 1){
+        $qry;
+      }
+      elseif($status == 2){
+         $qry->where('status', 1);
+      }
+      elseif($status == 3){
+          $qry->where('status', 3);
+      }
+      elseif($status == 4){
+         $qry->where('status', 2);
+      }
+      }else{
+          $qry;
+        
+      }
+        $result = $qry->orderBy('id', 'desc')->get();
   
         $totalRecordwithFilter = $totalRecords = $qry->count();
         $result = $qry->offset($row)->take($rowperpage)->get();
@@ -95,6 +136,25 @@ class ActiveauctionsController extends Controller
 
          return view('admin.companie.view',['route'=>$this->route,'single_heading'=>$this->single_heading, 'info'=>$info]);
      }
+     
+   public function subCatagoryData(Request $request)
+{
+    $catagory = $request->input('catagory');
+    // echo "<pre>";print_r($catagory);die;
+    $sub_category = SubCategory::where('category_id', $catagory)->get();
+    
+    $html = '';
+    if ($sub_category->isNotEmpty()) {
+        $html .= "<option value=''>Select</option>";
+        foreach ($sub_category as $sub) {
+            $html .= "<option value='{$sub->id}'>{$sub->title}</option>";
+        }
+    } else {
+        $html .= "<option value=''>No Subcategories found</option>";
+    }
+    
+    return response()->json(['html' => $html]);
+}
 
    
 }

@@ -5,6 +5,15 @@ use App\Http\Controllers\Admin\{UserController,AdminController,CategoryControlle
 use App\Http\Controllers\Admin\Auth\LoginController;
 
 
+Route::get('/clear-cache', function() {
+    Artisan::call('optimize:clear');
+    Artisan::call('route:clear');
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    Artisan::call('view:clear');
+});
+
+
 Route::get('/admin', function () {
     return redirect()->route('dashboard');
 })->name('admin');
@@ -146,6 +155,7 @@ Route::group(['prefix' => 'auctions', 'as' => 'auctions.'],function(){
     Route::get('edit/{id}',[ActiveauctionsController::class, 'edit'])->name('edit');
     Route::post('update',[ActiveauctionsController::class, 'update'])->name('update');
     Route::get('destory/{id}',[ActiveauctionsController::class, 'destroy'])->name('destroy');
+    Route::post('categoryOptions',[ActiveauctionsController::class, 'subCatagoryData'])->name('categoryOptions');
 
 });
 

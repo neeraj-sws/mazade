@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\SellerCategory;
 use Illuminate\Http\Request;
 use App\Models\{Category,Upload,SubCategory,Companies,City,Auction,Oders,Finishedauctions,Auctionitems};
 use Illuminate\Support\Facades\Auth;
@@ -29,14 +30,39 @@ class HomeController extends Controller
 
     public function index()
     {
-        $categories = Category::where('status', 1)->get();
+        
+        if(Auth::check() && Auth::guard('web')->user()->role == 2){
+            $categories = SellerCategory::with('category')->where('seller_id',auth()->user()->id)
+            ->whereHas('category',function($qry) {
+                $qry->where('status',1);
+            })
+            ->orderBy('category_level','asc')
+            ->get();
+    
+            if(count($categories) == 0){
+                $categories = Category::with('sellerCategory')->where('status', 1)->get();
+            }
+        }else{
+            $categories = Category::where('status', 1)->get();
+        }
+
+        
         $companies = Companies::get();
         return view('front.index',['categories' => $categories,'companies'=>$companies]);
     }
 
     public function categories()
     {
-       $categories = Category::where('status', 1)->get();
+        if(Auth::check() && Auth::guard('web')->user()->role == 2){
+            $categories = SellerCategory::with('category')->where('seller_id',auth()->user()->id)
+            ->whereHas('category',function($qry) {
+                $qry->where('status',1);
+            })
+            ->orderBy('category_level','asc')
+            ->get();
+        }else{
+            $categories = Category::where('status', 1)->get();
+        }
        return view('front.categories',['categories' => $categories]);
     }
     

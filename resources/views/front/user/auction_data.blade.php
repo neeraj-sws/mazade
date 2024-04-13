@@ -35,8 +35,8 @@
             <td data-label="Title">{{ $auctions->title }}</td>
             <td data-label="Category">{{ $auctions->CatId->title }}</td>
             <td data-label="Bid Amount(USD)">${{ $auctions->budget }}</td>
-            <td data-label="Highest Bid">{{ $timeDifferenceString; }}</td>
-            <td data-label="Highest Bid">{{ $auctions->auctionItem->count(); }}</td>
+            <td data-label="Highest Bid">{{ $timeDifferenceString }}</td>
+            <td data-label="Highest Bid">{{ $auctions->auctionItem->count() }}</td>
             <td data-label="Status" class="text-green">${{ $auctions->latestBid($auctions->id)}}</td>
 
 

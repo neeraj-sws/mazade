@@ -21,11 +21,11 @@
             @foreach($categories as $category) 
 
                 <div class="category">
-                    <input onchange="action_filter()" type="checkbox" name="cat_id[]" id="category{{ $category->id }}" class="category-checkbox">
-                    <label for="category{{ $category->id }}" class="category-label">{{ $category->title }}</label>
-                    @if(count($category->sub_category) > 0)
+                    <input onchange="action_filter()" type="checkbox" name="cat_id[]" id="category{{ $category->category->id }}" class="category-checkbox">
+                    <label for="category{{ $category->category->id }}" class="category-label">{{ $category->category->title }}</label>
+                    @if(count($category->category->sub_category) > 0)
                     <div class="subcategories">
-                        @foreach($category->sub_category as $sub_cat) 
+                        @foreach($category->category->sub_category as $sub_cat) 
                         <div class="subcategory">
                             <input onchange="action_filter()" type="checkbox" name="sub_cat_id[]" id="subcategory1-{{ $sub_cat->id }}" class="subcategory-checkbox">
                             <label for="subcategory1-{{ $sub_cat->id }}" class="subcategory-label">{{ $sub_cat->title }}</label>

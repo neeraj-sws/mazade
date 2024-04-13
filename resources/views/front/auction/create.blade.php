@@ -57,6 +57,9 @@
       <div class="form-wrapper wow fadeInUp form-wrapper-new-2" data-wow-duration="1.5s" data-wow-delay=".2s" style="visibility: visible; animation-duration: 1.5s; animation-delay: 0.2s; animation-name: fadeInUp;">
 
 
+        <div class="text-end">
+            <a href="{{route('all-auction')}}" class="btn  btn-primary">Back</a>
+        </div>
 
 <div id="category-topp">
             <div class="category-main-text mb-5">
@@ -214,24 +217,8 @@
                             </select>
                              <span class="text-danger city"></span>
                         </div>
-                      @php 
-                      
-                     $current = \Carbon\Carbon::now();
-                     $tomorrow = \Carbon\Carbon::now()->addHours(24);
-
-
-                    @endphp 
-                <div class="col-md-12">
-                    
-                    <input type="text" id="birthdaytime" placeholder="start time" name="start_time" value="{{ $current }}">
-                      <span class="text-danger start_time"></span>
-                </div>
-
-                <div class="col-md-12">
-                   
-                    <input type="text" id="birthdaytime" placeholder="last time" name="end_time" value="{{ $tomorrow }}">
-                     <span class="text-danger end_time"></span>
-                </div>
+                     
+               
         
 
                     <div class="row">
@@ -264,21 +251,10 @@
                     
 
                      <div class=" d-flex flex-column">
-              
-                          <select  name="quantity" class="form-select" >
-                              <option value="" disabled selected>Choose the Quantity</option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                              <option value="4">4</option>
-                              <option value="5">5</option>
-                              <option value="6">6</option>
-                              <option value="7">7</option>
-                              <option value="8">8</option>
-                              <option value="9">9</option>
-                              <option value="10">10</option>
-                          </select>
-                           <span class="text-danger quantity"></span>
+                        <div class="col-md-12">
+                            <input type="text" id="quantity" placeholder="Quantity" name="quantity" >
+                        </div>
+                        <span class="text-danger quantity"></span>
                          
                        </div>
 

@@ -64,7 +64,7 @@
                <div class="row category-row mt-5">
                @foreach($categories as $category)
                   <div class="col-md-2 cate-box-home">
-                     <a href="{{ Auth::check() && Auth::guard('web')->user()->role == 2 ? url('/active-auctions') : url('/new-auction/'.$category->id) }}">
+                     <a href="{{ Auth::check() && Auth::guard('web')->user()->role == 2 ? url('/active-auctions').'?cat='.$category->id : url('/new-auction/'.$category->id) }}">
                         <div style="background-color: #7BAB47;" class="category-main-box">
                            <div class="category-img">
                               <img src="{{ asset('uploads/category/'.@$category->photo->file) }}">

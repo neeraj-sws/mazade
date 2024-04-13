@@ -61,12 +61,13 @@ class AuctionController extends Controller
     public function bid_details($id){
         // echo $id; die;
         $auction = Auction::find($id);
+        $orders = Orders::where('auction_id', $id)->first();
         // echo"<pre>";print_r($auction);die;
        
         $company = Auth::user();
        
         // echo"<pre>";print_r($company['companys']);die;
-        return view('front.auction.bid_details',['auction'=>$auction,'company'=>$company]);
+        return view('front.auction.bid_details',['auction'=>$auction,'company'=>$company,'orders' =>$orders]);
     }
 
     public function bidings_code(Request $request){
@@ -103,7 +104,7 @@ class AuctionController extends Controller
 
     public function bid_confirm(Request $request){
 
-        echo "<pre>";print_r($request->all());die;
+       
         $auctionitem = Auctionitems::find($request->id);
         $auctionitem->status = 1;
         $auctionitem->save();
@@ -145,6 +146,7 @@ class AuctionController extends Controller
     public function active_auctions(){
         // echo"hello";die;
         $currentDateTime = \Carbon\Carbon::now();
+
 
         $result['categories'] = Category::where('status', 1)->get();
 
@@ -194,9 +196,11 @@ class AuctionController extends Controller
 
     public function auctions_filter(Request $request) {
 
-       
+    //    echo "<pre>";print_r($request->all());die;
         $currentDateTime = \Carbon\Carbon::now();
         $search = $request->input('search');
+        $catIds = $request->input('cat_id', []);
+        $subCatIds = $request->input('sub_cat_id', []);
     
         $qry = Auction::with(['CatId', 'subcatid', 'status_id'])
             ->where('status', 1)
@@ -214,7 +218,12 @@ class AuctionController extends Controller
                 });
             });
         }
-    
+        if (!empty($catIds)) {
+            $qry->whereIn('category', $catIds);
+        }
+        if (!empty($subCatIds)) {
+            $qry->whereIn('sub_category', $subCatIds);
+        }
         $result['list'] = $qry->get();
 
         if($request->list_type == 'grid'){
@@ -415,8 +424,7 @@ public function review($id,$rating)
                 'quality'=>'required',
                 'quantity'=>'required',
                 'city'=>'required',
-                'start_time'=>'required',
-                'end_time'=>'required',
+               
                
             ]
         );
@@ -430,7 +438,13 @@ public function review($id,$rating)
                 $datee =   $date->format("Ym");
                 $idd = 'MZ'.$datee.$opder_id->id;
                 
-                
+               
+                      
+                $current = \Carbon\Carbon::now();
+                $tomorrow = \Carbon\Carbon::now()->addHours(24);
+
+
+              
      
                 $info = Auction::create([
                     'oder_id' => $idd,
@@ -441,8 +455,8 @@ public function review($id,$rating)
                     'budget'=> $request->budget,
                     'city'=>$request->city,
                     'quantity'=>$request->quantity,
-                    'start_time'=>$request->start_time,
-                    'end_time'=> $request->end_time,
+                    'start_time'=>$current,
+                    'end_time'=> $tomorrow,
                     'image'=>$request->image,
                     'message'=>$request->message,
                     'user_id'=> $user->id,

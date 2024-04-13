@@ -99,7 +99,9 @@ function end_auctions(url,id) {
            dataType: "JSON",
            data: {id: id },
            success: function (res) {
-            window.location.reload();
+            window.setTimeout(function () {
+                    window.location.href = res.surl;
+                }, 1000);
             if(res.status == 1){
             toastr.success('Auction End successfully', 'Success');
             }else {

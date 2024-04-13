@@ -55,7 +55,7 @@
             @if( $auctions->status == 2 )
             <td data-label="Status" class="text-green"></a></td> 
             @elseif( $auctions->status == 3 )
-            <td data-label="Status" class="text-green">Ended</a></td> 
+            <td data-label="Status" class="text-green">Confirmed</a></td> 
             @else
             @if($auctions->auctionItem->count() > 0)
              <td data-label="Status"><a href="javascript:void(0)" claSS="btn btn-dark text-nowrap" onclick="end_auctions('{{ route('end-auctions') }}', {{ $auctions->id }})">End Auction</a></td> 

@@ -23,7 +23,7 @@
                   <div class="form-wrapper wow fadeInUp register-top-slider" data-wow-duration="1.5s" data-wow-delay=".2s">
                      
                      <div class="row all-form-data">
-                  <form>
+                 
                     <div class="row">
                       <div class="col-md-6 mb-3">
                       {{ $auction->title }}
@@ -54,8 +54,22 @@
                           <a id="popupBtn" class="end-btn company-end-btn new-bid-btn"></i>Bid</a>
                       </div>
                      @endif
+                     @if($company->role == 1)
+
+                    
+                     <div class="col-md-3 mb-3">
+                        @if($orders->is_payment == 0 AND $orders->status == 0)
+                        <a href="{{ route('payment', $orders->id) }}" id="paybtn" class="end-btn company-end-btn new-bid-btn">Pay Now</a>
+                        @elseif($orders->is_payment == 1 AND $orders->status == 0)
+                        <span class="d-block">code: {{$orders->code}}</span>
+                        @elseif($orders->is_payment == 1 AND $orders->status == 1)
+                        <span class="d-block">Completed</span>
+                        @endif
+                   </div>
+
+                     @endif                     
                     </div>
-                  </form>
+                  
                 </div>
                 <span id="budget" class="d-none"> @if(empty($auction->last_bid)) {{ $auction->budget }} @else {{ $auction->last_bid }} @endif</span>
                   </div>
@@ -101,7 +115,9 @@
       </div>
       <div class="col-md-12 mb-3 all-form-data mb-4">
          <input type="text" id="Price" placeholder="Price" name="lastPrice" value="">
-         <span class="bid_error">Bid price should be less than $@if(empty($auction->last_bid)){{ $auction->budget }} @else{{ $auction->last_bid }} @endif</span>
+         <span class="bid_error text-danger small">Bid price should be less than $@if(empty($auction->last_bid)){{ $auction->budget }} @else{{ $auction->last_bid }} @endif</span>
+         <p class="price_percentage small">(8% will be deductated from current bid as commission)</p>
+        
       </div>
       <div class="col-md-6 pop-btn-main-sec">
          <input id="bidButton" class="company-new-popup-btn" type="submit" value="Bid" disabled>

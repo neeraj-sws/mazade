@@ -23,6 +23,7 @@
             </div>           
              @else
              <div id="main-bid-list-new" class="bid-list">
+                <input type ="hidden" value="$request('cat') }}">
             </div>     
             @endif
            
@@ -129,6 +130,8 @@
         action_data();
 
     }
+
+ 
     
         </script>
     @endsection

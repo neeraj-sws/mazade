@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\SellerCategory;
 use Helper;
-Use \Carbon\Carbon;
+use \Carbon\Carbon;
 
-use App\Models\{Auction,Auctioncancel,Finishedauctions,Reviews,Auctionitems,Companies,Payment,Status,Upload,Category,SubCategory,user,CompanyInfo,Orders,WithdrawHistory,WithdrawHistoryDetails,Transaction,City};
+use App\Models\{Auction, Auctioncancel, Finishedauctions, Reviews, Auctionitems, Companies, Payment, Status, Upload, Category, SubCategory, user, CompanyInfo, Orders, WithdrawHistory, WithdrawHistoryDetails, Transaction, City};
 
 
 
@@ -27,84 +28,89 @@ class AuctionController extends Controller
     public function __construct()
     {
         date_default_timezone_set('Asia/Kolkata');
-          $this->single_heading = "Sub Category";
-       
+        $this->single_heading = "Sub Category";
+
     }
 
 
-    public function create($cat_id=0,$sub_cat_id=0){
-        $sub_categories = $cat_info= $sub_cat_info= array();    
+    public function create($cat_id = 0, $sub_cat_id = 0)
+    {
+        $sub_categories = $cat_info = $sub_cat_info = array();
         $categories = Category::where('status', 1)->get();
         $city = City::where('status', 1)->get();
         // echo '<pre>'; print_r($city->toArray()); die;
 
-        if($cat_id != 0){
+        if ($cat_id != 0) {
             $sub_categories = SubCategory::where('category_id', $cat_id)->where('status', 1)->get();
         }
 
-        if($cat_id != 0 AND $sub_cat_id != 0){
+        if ($cat_id != 0 and $sub_cat_id != 0) {
             $cat_info = Category::where('id', $cat_id)->where('status', 1)->first();
             $sub_cat_info = SubCategory::where('id', $sub_cat_id)->where('status', 1)->first();
         }
 
-        return view('front.auction.create',[
-            'cat_id'=>$cat_id,
-            'sub_cat_id'=>$sub_cat_id,
+        return view('front.auction.create', [
+            'cat_id' => $cat_id,
+            'sub_cat_id' => $sub_cat_id,
             'categories' => $categories,
-            'sub_categories'=>$sub_categories,
-            'cat_info'=>$cat_info,
-            'sub_cat_info'=>$sub_cat_info,
+            'sub_categories' => $sub_categories,
+            'cat_info' => $cat_info,
+            'sub_cat_info' => $sub_cat_info,
             'city' => $city,
         ]);
     }
 
-    public function bid_details($id){
+    public function bid_details($id)
+    {
         // echo $id; die;
         $auction = Auction::find($id);
         $orders = Orders::where('auction_id', $id)->first();
         // echo"<pre>";print_r($auction);die;
-       
+
         $company = Auth::user();
-       
+
         // echo"<pre>";print_r($company['companys']);die;
+
         return view('front.auction.bid_details',['auction'=>$auction,'company'=>$company,'orders' =>$orders]);
     }
 
-    public function bidings_code(Request $request){
-        
+    public function bidings_code(Request $request)
+    {
+
 
         $company = Auth::user();
 
 
         $order = Orders::find($request->id);
-       
-        if($order->code == $request->checkcode){
-        $order->status = 1;
-        $order->save();
 
-        $company =User::find($order->company_id);
-        $company->wallet += $order->price;
-        $company->save();
+        if ($order->code == $request->checkcode) {
+            $order->status = 1;
+            $order->save();
+
+            $company = User::find($order->company_id);
+            $company->wallet += $order->price;
+            $company->save();
 
             return response()->json(['status' => 2, 'message' => 'Code Matched Successfully', 'surl' => route('last-bidings')]);
-        }else{
+        } else {
             return response()->json(['status' => 0, 'message' => 'Code MisMatched', 'surl' => route('last-bidings')]);
         }
-       
-        
-       
-        
+
+
+
+
     }
 
-    public function payment($id){
+    public function payment($id)
+    {
 
         $auction = Auction::find($id);
-        return view('front.auction.payment',['auction'=>$auction]);
+        return view('front.auction.payment', ['auction' => $auction]);
     }
 
-    public function bid_confirm(Request $request){
+    public function bid_confirm(Request $request)
+    {
 
-       
         $auctionitem = Auctionitems::find($request->id);
         $auctionitem->status = 1;
         $auctionitem->save();
@@ -125,17 +131,18 @@ class AuctionController extends Controller
         $order->save();
         // echo "<pre>";print_r($order);die;
 
-        if($order->id){
+        if ($order->id) {
             return response()->json(['status' => 1]);
-        }else{
+        } else {
             return response()->json(['status' => 0]);
         }
 
 
     }
 
-    
-    public function cancel_request(Request $request){
+
+    public function cancel_request(Request $request)
+    {
 
         $auctionitem = Orders::find($request->id);
         $auctionitem->status = 2;
@@ -143,58 +150,78 @@ class AuctionController extends Controller
         return response()->json(['status' => 1]);
 
     }
-    public function active_auctions(){
+    public function active_auctions()
+    {
         // echo"hello";die;
-        $currentDateTime = \Carbon\Carbon::now();
+        $currentDateTime = Carbon::now();
 
+        $result['categories'] = SellerCategory::with('category')->where('seller_id', auth()->user()->id)
+            ->whereHas('category', function ($qry) {
+                $qry->where('status', 1);
+            })
+            ->orderBy('category_level', 'asc')
+            ->get();
 
-        $result['categories'] = Category::where('status', 1)->get();
+        $type = request('type');
 
-        $type=request('type');
-        
-       
         return view('front.auction.active_auctions', array_merge($result, ['type' => $type]));
     }
 
-    public function active_auctions_list(Request $request){
+    public function active_auctions_list(Request $request)
+    {
 
         // echo "<pre>";print_r($request->all());die;
-        
-        $currentDateTime = \Carbon\Carbon::now();
+
+        $currentDateTime = Carbon::now();
 
 
-        $qry = Auction::with(['CatId','subcatid', 'status_id'])->where('status',1)->where('start_time', '<=', $currentDateTime)->where('end_time', '>=', $currentDateTime);
-        $qry->whereDoesntHave('auctionItem', function ($query){
+        $qry = Auction::with(['CatId', 'subcatid', 'status_id'])
+        ->whereHas('CatId',function($qry){
+            $qry->whereHas('sellerCategory',function($qry){
+                $qry->where('seller_id',auth()->user()->id);
+            });
+        })
+        ->where('status', 1)->where('start_time', '<=', $currentDateTime)->where('end_time', '>=', $currentDateTime);
+        $qry->whereDoesntHave('auctionItem', function ($query) {
             $query->where('auction_items.company_id', Auth::user()->id);
         });
         $result['list'] = $qry->get();
         $result['rating'] = CompanyInfo::where('user_id', Auth::guard('web')->user()->id)->first();
-     
-        if($request->list_type == 'grid'){
-            $view = view('front.auction.category_detail',$result)->render();
-       }else{
-            $view =  view('front.auction.active_aution_list',$result)->render();
+
+        if ($request->list_type == 'grid') {
+            $view = view('front.auction.category_detail', $result)->render();
+        } else {
+            $view = view('front.auction.active_aution_list', $result)->render();
         }
-       
 
-      return response()->json(['view' => $view]);
 
-    }
-
-    public function categories_auctions_filter(){
-        
-        $currentDateTime = \Carbon\Carbon::now();
-
-        $result['categories'] = Category::where('status', 1)->get();
-      
-      
-      $view =  view('front.auction.categories_auctions_filter',$result)->render();
-
-      return response()->json(['view' => $view]);
+        return response()->json(['view' => $view]);
 
     }
 
-    public function auctions_filter(Request $request) {
+    public function categories_auctions_filter()
+    {
+
+        $currentDateTime = Carbon::now();
+
+        $result['categories'] = SellerCategory::with('category')->where('seller_id',auth()->user()->id)
+        ->whereHas('category',function($qry) {
+            $qry->where('status',1);
+        })
+        ->orderBy('category_level','asc')
+        ->get();
+
+
+        $view = view('front.auction.categories_auctions_filter', $result)->render();
+
+        return response()->json(['view' => $view]);
+
+    }
+
+    public function auctions_filter(Request $request)
+    {
+
+
 
     //    echo "<pre>";print_r($request->all());die;
         $currentDateTime = \Carbon\Carbon::now();
@@ -203,168 +230,177 @@ class AuctionController extends Controller
         $subCatIds = $request->input('sub_cat_id', []);
     
         $qry = Auction::with(['CatId', 'subcatid', 'status_id'])
+            ->whereHas('CatId',function($qry){
+                $qry->whereHas('sellerCategory',function($qry){
+                    $qry->where('seller_id',auth()->user()->id);
+                });
+            })
             ->where('status', 1)
             ->where('start_time', '<=', $currentDateTime)
             ->where('end_time', '>=', $currentDateTime);
-    
+
         if ($search) {
-            $qry->where(function($query) use ($search) {
+            $qry->where(function ($query) use ($search) {
                 $query->where('title', 'like', "%$search%");
-                $query->orWhereHas('CatId', function($catQuery) use ($search) {
+                $query->orWhereHas('CatId', function ($catQuery) use ($search) {
                     $catQuery->where('title', 'like', "%$search%");
                 });
-                $query->orWhereHas('subcatid', function($subCatQuery) use ($search) {
+                $query->orWhereHas('subcatid', function ($subCatQuery) use ($search) {
                     $subCatQuery->where('title', 'like', "%$search%");
                 });
             });
         }
+
         if (!empty($catIds)) {
             $qry->whereIn('category', $catIds);
         }
         if (!empty($subCatIds)) {
             $qry->whereIn('sub_category', $subCatIds);
         }
+
         $result['list'] = $qry->get();
 
-        if($request->list_type == 'grid'){
-            $view = view('front.auction.category_detail',$result)->render();
-       }else{
-            $view =  view('front.auction.active_aution_list',$result)->render();
+        if ($request->list_type == 'grid') {
+            $view = view('front.auction.category_detail', $result)->render();
+        } else {
+            $view = view('front.auction.active_aution_list', $result)->render();
         }
         return response()->json(['view' => $view]);
     }
-    
-    
-    
+
+
+
 
 
     public function updates(Request $request)
     {
-        
+
         // echo '<pre>'; print_r($request->all()); die;
         $validator = Validator::make(
             $request->all(),
-            [   
+            [
                 'lastPrice' => 'required',
             ]
         );
 
-        if($validator->fails()){
-            return response()->json(['status' => 0,'errors' =>  $validator->errors()]);
-        }else{
-            
-             $id = DB::table('bidoderid')->insertGetId([]);
+        if ($validator->fails()) {
+            return response()->json(['status' => 0, 'errors' => $validator->errors()]);
+        } else {
+
+            $id = DB::table('bidoderid')->insertGetId([]);
 
             $opder_id = DB::table('bidoderid')->where('id', $id)->first();
 
             $date = new DateTime($opder_id->created_at);
-           $datee =   $date->format("Ym");
+            $datee = $date->format("Ym");
 
-              $idd = 'MZ'.$datee.$opder_id->id;
+            $idd = 'MZ' . $datee . $opder_id->id;
 
-        // $status = Status::select('name')->where('id',8)->first();
-        
-        //    $status = Companies::find($request->company_id);
-        // $status->is_bid_add = 1;
-        // $status->save();
-    
-        $auction = new Auctionitems;
-        
-          $auction->oder_id = $idd;
-        $auction->category_id = $request->category_id;
-        $auction->auction_id = $request->auction_id;
-        $auction->company_id = $request->company_id;
-        $auction->price = $request->lastPrice;
-        
-        $auction->save();
+            // $status = Status::select('name')->where('id',8)->first();
+
+            //    $status = Companies::find($request->company_id);
+            // $status->is_bid_add = 1;
+            // $status->save();
+
+            $auction = new Auctionitems;
+
+            $auction->oder_id = $idd;
+            $auction->category_id = $request->category_id;
+            $auction->auction_id = $request->auction_id;
+            $auction->company_id = $request->company_id;
+            $auction->price = $request->lastPrice;
+
+            $auction->save();
 
 
-        $qry = Auction::where('id',$request->auction_id)->first();
-        $qry->last_bid = $request->lastPrice;
-        $qry->save();
-        return redirect()->route('active-auctions')
-                         ->with('success', 'Auction updated successfully');  
+            $qry = Auction::where('id', $request->auction_id)->first();
+            $qry->last_bid = $request->lastPrice;
+            $qry->save();
+            return redirect()->route('active-auctions')
+                ->with('success', 'Auction updated successfully');
         }
-       
+
     }
 
-    public function add_review($id) 
+    public function add_review($id)
     {
-       $id=request('id');
-    //    echo"<pre>";print_r($id);die;
+        $id = request('id');
+        //    echo"<pre>";print_r($id);die;
         $orders = Orders::with('AuId')->findOrFail($id);
-      
 
-        $bit = Auctionitems::with(['CatId' , 'companyId'])->where('auction_id' , $orders->AuId->id )->first();
 
-    //    echo "<pre>";print_r($bit);die;
-   
-        return view('front.auction.add_review' ,['orders' => $orders , 'bit' => $bit]);
+        $bit = Auctionitems::with(['CatId', 'companyId'])->where('auction_id', $orders->AuId->id)->first();
+
+        //    echo "<pre>";print_r($bit);die;
+
+        return view('front.auction.add_review', ['orders' => $orders, 'bit' => $bit]);
     }
 
 
     public function add(Request $request)
-{
-    $validator = Validator::make(
-        $request->all(),
-        [   
-            'rating' => 'required',
-            'experience' => 'required',
-            'title' => 'required',
-            'email' => 'required',
-        ]
-    );
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'rating' => 'required',
+                'experience' => 'required',
+                'title' => 'required',
+                'email' => 'required',
+            ]
+        );
 
-    if($validator->fails()){
-        return response()->json(['status' => 0,'errors' =>  $validator->errors()]);
-    } else {
-        $rating = new Reviews;
-        $rating->auction_id = $request->auction_id;
-        $rating->company_id = $request->company_id;
-        $rating->rating = $request->rating;
-        $rating->discription = $request->experience;
-        $rating->title = $request->title;
-        $rating->email = $request->email;
-        $rating->save();
+        if ($validator->fails()) {
+            return response()->json(['status' => 0, 'errors' => $validator->errors()]);
+        } else {
+            $rating = new Reviews;
+            $rating->auction_id = $request->auction_id;
+            $rating->company_id = $request->company_id;
+            $rating->rating = $request->rating;
+            $rating->discription = $request->experience;
+            $rating->title = $request->title;
+            $rating->email = $request->email;
+            $rating->save();
 
-        $orders = Orders::where('id', $request->order_id)->first();
-        $orders->is_review = 1;
-        $orders->save();
+            $orders = Orders::where('id', $request->order_id)->first();
+            $orders->is_review = 1;
+            $orders->save();
 
-        return response()->json(['status' => 2, 'message' => 'Review Added Successfully', 'surl' => route('last-bidings')]);
-        $this->review($request->company_id,$request->rating); 
+            return response()->json(['status' => 2, 'message' => 'Review Added Successfully', 'surl' => route('last-bidings')]);
+            $this->review($request->company_id, $request->rating);
 
-        // Return your response here if needed
-    }
-}
-
-public function review($id,$rating)
-{
-    $company = CompanyInfo::where('user_id', $id)->first();
-    $reviews = Reviews::where('company_id', $id)->get();
-    $sumRatings = $reviews->sum('rating');
-    $totalReviews = $reviews->count();
-    $averageRating = $totalReviews > 0 ? $sumRatings / $totalReviews : 0;
-    
-    $company->total_rating += $rating; 
-    $company->avg_rating = $averageRating;
-    $company->save();
-}
-
-    public function withdraw(){
-
-        $data=request()->user();
-
-       
-        $info=User::where('id',$data->id)->first();
-        return view('front.auction.withdraw',['info' => $info]);
+            // Return your response here if needed
+        }
     }
 
-    public function withdraw_submit(Request $request){
+    public function review($id, $rating)
+    {
+        $company = CompanyInfo::where('user_id', $id)->first();
+        $reviews = Reviews::where('company_id', $id)->get();
+        $sumRatings = $reviews->sum('rating');
+        $totalReviews = $reviews->count();
+        $averageRating = $totalReviews > 0 ? $sumRatings / $totalReviews : 0;
+
+        $company->total_rating += $rating;
+        $company->avg_rating = $averageRating;
+        $company->save();
+    }
+
+    public function withdraw()
+    {
+
+        $data = request()->user();
+
+
+        $info = User::where('id', $data->id)->first();
+        return view('front.auction.withdraw', ['info' => $info]);
+    }
+
+    public function withdraw_submit(Request $request)
+    {
 
         // echo "<pre>";print_r($request->all());die;
-        $data=request()->user();
-        $info = new WithdrawHistory ;
+        $data = request()->user();
+        $info = new WithdrawHistory;
         $info->withdraw_amout = $request->withdrawAmount;
         $info->payment_method = $request->paymentMethod;
         $info->transaction_id = $request->transaction_id;
@@ -372,7 +408,7 @@ public function review($id,$rating)
         $info->type = 1;
         $info->save();
 
-        $WithdrawHistoryDetails = new WithdrawHistoryDetails ;
+        $WithdrawHistoryDetails = new WithdrawHistoryDetails;
         $WithdrawHistoryDetails->withdraw_id = $info->id;
         $WithdrawHistoryDetails->type = $request->paymentMethod;
         $WithdrawHistoryDetails->email = $request->paypalEmail;
@@ -383,26 +419,27 @@ public function review($id,$rating)
         $WithdrawHistoryDetails->save();
 
 
-        $data=request()->user();
-       
-        
+        $data = request()->user();
+
+
         return response()->json(['status' => 2, 'message' => 'WithDraw Done Successfully', 'surl' => route('company.dashboard')]);
     }
 
     public function user_auction_detail()
     {
-       return view('front.auction.user_auction_detail');
-       
+        return view('front.auction.user_auction_detail');
+
     }
 
 
     public function index()
     {
-      
-       $startauction = Auction::with(['CatId'])->get();
 
-        return view('front.active_auction',['startauction' => $startauction]);
+        $startauction = Auction::with(['CatId'])->get();
+
+        return view('front.active_auction', ['startauction' => $startauction]);
     }
+
 
    public function store(Request $request)
    {
@@ -463,136 +500,136 @@ public function review($id,$rating)
                     'status'=>1,
                 ]);
 
-              
+
 
                 return response()->json(['status' => 2, 'message' => 'Auction Create Successfully', 'surl' => route('all-auction')]);
             }
         }
-   }
-   
+    }
+
     public function auctioncancel(Request $request)
-   {
-       if($request->id){
-                return $this->update($request);
-        }else{
-        $validator = Validator::make(
-            $request->all(),
-            [   
-                'category_id'=>'required',
-                'company_id'=>'required',
-                'username'=>'required',
-                'Paid'=>'required',
-                'reason'=>'required',
-            ]
-        );
-            if($validator->fails()){
-                return response()->json(['status' => 0,'errors' =>  $validator->errors()]);
-            }else{
-                
+    {
+        if ($request->id) {
+            return $this->update($request);
+        } else {
+            $validator = Validator::make(
+                $request->all(),
+                [
+                    'category_id' => 'required',
+                    'company_id' => 'required',
+                    'username' => 'required',
+                    'Paid' => 'required',
+                    'reason' => 'required',
+                ]
+            );
+            if ($validator->fails()) {
+                return response()->json(['status' => 0, 'errors' => $validator->errors()]);
+            } else {
+
                 $info = Auctioncancel::create([
-                    'category_id'=> $request->category_id,
-                    'company_id'=> $request->company_id,
-                    'username'=>$request->username,
-                    'Paid'=> $request->Paid,
-                    'reason'=>$request->reason,
+                    'category_id' => $request->category_id,
+                    'company_id' => $request->company_id,
+                    'username' => $request->username,
+                    'Paid' => $request->Paid,
+                    'reason' => $request->reason,
                 ]);
 
                 return redirect()->route('home')
-                ->with('success','state auction created successfully.');
+                    ->with('success', 'state auction created successfully.');
             }
         }
-       
-   }
 
-   public function finishedauction(Request $request)
-   {
-         if($request->id){
+    }
+
+    public function finishedauction(Request $request)
+    {
+        if ($request->id) {
             return $this->update($request);
-    }else{
-    $validator = Validator::make(
-        $request->all(),
-        [   
-            'category_id'=>'required',
-            'company_id'=>'required',
-            'username'=>'required',
-            'Paid'=>'required',
-        ]
-    );
-        if($validator->fails()){
-            return response()->json(['status' => 0,'errors' =>  $validator->errors()]);
-        }else{
-            
-            $info = Finishedauctions::create([
-                'category_id'=> $request->category_id,
-                'company_id'=> $request->company_id,
-                'username'=>$request->username,
-                'Paid'=> $request->Paid,
-            ]);
+        } else {
+            $validator = Validator::make(
+                $request->all(),
+                [
+                    'category_id' => 'required',
+                    'company_id' => 'required',
+                    'username' => 'required',
+                    'Paid' => 'required',
+                ]
+            );
+            if ($validator->fails()) {
+                return response()->json(['status' => 0, 'errors' => $validator->errors()]);
+            } else {
 
-            return redirect()->route('home')
-            ->with('success','state auction created successfully.');
+                $info = Finishedauctions::create([
+                    'category_id' => $request->category_id,
+                    'company_id' => $request->company_id,
+                    'username' => $request->username,
+                    'Paid' => $request->Paid,
+                ]);
+
+                return redirect()->route('home')
+                    ->with('success', 'state auction created successfully.');
+            }
         }
     }
-   }
 
-   public function payments(Request $request)
-   {
-  // echo "<pre>";print_r($request->all());die;
+    public function payments(Request $request)
+    {
+        // echo "<pre>";print_r($request->all());die;
 
-        if($request->id){
+        if ($request->id) {
             return $this->update($request);
-        }else{
-        $validator = Validator::make(
-        $request->all(),
-        [  
-            'category_id'=>'required',
-            'user_id'=>'required',
-            'amount'=>'required',
-        ]
-        );
+        } else {
+            $validator = Validator::make(
+                $request->all(),
+                [
+                    'category_id' => 'required',
+                    'user_id' => 'required',
+                    'amount' => 'required',
+                ]
+            );
 
-        $code = mt_rand(1000000000, 9999999999);
-        while (Payment::where('code', $code)->exists()) {
             $code = mt_rand(1000000000, 9999999999);
+            while (Payment::where('code', $code)->exists()) {
+                $code = mt_rand(1000000000, 9999999999);
+            }
+
+            if ($validator->fails()) {
+                return response()->json(['status' => 0, 'errors' => $validator->errors()]);
+            } else {
+
+                $info = Payment::create([
+                    'category_id' => $request->category_id,
+                    'user_id' => $request->user_id,
+                    'auction_id' => $request->auction_id,
+                    'amount' => $request->amount,
+                    'code' => $code,
+                ]);
+
+                return redirect()->route('home')
+                    ->with('success', 'state auction created successfully.');
+            }
         }
 
-        if($validator->fails()){
-            return response()->json(['status' => 0,'errors' =>  $validator->errors()]);
-        }else{
-            
-            $info = Payment::create([
-                'category_id'=> $request->category_id,
-                'user_id'=> $request->user_id,
-                'auction_id'=> $request->auction_id,
-                'amount'=> $request->amount,
-                'code'=> $code,
-            ]);
 
-            return redirect()->route('home')
-            ->with('success','state auction created successfully.');
-        }
-        }
+    }
 
-    
-   }
-
-   public function user_update(Request $request)
-   {
-          $validator = Validator::make(
+    public function user_update(Request $request)
+    {
+        $validator = Validator::make(
             $request->all(),
-            [  
-                'name'=>'required',
-                'lastname'=>'required',
-                'phone'=>['required', 'string', 'min:11'],
-                'email'=>'required',
-                'message'=>'required',
-                
+            [
+                'name' => 'required',
+                'lastname' => 'required',
+                'phone' => ['required', 'string', 'min:11'],
+                'email' => 'required',
+                'message' => 'required',
+
             ]
 
-            );
-            if($validator->fails()){
-                return response()->json(['status' => 0,'errors' =>  $validator->errors()]);
-            }else{
+        );
+        if ($validator->fails()) {
+            return response()->json(['status' => 0, 'errors' => $validator->errors()]);
+        } else {
 
             $user = user::find($request->user_id);
             $user->name = $request->name;
@@ -603,85 +640,84 @@ public function review($id,$rating)
             $user->save();
 
             return response()->json(['status' => 2, 'message' => 'User Login Successfully', 'surl' => route('dashboard')]);
-            }
-   }
+        }
+    }
 
-   public function companyinfo_update(Request $request)
-   {
-    //  echo "<pre>";print_r($request->all());die;
-      $validator = Validator::make(
-        $request->all(),
-        [  
-            'name'=>'required',
-            'lastname'=>'required',
-            'phone'=>['required', 'string', 'min:11'],
-            'email'=>'required',
-            'message' => ['required'],
-            'companyName' => ['required', 'string', 'max:255'],
-            'company_phone' => ['required', 'string', 'max:10'],
-            'commercialRegister' => ['required'],
-            
-        ]
+    public function companyinfo_update(Request $request)
+    {
+        //  echo "<pre>";print_r($request->all());die;
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'name' => 'required',
+                'lastname' => 'required',
+                'phone' => ['required', 'string', 'min:11'],
+                'email' => 'required',
+                'message' => ['required'],
+                'companyName' => ['required', 'string', 'max:255'],
+                'company_phone' => ['required', 'string', 'max:10'],
+                'commercialRegister' => ['required'],
+
+            ]
 
         );
-        if($validator->fails()){
-            return response()->json(['status' => 0,'errors' =>  $validator->errors()]);
-        }else{
+        if ($validator->fails()) {
+            return response()->json(['status' => 0, 'errors' => $validator->errors()]);
+        } else {
 
-        $user = user::find($request->user_id);
-        $user->name = $request->name;
-        $user->last_name = $request->lastname;
-        $user->mobile_number = $request->phone;
-        $user->email = $request->email;
-        $user->address = $request->message;
-        $user->save();
+            $user = user::find($request->user_id);
+            $user->name = $request->name;
+            $user->last_name = $request->lastname;
+            $user->mobile_number = $request->phone;
+            $user->email = $request->email;
+            $user->address = $request->message;
+            $user->save();
 
-        $Company_info = Company_info::find($request->company_id);
-        $Company_info->user_id = $user->id;
-        $Company_info->companyname = $request->companyName;
-        $Company_info->companphone = $request->company_phone;
-        $Company_info->address = $request->message;
-        $Company_info->commercialregister = $request->commercialRegister;
-        $Company_info->save();
+            $Company_info = Company_info::find($request->company_id);
+            $Company_info->user_id = $user->id;
+            $Company_info->companyname = $request->companyName;
+            $Company_info->companphone = $request->company_phone;
+            $Company_info->address = $request->message;
+            $Company_info->commercialregister = $request->commercialRegister;
+            $Company_info->save();
 
-        return response()->json(['status' => 2, 'message' => 'User Login Successfully', 'surl' => route('dashboard')]);
+            return response()->json(['status' => 2, 'message' => 'User Login Successfully', 'surl' => route('dashboard')]);
         }
-   }
+    }
 
-   public function change_password(Request $request)
-   {
-    
+    public function change_password(Request $request)
+    {
 
-  //  echo "<pre>";print_r($request->all());die;
-       $validator = Validator::make(
-           $request->all(),
-           [
-               'oldpassword'=>'required',
-               'newpassword'=>'required',
-           ]
-         );  
-         
-         if($validator->fails())
-         {
-           return response()->json(['status'=>0,'errors'=>$validator->errors()]);
-       }else{
 
-           $user = user::find($request->user_id);
+        //  echo "<pre>";print_r($request->all());die;
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'oldpassword' => 'required',
+                'newpassword' => 'required',
+            ]
+        );
 
-           if (Hash::check($request->oldpassword, $user->password)) {
-               
-                  user::find($request->user_id)->fill([
-               'password'=>$request->newpassword,
-                    ])->save();
-                    return response()->json(['status' => 2, 'message' => 'User Login Successfully', 'surl' => route('dashboard')]);
-           } else {
-               return response()->json(['status'=>3, 'message' => 'Old password is not match']);
-           }
+        if ($validator->fails()) {
+            return response()->json(['status' => 0, 'errors' => $validator->errors()]);
+        } else {
 
-         }
-   }
+            $user = user::find($request->user_id);
 
-  
+            if (Hash::check($request->oldpassword, $user->password)) {
+
+                user::find($request->user_id)->fill([
+                    'password' => $request->newpassword,
+                ])->save();
+                return response()->json(['status' => 2, 'message' => 'User Login Successfully', 'surl' => route('dashboard')]);
+            } else {
+                return response()->json(['status' => 3, 'message' => 'Old password is not match']);
+            }
+
+        }
+    }
+
+
     public function imageuplode(Request $request)
     {
         // echo '<pre>'; print_r($request->all()); die;
@@ -693,43 +729,43 @@ public function review($id,$rating)
         $file_path = $request->$path;
         $file = $request->file('image');
 
-            if (!empty($file)) {
-                $ext = $file->getClientOriginalExtension();
-        
-                $destinationPath = public_path().'/'.$file_path;
-                $file_name = time().".".$file->getClientOriginalExtension();
-                $file->move($destinationPath,$file_name);
-                 $movedFile =  $file_name;
-                 
-                $file_data= Upload::create([
-                    'file'=>$movedFile,
-                ]);
+        if (!empty($file)) {
+            $ext = $file->getClientOriginalExtension();
 
-                return response()->json(['status' => 1, 'file_id' => $file_data->id, 'file_path' => asset($file_path . $file_data->file)]);
+            $destinationPath = public_path() . '/' . $file_path;
+            $file_name = time() . "." . $file->getClientOriginalExtension();
+            $file->move($destinationPath, $file_name);
+            $movedFile = $file_name;
 
-        }else{ 
+            $file_data = Upload::create([
+                'file' => $movedFile,
+            ]);
+
+            return response()->json(['status' => 1, 'file_id' => $file_data->id, 'file_path' => asset($file_path . $file_data->file)]);
+
+        } else {
 
             return response()->json(['status' => 0, 'msg' => 'File type not allowed']);
         }
     }
-   
+
     public function imagedelete(Request $request)
     {
         // echo '<pre>'; print_r($request->all()); die;
 
         $id = $request->id;
         if (!empty($id)) {
-                $file_data= Upload::find($id);
-                    $file_data->delete();
+            $file_data = Upload::find($id);
+            $file_data->delete();
 
-                return response()->json(['status' => 1,'msg' => 'File deleted successfully' ]);
+            return response()->json(['status' => 1, 'msg' => 'File deleted successfully']);
 
-        }else{ 
+        } else {
 
             return response()->json(['status' => 0, 'msg' => 'File not deleted']);
         }
     }
-    
+
 
 
 }

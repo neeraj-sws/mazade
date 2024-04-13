@@ -79,7 +79,7 @@
                @foreach($auction->auctionItem as $item)
                
                   <tr>
-                     <td>{{ $i++; }}</td>
+                     <td>{{ $i++ }}</td>
                      <td>{{ $item->companyId->company_name }}</td>
                      <td>${{ $item->price }}</td>
                      <td>

@@ -125,6 +125,11 @@ Route::group(['middleware'=>'auth:web'],function(){
         Route::get('/completed-orders', [App\Http\Controllers\Front\OrderController::class, 'completed_order'])->name('completed-orders');
         Route::get('/last-bid', [App\Http\Controllers\Front\OrderController::class, 'last_order'])->name('last-orders');
         Route::get('/withdarw-history', [App\Http\Controllers\Front\OrderController::class, 'withdarw_history'])->name('withdarw-history');
+
+        Route::get('/manage-categories', [App\Http\Controllers\Front\CategoryController::class, 'index'])->name('manage.categories');
+        Route::post('/manage-categories-store', [App\Http\Controllers\Front\CategoryController::class, 'store'])->name('manage.categories.store');
+        Route::post('/update-order', [App\Http\Controllers\Front\CategoryController::class, 'updateOrder'])->name('manage.update-order');
+
     });
 
 

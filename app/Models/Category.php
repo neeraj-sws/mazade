@@ -39,7 +39,11 @@ class Category extends Model
             return null;
         }
 
-    } 
+    }
+    
+    public function sellerCategory(){
+        return $this->hasOne(SellerCategory::class,'categories_id');
+    }
     
 }
 

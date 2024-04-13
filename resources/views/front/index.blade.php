@@ -67,9 +67,9 @@
                      <a href="{{ Auth::check() && Auth::guard('web')->user()->role == 2 ? url('/active-auctions').'?cat='.$category->id : url('/new-auction/'.$category->id) }}">
                         <div style="background-color: #7BAB47;" class="category-main-box">
                            <div class="category-img">
-                              <img src="{{ asset('uploads/category/'.@$category->photo->file) }}">
+                              <img src="{{Auth::check() && Auth::guard('web')->user()->role == 2 ? asset('uploads/category/'.@$category->category->photo->file) : asset('uploads/category/'.@$category->photo->file) }}">
                            </div>
-                           <h5 class="text-white text-16 mb-0">{{ $category->title }}</h5>
+                           <h5 class="text-white text-16 mb-0">{{ Auth::check() && Auth::guard('web')->user()->role == 2 ? $category->category->title : $category->title }}</h5>
                         </div>
                      </a>
                   </div>

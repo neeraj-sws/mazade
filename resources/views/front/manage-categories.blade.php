@@ -18,10 +18,7 @@
         <div class="container">
             <div class="category-main-text mt-5">
                 <h2 class="text-center">Manage Categories</h2>
-                <p class="text-center text-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                    tempor incididunt ut
-                    <br> labore et dolore magna aliqua
-                </p>
+                <p class="text-center text-14">"Please note that in order to proceed with our service, it is necessary to select at least one category. Thank you for your understanding."</p>
             </div>
             <div class="row pb-5">
                 <div class="col-md-3">

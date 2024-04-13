@@ -99,7 +99,7 @@ Route::group(['middleware'=>'auth:web'],function(){
     });
        
     // Group for Role 2
-    Route::middleware(['role:2'])->group(function () {
+    Route::middleware(['role:2','fav_cat_check'])->group(function () {
         Route::get('/company/dashboard', [App\Http\Controllers\Front\CompanyController::class, 'dashboard'])->name('company.dashboard');
         Route::get('/withdraw', [App\Http\Controllers\Front\AuctionController::class, 'withdraw'])->name('withdraw');
         Route::post('/withdraw-submit', [App\Http\Controllers\Front\AuctionController::class, 'withdraw_submit'])->name('withdraw-submit');
@@ -126,8 +126,8 @@ Route::group(['middleware'=>'auth:web'],function(){
         Route::get('/last-bid', [App\Http\Controllers\Front\OrderController::class, 'last_order'])->name('last-orders');
         Route::get('/withdarw-history', [App\Http\Controllers\Front\OrderController::class, 'withdarw_history'])->name('withdarw-history');
 
-        Route::get('/manage-categories', [App\Http\Controllers\Front\CategoryController::class, 'index'])->name('manage.categories');
-        Route::post('/manage-categories-store', [App\Http\Controllers\Front\CategoryController::class, 'store'])->name('manage.categories.store');
+        Route::get('/manage-categories', [App\Http\Controllers\Front\CategoryController::class, 'index'])->name('manage.categories')->withoutMiddleware('fav_cat_check');
+        Route::post('/manage-categories-store', [App\Http\Controllers\Front\CategoryController::class, 'store'])->name('manage.categories.store')->withoutMiddleware('fav_cat_check');
         Route::post('/update-order', [App\Http\Controllers\Front\CategoryController::class, 'updateOrder'])->name('manage.update-order');
 
     });

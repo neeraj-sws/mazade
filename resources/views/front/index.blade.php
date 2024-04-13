@@ -69,7 +69,7 @@
                            <div class="category-img">
                               <img src="{{Auth::check() && Auth::guard('web')->user()->role == 2 ? asset('uploads/category/'.@$category->category->photo->file) : asset('uploads/category/'.@$category->photo->file) }}">
                            </div>
-                           <h5 class="text-white text-16 mb-0">{{ Auth::check() && Auth::guard('web')->user()->role == 2 ? $category->category->title : $category->title }}</h5>
+                           <h5 class="text-white text-16 mb-0">{{ Auth::check() && Auth::guard('web')->user()->role == 2 ? @$category->category->title : $category->title }}</h5>
                         </div>
                      </a>
                   </div>

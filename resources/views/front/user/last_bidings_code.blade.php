@@ -38,7 +38,4 @@
  $("#closeBtn2").click(function() {
     $("#codeenter").hide();
 });
-
-
-    
 </script>

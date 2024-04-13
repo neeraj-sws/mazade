@@ -177,7 +177,7 @@ public function current_auction_data()
       // echo "<pre>";print_r($order);die;
 
       if($order->id){
-          return response()->json(['status' => 1]);
+        return response()->json(['status' => 1, 'surl' => route('bid-details', $auction->id)]);
       }else{
           return response()->json(['status' => 0]);
       }

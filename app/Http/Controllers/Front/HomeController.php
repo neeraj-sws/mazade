@@ -40,7 +40,7 @@ class HomeController extends Controller
             ->get();
     
             if(count($categories) == 0){
-                $categories = Category::with('sellerCategory')->where('status', 1)->get();
+                return redirect()->route('manage.categories');
             }
         }else{
             $categories = Category::where('status', 1)->get();

@@ -22,9 +22,9 @@
 
                 <div class="category">
 
-                    <input onchange="action_filter()" type="checkbox" name="cat_id[]" id="category{{ $category->id }}" class="category-checkbox" value="{{ $category->id }}">
-                    <label for="category{{ $category->id }}" class="category-label">{{ $category->title }}</label>
-                    @if(count($category->sub_category) > 0)
+                    <input onchange="action_filter()" type="checkbox" name="cat_id[]" id="category{{ $category->category->id }}" class="category-checkbox" value="{{ $category->category->id }}">
+                    <label for="category{{ $category->category->id }}" class="category-label">{{ $category->category->title }}</label>
+                    @if(count($category->category->sub_category) > 0)
                     <div class="subcategories">
                         @foreach($category->category->sub_category as $sub_cat) 
                         <div class="subcategory">

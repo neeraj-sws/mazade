@@ -101,6 +101,28 @@
             });
 
         }
+        function action_filter() {
+            var formData = $('#filterForm').serialize();
+
+            $.ajax({
+                'headers': {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: "{{ route('auctions_filter') }}",
+                method: "POST",
+                dataType: "JSON",
+                data: formData,
+                success: function(res) {
+                    $("#main-bid-list-new").html(res.view);
+                }
+            });
+        }
+
+
+        function changelist(val) {
+            $('#list_type').val(val)
+            action_data();
+
     }
 
  

@@ -80,5 +80,6 @@ class Kernel extends HttpKernel
         'ability' => \Laravel\Sanctum\Http\Middleware\CheckForAnyAbility::class,
         'companie' => \App\Http\Middleware\CompaniesMiddleware::class,
         'role' => \App\Http\Middleware\CheckRole::class,
+        'fav_cat_check' => \App\Http\Middleware\FavCatCheck::class,
     ];
 }

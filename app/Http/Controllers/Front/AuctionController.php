@@ -7,7 +7,7 @@ use App\Models\SellerCategory;
 use Helper;
 use \Carbon\Carbon;
 
-use App\Models\{Auction, Auctioncancel, Finishedauctions, Reviews, Auctionitems, Companies, Payment, Status, Upload, Category, SubCategory, user, CompanyInfo, Orders, WithdrawHistory, WithdrawHistoryDetails, Transaction, City};
+use App\Models\{Auction, Auctioncancel, Finishedauctions, Reviews, Auctionitems, Companies, Payment, Status, Upload, Category, SubCategory, user, CompanyInfo, Orders, WithdrawHistory, WithdrawHistoryDetails, Transaction, City,MetaInput,AuctionMetaDetail};
 
 
 
@@ -43,10 +43,11 @@ class AuctionController extends Controller
         if ($cat_id != 0) {
             $sub_categories = SubCategory::where('category_id', $cat_id)->where('status', 1)->get();
         }
-
+        $subcatmetainputs = 0;
         if ($cat_id != 0 and $sub_cat_id != 0) {
             $cat_info = Category::where('id', $cat_id)->where('status', 1)->first();
             $sub_cat_info = SubCategory::where('id', $sub_cat_id)->where('status', 1)->first();
+            $subcatmetainputs = MetaInput::where('subcat_id', $sub_cat_id)->get();
         }
 
         return view('front.auction.create', [
@@ -57,6 +58,7 @@ class AuctionController extends Controller
             'cat_info' => $cat_info,
             'sub_cat_info' => $sub_cat_info,
             'city' => $city,
+            'meta_inputs' =>  $subcatmetainputs 
         ]);
     }
 
@@ -499,6 +501,18 @@ class AuctionController extends Controller
                     'user_id'=> $user->id,
                     'status'=>1,
                 ]);
+
+                $meta_inputs = MetaInput::where('subcat_id', $request->sub_category)->get();
+                $insert_id = $info->id;
+                foreach ($meta_inputs as $meta_input) {
+                    if (array_key_exists($meta_input->slug, $request->all())) {
+                        AuctionMetaDetail::create([
+                            'auction_id' => $insert_id, 
+                            'meta_key' => $meta_input->slug,
+                            'meta_value' => $request->input($meta_input->slug) 
+                        ]);
+                    }
+                }
 
 
 

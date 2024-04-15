@@ -262,6 +262,18 @@
                     <textarea id="message" name="message" rows="4" placeholder="Description" cols="50"></textarea>
                     </div>
 
+                    @if($meta_inputs)
+                        <hr>
+                         <div class="text-bold">Additional Information</div>
+                        @foreach($meta_inputs as $inputs)
+                            <div class="col-md-6">
+                                <label for="{{ $inputs->slug }}">{{ $inputs->title }} </label>
+                                <input type="text" id="{{ $inputs->slug }}" placeholder="{{ $inputs->description }}" name="{{ $inputs->slug }}" >
+                                <span class="text-danger title"></span>
+                            </div>
+                        @endforeach
+                    @endif
+
                     <div class="col-md-agree">
 
                     <label>

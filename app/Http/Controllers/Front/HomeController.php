@@ -46,9 +46,16 @@ class HomeController extends Controller
             $categories = Category::where('status', 1)->get();
         }
 
+        $all_auction = Auction::with('CatId')->orderBy('id', 'DESC')->count();
+        $current_auction = Auction::with('CatId')->where('status', 1)->orderBy('id', 'DESC')->count();
+     
+        $end_auction = Auction::with('CatId')->where('status', 3)->count();
+      
+        $cancel_auction = Auction::with('CatId')->where('status', 2)->count();
+
         
         $companies = Companies::get();
-        return view('front.index',['categories' => $categories,'companies'=>$companies]);
+        return view('front.index',['categories' => $categories,'companies'=>$companies,'auction_all'=> $all_auction ,'current_all'=> $current_auction, 'end_all' => $end_auction , 'cancel_all' => $cancel_auction]);
     }
 
     public function categories()

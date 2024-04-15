@@ -72,10 +72,17 @@
 $(document).ready(function() {  
    new_auction();    
   });
+  
   function new_auction() {
+   let url = "";
+   @if($user->role == 1)
+    url ="{{ route('all-auction-data') }}";
+   @else
+   url ="{{ route('all-auction-data-seller') }}";
+   @endif
     $.ajax({
      
-        url: "{{ route('all-auction-data') }}",     
+        url: url,     
         success: function (response) {         
                 $("#new_auction").html(response);          
         },       
@@ -113,13 +120,18 @@ function end_auctions(url,id) {
  }
  
  function auction_data(e,val){
-
+      let url = "";
+      @if($user->role == 1)
+      url ="{{ route('select-auction') }}";
+      @else
+      url ="{{ route('all-auction-seller') }}";
+      @endif
    
        $.ajax({
            headers: {
                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
            },
-           url: "{{ route('select-auction') }}",
+           url:  url,
            method: "POST",
            data: { 
             auction_data:val,

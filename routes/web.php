@@ -46,7 +46,6 @@ Route::group(['middleware'=>'auth:web'],function(){
     
     Route::get('/profile', [App\Http\Controllers\Front\UserController::class, 'profile'])->name('profile');
     Route::get('/all-auction', [App\Http\Controllers\Front\UserController::class, 'all_auction'])->name('all-auction');
-    Route::get('/all-auction_data', [App\Http\Controllers\Front\UserController::class, 'all_auction_data'])->name('all-auction-data');
     Route::get('/current-auction-data', [App\Http\Controllers\Front\UserController::class, 'current_auction_data'])->name('current-auction-data');
     Route::post('/select-auction', [App\Http\Controllers\Front\UserController::class, 'select_auction'])->name('select-auction');
     // Route::get('/all-auction-data', 'YourController@all_auction_data')->name('all-auction-data');
@@ -95,7 +94,7 @@ Route::group(['middleware'=>'auth:web'],function(){
         Route::post('user-company-detail', [App\Http\Controllers\Front\CompanyController::class, 'updateCompanyDetails'])->name('user-company-update');
         // Route::post('user-company-update', 'YourController@updateCompanyDetails')->name('user-company-update');
 
-        
+        Route::get('/all-auction_data', [App\Http\Controllers\Front\UserController::class, 'all_auction_data'])->name('all-auction-data');
     });
        
     // Group for Role 2
@@ -129,6 +128,8 @@ Route::group(['middleware'=>'auth:web'],function(){
         Route::get('/manage-categories', [App\Http\Controllers\Front\CategoryController::class, 'index'])->name('manage.categories')->withoutMiddleware('fav_cat_check');
         Route::post('/manage-categories-store', [App\Http\Controllers\Front\CategoryController::class, 'store'])->name('manage.categories.store')->withoutMiddleware('fav_cat_check');
         Route::post('/update-order', [App\Http\Controllers\Front\CategoryController::class, 'updateOrder'])->name('manage.update-order');
+        Route::get('/all-auction_data_seller', [App\Http\Controllers\Front\UserController::class, 'all_auction_data_seller'])->name('all-auction-data-seller');
+        Route::post('/all-select_auction_seller', [App\Http\Controllers\Front\UserController::class, 'select_auction_seller'])->name('all-auction-seller');
 
     });
 

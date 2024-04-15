@@ -34,11 +34,9 @@ class UserController extends Controller
 
     public function all_auction()
     { 
-      $currentDateTime = \Carbon\Carbon::now();
-      $auction = Auction::with('CatId')->orderBy('id', 'DESC')->get();
-      $auctionitem = Auctionitems::with('Auction', 'companyId','CatId')->orderBy('id', 'DESC')->get(); 
-     //  echo '<pre>'; print_r($auctionitem->all()); die;
       $user = Auth::guard('web')->user();
+      $auction = Auction::with('CatId')->where('user_id',$user->id)->orderBy('id', 'DESC')->get();
+      $auctionitem = Auctionitems::with('Auction', 'companyId','CatId')->orderBy('id', 'DESC')->get(); 
        return view('front.user.all_auction' , ['auction' => $auction ,'auctionitem' =>$auctionitem, 'user' => $user]);
     }
 
@@ -121,16 +119,16 @@ class UserController extends Controller
    
 
     public function all_auction_data()
-{ 
-    $currentDateTime = \Carbon\Carbon::now();
-    $auction = Auction::with('CatId')->orderBy('id', 'DESC')->get();
-    $auctionitem = Auctionitems::with('Auction', 'companyId','CatId')->orderBy('id', 'DESC')->get(); 
-    $user = Auth::guard('web')->user();
+    { 
+        $currentDateTime = \Carbon\Carbon::now();
+        $user = Auth::guard('web')->user();
+        $auction = Auction::with('CatId')->where('user_id',$user->id)->orderBy('id', 'DESC')->get();
+        $auctionitem = Auctionitems::with('Auction', 'companyId','CatId')->orderBy('id', 'DESC')->get(); 
 
-    return view('front.user.auction_data' , ['auction' => $auction ,'auctionitem' =>$auctionitem, 'user' => $user]);
-    // return response()->json(['auction' => $auction, 'auctionitem' => $auctionitem, 'user' => $user]);
-}
-public function current_auction_data()
+        return view('front.user.auction_data' , ['auction' => $auction ,'auctionitem' =>$auctionitem, 'user' => $user]);
+        // return response()->json(['auction' => $auction, 'auctionitem' => $auctionitem, 'user' => $user]);
+    }
+  public function current_auction_data()
     { 
         $currentDateTime = \Carbon\Carbon::now();
          $auction = Auction::with('CatId')->where('status',1)->where('start_time', '<=', $currentDateTime)->where('end_time', '>=', $currentDateTime)->get();
@@ -191,19 +189,19 @@ public function current_auction_data()
     //   echo "<pre>";print_r($request->all());die;
       
       $currentDateTime = \Carbon\Carbon::now();
-      
+      $user = Auth::guard('web')->user();
       $status = $request->auction_data;
       if($status == 1){
-        $auctions = Auction::with('CatId')->orderBy('id', 'DESC')->get();
+        $auctions = Auction::with('CatId')->where('user_id',$user->id)->orderBy('id', 'DESC')->get();
       }
       elseif($status == 2){
-        $auctions = Auction::with('CatId')->where('status', 1)->orderBy('id', 'DESC')->get();
+        $auctions = Auction::with('CatId')->where(['status'=> 1 ,'user_id' =>$user->id])->orderBy('id', 'DESC')->get();
       }
       elseif($status == 3){
-        $auctions = Auction::with('CatId')->where('status', 3)->get();
+        $auctions = Auction::with('CatId')->where(['status'=> 3 ,'user_id' =>$user->id])->get();
       }
       elseif($status == 4){
-        $auctions = Auction::with('CatId')->where('status', 2)->get();
+        $auctions = Auction::with('CatId')->where(['status'=>2 ,'user_id' =>$user->id])->get();
       }
       
        
@@ -215,6 +213,50 @@ public function current_auction_data()
      
      
   }
-    
+
+  public function all_auction_data_seller()
+    { 
+     
+        $user = Auth::guard('web')->user();
+        $auctionitem = Auctionitems::with('Auction','CatId')->where('company_id',$user->id)->orderBy('id', 'DESC')->get(); 
+       return view('front.user.auction_data_seller' , ['auction' => $auctionitem ,'auctionitem' =>$auctionitem, 'user' => $user]);
+        // return response()->json(['auction' => $auction, 'auctionitem' => $auctionitem, 'user' => $user]);
+    }
+    public function select_auction_seller(Request $request)
+    { 
+      //   echo "<pre>";print_r($request->all());die;
+        
+        $user = Auth::guard('web')->user();
+        $status = $request->auction_data;
+       
+        if($status == 1){
+          $auctions =  Auctionitems::with('Auction','CatId')->where('company_id',$user->id)->orderBy('id', 'DESC')->get();
+         
+        }
+        elseif($status == 2){
+          $auctions =  Auctionitems::with('Auction','CatId')->whereHas('Auction', function ($query) {
+            $query->where('status', 1);
+        })
+        ->where('company_id', $user->id)->orderBy('id', 'DESC')->get();
+       
+        }
+        elseif($status == 3){
+          $auctions =  Auctionitems::with('Auction','CatId')->whereHas('Auction', function ($query) {
+            $query->where('status', 3);
+        })
+        ->where('company_id', $user->id)->orderBy('id', 'DESC')->get();
+          
+        }
+        elseif($status == 4){
+          $auctions =  Auctionitems::with('Auction','CatId')->whereHas('Auction', function ($query) {
+            $query->where('status', 2);
+        })
+        ->where('company_id', $user->id)->orderBy('id', 'DESC')->get();
+         
+        }
+          $auctionitem = Auctionitems::with('Auction', 'companyId','CatId')->get(); 
+  
+          return view('front.user.auction_data_seller' , ['auction' => $auctions ,'auctionitem' =>$auctionitem, 'user' => $user]);
+    }
    
 }

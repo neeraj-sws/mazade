@@ -51,8 +51,75 @@
          </div>
       </div>
 
- <!-- categories-start -->
- <div id="categories-main">
+      <div id="counter-main">
+         <div class="container">
+            <div class="row p-5">
+               <div class="col-md-3 col-sm-6">
+                  <div class="card">
+                     <div class="card-body">
+                     
+                        <div class="d-flex align-items-center justify-content-between">
+                              <div>
+                              <span class="text-muted fw-bolder">All Auction</span>
+                                 <h4 ></h4>
+                              </div>
+                              <div class="text-dark fw-bold fs-1">{{ $auction_all }}</div>
+                        </div>
+                        <div class="mt-4" id="monthly-revenue" style="max-width: 250px;"></div>
+                     </div>
+                  </div>  
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+                  <div class="card">
+                     <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                              <div>
+                              <span class="text-muted fw-bolder">Current Auction</span>
+                                 <h4></h4>
+                              </div>
+                              <div class="text-dark fw-bold fs-1">{{ $current_all  }}</div>
+                        </div>
+                        <div class="mt-4" id="monthly-revenue" style="max-width: 250px;"></div>
+                     </div>
+                  </div>  
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+                  <div class="card">
+                     <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                              <div>
+                              <span class="text-muted fw-bolder">End Auction</span>
+                                 <h4></h4>
+                              </div>
+                              <div class="text-dark fw-bold fs-1">{{ $end_all  }}</div>
+                        </div>
+                        <div class="mt-4" id="monthly-revenue" style="max-width: 250px;"></div>
+                     </div>
+                  </div>  
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+                  <div class="card">
+                     <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                              <div>
+                              <span class="text-muted fw-bolder">Cancel Auction</span>
+                                 <h4></h4>
+                              </div>
+                              <div class="text-dark fw-bold fs-1">{{ $cancel_all }}</div>
+                        </div>
+                        <div class="mt-4" id="monthly-revenue" style="max-width: 250px;"></div>
+                     </div>
+                  </div>  
+            </div>
+            </div>
+         </div>
+      </div>
+
+      <!-- categories-start -->
+      <div id="categories-main">
          <div class="container">
             <div class="row pb-5">
                <div class="category-main-text mt-5">

@@ -11,4 +11,8 @@ class AuctionMetaDetail extends Model
 
     protected $table = 'auction_meta_detail';
     protected $fillable = ['auction_id','meta_key','meta_value'];
+
+    public function metaInput(){
+        return $this->belongsTo(MetaInput::class,'meta_key','slug');  
+    }
 }

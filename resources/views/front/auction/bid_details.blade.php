@@ -46,6 +46,13 @@
                         Last Price : ${{ $auction->latestBid($auction->id)}}
                         </div>
                       </div>
+                      @foreach($meta_fields as $fields)
+                      <div class="col-md-6 my-4">
+                         <div class="detail-box-main">
+                            {{ $fields->metaInput->title }} : {{ $fields->meta_value }}
+                         </div>
+                       </div>
+                    @endforeach
                       <div class="col-md-12 my-3">
                          <p>{{ $auction->message }}</p>
                       </div>

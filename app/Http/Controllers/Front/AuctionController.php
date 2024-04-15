@@ -68,12 +68,12 @@ class AuctionController extends Controller
         $auction = Auction::find($id);
         $orders = Orders::where('auction_id', $id)->first();
         // echo"<pre>";print_r($auction);die;
-
+        $add_info = AuctionMetaDetail::with('metaInput')->where('auction_id', $id)->get();
         $company = Auth::user();
 
-        // echo"<pre>";print_r($company['companys']);die;
+        // echo"<pre>";print_r($add_info->toArray());die;
 
-        return view('front.auction.bid_details',['auction'=>$auction,'company'=>$company,'orders' =>$orders]);
+        return view('front.auction.bid_details',['auction'=>$auction,'company'=>$company,'orders' =>$orders,'meta_fields' => $add_info]);
     }
 
     public function bidings_code(Request $request)

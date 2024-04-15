@@ -4,7 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use App\Models\{SubCategory,Upload,Category};
+use App\Models\{SubCategory,Upload,Category,MetaInput};
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -28,6 +28,8 @@ class Sub_categoryController extends Controller
           $this->route->edit = route('admin.sub_category.edit',':id');
           $this->route->destroy = route('admin.sub_category.destroy',':id');
           $this->route->saveimage = route('admin.sub_category.saveimage');
+          $this->route->metainputs = route('admin.sub_category.metainputs',':id');
+          $this->route->savemetainputs = route('admin.sub_category.savemetainputs',);
     }
 
     public function index()
@@ -74,44 +76,47 @@ class Sub_categoryController extends Controller
         //     $cat = $category->title;
 
 
-                 $status_url = $this->route->status;
-                 $status = '<div class="form-check form-switch">
-                 <input class="form-check-input toggle-class" type="checkbox" data-id="'.$row->id.'" '.($row->status == 1 ? 'checked' : '').' onclick="status_change(\''.$status_url.'\', this.checked ? 1 : 0, '.$row->id.', this)">
-                 </div>';
-                    
-                        if ($row->category_id) {
-                            $file = $row->category_id;
-                        }
+            $status_url = $this->route->status;
+            $status = '<div class="form-check form-switch">
+            <input class="form-check-input toggle-class" type="checkbox" data-id="'.$row->id.'" '.($row->status == 1 ? 'checked' : '').' onclick="status_change(\''.$status_url.'\', this.checked ? 1 : 0, '.$row->id.', this)">
+            </div>';
+            
+            if ($row->category_id) {
+                $file = $row->category_id;
+            }
 
 
-                        $file='';
-                        if ($row->photo) {
-                            $file = '<img src="' . asset('uploads/services/' . @$row->photo->file) . '" class="img-fluid table-image" alt="" width="50" height="50" >';
-                        }
-    
+            $file='';
+            if ($row->photo) {
+                $file = '<img src="' . asset('uploads/services/' . @$row->photo->file) . '" class="img-fluid table-image" alt="" width="50" height="50" >';
+            }
 
+            $meta_url =$this->route->metainputs;
+            $meta = '<button class="btn btn-secondary btn-sm" onclick=edit_row("'.$meta_url.'",'.$row->id.');>Add Meta</button>';
          
-              $data[] = array(
-                  "sno" => $i,
-                  "title"=>ucfirst($row->title),
-                  "category"=>ucfirst(@$category->title),
-                  "file_id"=> $file,
-                  "status"=>$status,
-                  "action" => $action,
-              );
+         
+            $data[] = array(
+                "sno" => $i,
+                "title"=>ucfirst($row->title),
+                "category"=>ucfirst(@$category->title),
+                "file_id"=> $file,
+                "meta"=> $meta,
+                "status"=>$status,
+                "action" => $action,
+            );
   
               $i++;
           }
   
-                  ## Response
-                  $response = array(
-                      "draw" => intval($draw),
-                      "iTotalRecords" => $totalRecords,
-                      "iTotalDisplayRecords" => $totalRecordwithFilter,
-                      "aaData" => $data
-                  );
+        ## Response
+        $response = array(
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $totalRecordwithFilter,
+            "aaData" => $data
+        );
           
-                  echo json_encode($response);
+        echo json_encode($response);
      }
 
     public function create()
@@ -261,6 +266,48 @@ class Sub_categoryController extends Controller
         }else{ 
 
             return response()->json(['status' => 0, 'msg' => 'File type not allowed']);
+        }
+    }
+
+    public function metaInputs($id)
+    {
+        $meta_inputs = MetaInput::where('subcat_id', $id)->get()->toArray();
+        
+        return view('admin.sub_category.addmeta',['route'=>$this->route,'single_heading'=>'Meta Add', 'id'=>$id,'meta_inputs' =>  $meta_inputs]);
+    }
+    public function saveMetaInputs(Request $request)
+    {
+        
+        if($request->id){
+            $validator = Validator::make(
+                $request->all(),
+                [
+                    'title.*'=>'required',
+                    'description.*'=>'required',
+                ]
+            );           
+
+            if($validator->fails()){
+                return response()->json(['status' => 0,'errors' =>  $validator->errors()]);
+            }else{
+                $data = $request->input('title'); 
+                $id = $request->id; 
+                $descriptions = $request->input('description');
+                
+                foreach($data as $key => $title) {
+                    $slug = Str::slug($title);
+                        MetaInput::create([
+                        'title' => $title,
+                        'subcat_id' => $id, 
+                        'description' => $descriptions[$key], 
+                        'slug' => $slug , 
+                    ]);
+                }
+                
+                
+
+                return response()->json(['status' => 1, 'message' => 'Meta Inputs saved successfully' ]);
+            }
         }
     }
 }

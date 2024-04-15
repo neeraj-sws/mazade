@@ -26,6 +26,7 @@
                                 <th>Title</th>                            
                                 <th>Category</th>
                                 <th>Profile</th>
+                                <th>Meta</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -67,6 +68,9 @@
                 data: 'file_id'
             },
             {
+                data: 'meta'
+            },
+            {
                 data: 'status'
             },
             {
@@ -86,6 +90,21 @@
     $('#data-table').on('page.dt', function() {
         $('#checkAll').prop("checked", false);
         $('.filed_check').prop("checked", false);
+    });
+
+    $(document).ready(function(){
+        $("#additionalBtn").click(function(){
+           let html ='<div class="col-md-6">'+
+                        '<label for="title" class="form-label">Title</label>'+
+                        '<input type="text" class="form-control" name="title" value="">'+
+                    '</div>'+
+                    '<div class="col-12">'+
+                        '<label for="description">Description</label>'+
+                        '<textarea class="form-control" name="description" rows="3"></textarea>'+
+                    '</div>'+
+            $('#dataInput').append(html)
+           
+        });
     });
     </script>
     @endsection

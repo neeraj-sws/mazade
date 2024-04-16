@@ -7,7 +7,7 @@ use App\Models\SellerCategory;
 use Helper;
 use \Carbon\Carbon;
 
-use App\Models\{Auction, Auctioncancel, Finishedauctions, Reviews, Auctionitems, Companies, Payment, Status, Upload, Category, SubCategory, user, CompanyInfo, Orders, WithdrawHistory, WithdrawHistoryDetails, Transaction, City,MetaInput,AuctionMetaDetail};
+use App\Models\{Auction, Auctioncancel, Finishedauctions, Reviews, Auctionitems, Companies, Payment, Status, Upload, Category, SubCategory, user, CompanyInfo, Orders, WithdrawHistory, WithdrawHistoryDetails, Transaction, City,MetaInput,AuctionMetaDetail,Bider,Activitylog};
 
 
 
@@ -169,6 +169,27 @@ class AuctionController extends Controller
         return view('front.auction.active_auctions', array_merge($result, ['type' => $type]));
     }
 
+    public function active_auctions_category(){  
+
+        if(request('auction_id')){ 
+            if(Auth::user()->role == 2){
+                $info = Activitylog::where('auction_id', request('auction_id'))->where('receive' , 1)->where('seller_id',Auth::user()->id)->update(['receive' => 0]);
+        }else{
+            $info = Activitylog::where('auction_id', request('auction_id'))->where('sender' , 1)->where('buyer_id',Auth::user()->id)->update(['sender' => 0]);
+        }
+        }
+
+        $id = request('auction_id');
+        $auction = Auction::find($id);
+        $orders = Orders::where('auction_id', $id)->first();
+       
+
+        $company = Auth::user();
+        $add_info = AuctionMetaDetail::with('metaInput')->where('auction_id', $id)->get();
+
+        return view('front.auction.bid_details',['auction'=>$auction,'company'=>$company,'orders' =>$orders,'meta_fields' => $add_info]);
+}
+
     public function active_auctions_list(Request $request)
     {
 
@@ -185,6 +206,42 @@ class AuctionController extends Controller
         });
         $result['list'] = $qry->get();
         $result['rating'] = CompanyInfo::where('user_id', Auth::guard('web')->user()->id)->first();
+
+
+        Bider::updateOrCreate([
+            'auction_id' =>$request->auction_id,
+            'seller_id' =>Auth::user()->id,
+        ]);
+
+        $info = Activitylog::create([
+            'buyer_id' => $qry->user_id,
+            'seller_id' => Auth::user()->id,
+            'auction_id' =>$request->auction_id,
+            'receive' => 0,
+            'sender'=>1,
+            'category_id'=>$request->category_id,
+            'message'=> 'New bid publish on '.  $qry->title . '-' . $idd  .' clich here to view .',
+            
+        ]);
+
+        $sellernits = Bider::where('auction_id', $request->auction_id)->where('seller_id', '!=', Auth::user()->id)->get();
+    
+
+
+        if($sellernits){ 
+            foreach($sellernits as $sellernit){
+
+        $info = Activitylog::create([
+            'buyer_id' => $qry->user_id,
+            'seller_id' => $sellernit->seller_id,
+            'auction_id' =>$request->auction_id,
+            'receive' => 1,
+            'sender'=>0,
+            'category_id'=>$request->category_id,
+            'message'=> 'New bid publish on '.  $request->auction_id . '-' . $idd  .' clich here to view .',
+        ]);
+         }
+    }
 
         if ($request->list_type == 'grid') {
             $view = view('front.auction.category_detail', $result)->render();
@@ -314,6 +371,43 @@ class AuctionController extends Controller
             $qry = Auction::where('id', $request->auction_id)->first();
             $qry->last_bid = $request->lastPrice;
             $qry->save();
+
+            Bider::updateOrCreate([
+                'auction_id' =>$request->auction_id,
+                'seller_id' =>Auth::user()->id,
+            ]);
+    
+            $info = Activitylog::create([
+                'buyer_id' => $qry->user_id,
+                'seller_id' => Auth::user()->id,
+                'auction_id' =>$request->auction_id,
+                'receive' => 0,
+                'sender'=>1,
+                'category_id'=>$request->category_id,
+                'message'=> 'New bid publish on '.  $qry->title . '-' . $idd  .' clich here to view .',
+                
+            ]);
+    
+            $sellernits = Bider::where('auction_id', $request->auction_id)->where('seller_id', '!=', Auth::user()->id)->get();
+        
+    
+    
+            if($sellernits){ 
+                foreach($sellernits as $sellernit){
+    
+            $info = Activitylog::create([
+                'buyer_id' => $qry->user_id,
+                'seller_id' => $sellernit->seller_id,
+                'auction_id' =>$request->auction_id,
+                'receive' => 1,
+                'sender'=>0,
+                'category_id'=>$request->category_id,
+                'message'=> 'New bid publish on '.  $request->auction_id . '-' . $idd  .' clich here to view .',
+            ]);
+             }
+        }
+
+        
             return redirect()->route('active-auctions')
                 ->with('success', 'Auction updated successfully');
         }
@@ -497,6 +591,27 @@ class AuctionController extends Controller
                     'user_id'=> $user->id,
                     'status'=>1,
                 ]);
+
+                $sellerCategorys = SellerCategory::where('categories_id',$request->category)->get();
+                if($sellerCategorys){
+ 
+                 foreach($sellerCategorys as $sellerCategory){
+ 
+                     $activitylog = Activitylog::create([
+                         'buyer_id' => Auth::user()->id,
+                         'seller_id' => $sellerCategory->seller_id,
+                         'receive' => 1,
+                         'sender'=>0,
+                         'category_id'=>$request->category,
+                         'auction_id'=>$info->id,
+                         'message' => 'New auction published '. $request->title .' click here to view',
+                     ]);
+ 
+                 }
+ 
+ 
+                 
+                }
 
                 $meta_inputs = MetaInput::where('subcat_id', $request->sub_category)->get();
                 $insert_id = $info->id;

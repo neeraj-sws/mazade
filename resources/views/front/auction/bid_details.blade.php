@@ -63,7 +63,7 @@
                      @endif
                      @if($company->role == 1)
 
-                    
+                     @if(!empty($orders))
                      <div class="col-md-3 mb-3">
                         @if($orders->is_payment == 0 AND $orders->status == 0)
                         <a href="{{ route('payment', $orders->id) }}" id="paybtn" class="end-btn company-end-btn new-bid-btn">Pay Now</a>
@@ -73,6 +73,16 @@
                         <span class="d-block">Completed</span>
                         @endif
                    </div>
+
+                   @else
+
+                   <div class="col-md-3 mb-3">
+                     <a href="javascript:void(0)" claSS="btn btn-dark text-nowrap" onclick="end_auctions('{{ route('end-auctions') }}', {{ $auction->id }})">End Auction</a>
+                    
+                </div>
+
+                   
+                   @endif
 
                      @endif                     
                     </div>
@@ -224,6 +234,31 @@ $(document).ready(function() {
             location.reload();
             }else {
                toastr.warning('Bid Decline successfully', 'Warning');
+               }
+            }
+       });
+   } 
+ }
+
+ function end_auctions(url,id) {
+   
+   if (confirm("Are you sure you want to end this auction")) {
+       $.ajax({
+           headers: {
+               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+           },
+           url: url,
+           method: "POST",
+           dataType: "JSON",
+           data: {id: id },
+           success: function (res) {
+             window.setTimeout(function () {
+                    window.location.href = res.surl;
+                }, 1000);
+            if(res.status == 1){
+            toastr.success('Auction End successfully', 'Success');
+            }else {
+               toastr.warnind('Decline successfully', 'Warning');
                }
             }
        });

@@ -96,7 +96,27 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Your custom JavaScript -->
 <script src="path/to/crud.js"></script>
+<script>
+        
+        
+   $(document).ready(function() {  
 
+    $(document).on('click', '.notifications .icon_wrap', function(){
+        $(this).parent().toggleClass("active");
+       
+    });
+ 
+    $(document.body).on('click', function(event) {
+        if (!$(event.target).closest('.notifications').length) {
+            $(".notifications").removeClass("active");
+        }
+    });
+    
+    $(document).on('click', '.close', function() {
+        $(".notifications").removeClass("active");
+    });
+});
+      </script>
      
  @yield('page-js-script')
     

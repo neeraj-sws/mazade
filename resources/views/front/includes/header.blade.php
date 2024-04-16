@@ -340,9 +340,9 @@
             </div>
             @php
               if(Auth::guard('web')->user()->role == 2){
-            $activityLogs = \App\Models\ActivityLog::where('receive',1)->where('seller_id',Auth::guard('web')->user()->id)->get();
+            $activityLogs = \App\Models\Activitylog::where('receive',1)->where('seller_id',Auth::guard('web')->user()->id)->get();
              }else{
-               $activityLogs = \App\Models\ActivityLog::where('sender',1)->where('buyer_id',Auth::guard('web')->user()->id)->get();
+               $activityLogs = \App\Models\Activitylog::where('sender',1)->where('buyer_id',Auth::guard('web')->user()->id)->get();
              }
         @endphp
                

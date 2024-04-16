@@ -61,7 +61,7 @@
                                      
                                        <td data-label="Image">{{ $orders->AuId->oder_id }}</td>
                                        <td data-label="Bidding ID">{{ @$orders->CatId->title }}</td>
-                                       <td data-label="Bidding ID">{{ @$orders->comid->name }}</td>
+                                       <td data-label="Bidding ID">{{ @$orders->cominfo->company_name }}</td>
                                        <td data-label="Bid Amount(USD)">{{ @$orders->AuId->budget }}</td>
                                        <td data-label="Highest Bid">10 : 00 : 00</td>
                                        <td data-label="Status" class="text-green">${{ @$orders->price }}</td>

@@ -53,12 +53,29 @@ class UserController extends Controller
 
     public function last_bidings()
     { 
-       
-         $orders = Orders::with('comid','AuId','CatId')->get();
-         
-       
-        //  echo '<pre>'; print_r($orders); die;
-         $user = Auth::guard('web')->user();
+        $user = Auth::guard('web')->user();
+        
+        $user = Auth::guard('web')->user();
+
+        if ($user->role == 1) {
+            $orders = Orders::with('AuId', 'CatId', 'Auction', 'cominfo')
+                ->whereHas('AuId', function ($query) use ($user) {
+                    $query->where(['status' => 3, 'user_id' => $user->id]);
+                })
+                ->whereHas('Auction', function ($query) {
+                    $query->where('status', 1);
+                })
+                ->get();
+        } else {
+            $orders = Orders::with('AuId', 'CatId', 'cominfo')
+                ->whereHas('AuId', function ($query) use ($user) {
+                    $query->where(['status' => 3, 'company_id' => $user->id]);
+                })
+                ->where('company_id', $user->id)
+                ->get();
+        }
+        
+        //  echo '<pre>'; print_r($orders); die;     
         //  echo '<pre>'; print_r($user); die;
        return view('front.user.last_bidings' , ['user' => $user,'orders' =>$orders]);
     }
@@ -150,16 +167,12 @@ class UserController extends Controller
 
     public function end_auctions(Request $request){
 
-      // echo "<pre>";print_r($request->all());die;
       $auction =  Auction::with('auctionItem')->where('id', $request->id)->first();
-     
-      // echo "<pre>";print_r($auctionitem);die;
 
       $auction->status = 3;
       $auction->save();
 
       $auctionitem = Auctionitems::where('auction_id', $auction->id)->latest()->first();
-      // echo "<pre>";print_r($auction);die;
       $auctionitem->status = 1;
       $auctionitem->save();
 
@@ -172,7 +185,6 @@ class UserController extends Controller
       $order->price = $auctionitem->price;
       $order->status = 0;
       $order->save();
-      // echo "<pre>";print_r($order);die;
 
       if($order->id){
         return response()->json(['status' => 1, 'surl' => route('bid-details', $auction->id)]);
@@ -218,7 +230,8 @@ class UserController extends Controller
     { 
      
         $user = Auth::guard('web')->user();
-        $auctionitem = Auctionitems::with('Auction','CatId')->where('company_id',$user->id)->orderBy('id', 'DESC')->get(); 
+        $auctionitem = Auctionitems::with('Auction','CatId')
+        ->where('company_id',$user->id)->orderBy('id', 'DESC')->get(); 
        return view('front.user.auction_data_seller' , ['auction' => $auctionitem ,'auctionitem' =>$auctionitem, 'user' => $user]);
         // return response()->json(['auction' => $auction, 'auctionitem' => $auctionitem, 'user' => $user]);
     }

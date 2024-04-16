@@ -32,5 +32,10 @@ class Orders extends Model
     {
         return $this->belongsTo(Companies::class,'company_id');
     }
+
+    function cominfo()
+    {
+        return $this->belongsTo(CompanyInfo::class,'company_id','user_id');
+    }
 }
    

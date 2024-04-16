@@ -51,5 +51,10 @@ class Auction extends Model
         }
     }
 
+    public function auctionMetaDatails()
+    {
+        return $this->hasMany(AuctionMetaDetail::class, 'auction_id');
+    }
+
 }
     

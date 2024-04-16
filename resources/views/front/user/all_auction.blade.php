@@ -26,8 +26,10 @@
                      <div class="tab-pane fade show active" id="v-pills-dashboard" role="tabpanel" aria-labelledby="v-pills-dashboard-tab">
                         <div class="dashboard-area box--shadow pb-80">
                <div class="table-title-area">
-                  <h3>Current Auctions </h3>
+                     <h3>Current Auctions </h3>
+                     @if($user->role == 1)
                      <a class="new-auction-btn-main" href="{{ route('new-auction') }}"><button>Start new auction</button></a>
+                     @endif
                </div>
                <div class="form-group mb-3">
                        <label for="">Select Auctions</label>

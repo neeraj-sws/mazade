@@ -29,7 +29,7 @@
                       {{ $auction->title }}
                       </div>
                       <div class="col-md-6 mb-3 d-flex justify-content-end">
-                         <div id="countdown"></div>
+                         <div id="countdown_{{ $auction->id }}"></div>
                       </div>
                       <div class="col-md-4 my-4">
                         <div class="detail-box-main">
@@ -172,34 +172,29 @@ $(document).ready(function() {
 
 
         // Set the target date and time
-   //const targetDate = new Date();
-        const targetDate = new Date("{{ $auction->end_time }}");
-      
-        targetDate.setDate(targetDate.getDate() + 10);
-        targetDate.setHours(12);
-        targetDate.setMinutes(20);
-        targetDate.setSeconds(13);
+        var startTime_{{ $auction->id }} =  new Date("{{ $auction->created_at }}").getTime();
+        var duration = 24 * 60 * 60 * 1000; // Duration in milliseconds (24 hours)
+
+        var endDateTime_{{ $auction->id }} = startTime_{{ $auction->id }} + duration;
+        var countdownElement_{{ $auction->id }} = document.getElementById("countdown_{{ $auction->id }}");
 
         // Update the countdown every second
-        const countdownElement = document.getElementById('countdown');
-        const countdownInterval = setInterval(updateCountdown, 1000);
+        setInterval(function() {
+            var now = new Date().getTime();
+            var distance = endDateTime_{{ $auction->id }} - now;
 
-        function updateCountdown() {
-            const now = new Date();
-            const difference = targetDate - now;
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            if (difference <= 0) {
-                clearInterval(countdownInterval);
-                countdownElement.innerHTML = 'Countdown expired';
-            } else {
-                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+            countdownElement_{{ $auction->id }}.innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
 
-                countdownElement.innerHTML = `${days} days ${hours}h ${minutes}m ${seconds}s`;
+            // If the countdown is over, display 'EXPIRED' or take appropriate action
+            if (distance < 0) {
+                countdownElement_{{ $auction->id }}.innerHTML = "EXPIRED";
             }
-        }
+        }, 1000);
     </script>
 
     <script>

@@ -12,10 +12,9 @@
                 <input type="hidden" name="id" value="{{ $id }}">
                 
                 <div id="dataInput" class="row">
-                    {{-- 
-                    @if($meta_inputs)
+                @if($meta_inputs)
                     @foreach($meta_inputs as $inputs)
-                    <div class="row">
+                    <div class="row" id="input-{{ $inputs['id'] }}">
                         <h6 class="card-title pt-2">Input Enter</h6>
                         <div class="col-md-6">
                             <label for="title" class="form-label">Title</label>
@@ -25,9 +24,12 @@
                             <label for="description" class="form-label">Description</label>
                             <input type="text" class="form-control" name="description[]" value="{{ $inputs['description'] }}">
                         </div>
+                        <div class="col-md-12 mt-3">
+                           <a href="javascript:void(0);" class="btn btn-danger"  onclick="delete_input('{{$route->removeinput}}',{{ $inputs['id'] }})">Remove</a>
+                        </div>
                     </div>
                     @endforeach
-                @else --}}
+                @else 
                     <div class="row">
                         <h6 class="card-title pt-2">Input Enter</h6>
                         <div class="col-md-6">
@@ -39,7 +41,7 @@
                             <input type="text" class="form-control" name="description[]" >
                         </div>
                     </div>
-                   {{-- @endif --}} 
+                @endif 
                 </div>
 
                 <div class="col-12 mt-3">
@@ -80,4 +82,26 @@
             $(this).closest('.additional-input').remove(); // Remove the closest wrapper when remove button is clicked
         });
     });
+
+    function delete_input(url, id) {
+    url = url.replace(':id', id);
+    if (confirm('Are you sure you want to delete this?')) {
+      $.ajax({
+        url: url,
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        method: "GET",
+        data: {},
+        dataType: "JSON",
+        success: function (data) {
+          toastr.success(data.message, 'Success');
+          $('#input-'+ id).html('');
+        },
+  
+      });
+    } else {
+      return false;
+    }
+  }
 </script>

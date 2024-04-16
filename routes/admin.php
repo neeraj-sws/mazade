@@ -130,6 +130,7 @@ Route::group(['middleware'=>'auth:admin',  'prefix' => 'admin', 'as' => 'admin.'
         Route::get('destory/{id}',[Sub_categoryController::class, 'destroy'])->name('destroy');
         Route::post('imagesave',[Sub_categoryController::class, 'imageupload'])->name('saveimage');
         Route::get('metainputs/{id}',[Sub_categoryController::class, 'metaInputs'])->name('metainputs');
+        Route::get('removeinput/{id}',[Sub_categoryController::class, 'metaRemove'])->name('removeinput');
         Route::post('savemetainputs',[Sub_categoryController::class, 'saveMetaInputs'])->name('savemetainputs');
    
 });

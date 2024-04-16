@@ -15,4 +15,10 @@ class AuctionMetaDetail extends Model
     public function metaInput(){
         return $this->belongsTo(MetaInput::class,'meta_key','slug');  
     }
+
+    public function auctionMetaInput()
+    {
+        return $this->belongsTo(Auction::class, 'auction_id');
+    }
+
 }

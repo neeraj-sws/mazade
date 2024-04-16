@@ -10,5 +10,10 @@ class MetaInput extends Model
     use HasFactory;
 
     protected $table = 'meta_inputs';
-    protected $fillable = [ 'category_id','subcat_id','title','description','slug'];
+    protected $fillable = [ 'category_id','subcat_id','title','description','slug','active'];
+
+    public function auctionMetaDatails()
+    {
+        return $this->hasMany(AuctionMetaDetail::class, 'meta_key', 'slug');
+    }
 }

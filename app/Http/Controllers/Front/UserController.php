@@ -54,8 +54,6 @@ class UserController extends Controller
     public function last_bidings()
     { 
         $user = Auth::guard('web')->user();
-        
-        $user = Auth::guard('web')->user();
 
         if ($user->role == 1) {
             $orders = Orders::with('AuId', 'CatId', 'Auction', 'cominfo')
@@ -130,6 +128,14 @@ class UserController extends Controller
     {
       $status = Auction::find($request->id);
       $status->status = $request->status;
+      $status->save();
+      return response()->json(['success' => 1,  'Auction Bit successfully']);
+    }
+
+    public function sellerAuctionBit(Request $request)
+    {
+      $status = Auctionitems::find($request->id); 
+      $status->is_cancel = $request->status;
       $status->save();
       return response()->json(['success' => 1,  'Auction Bit successfully']);
     }

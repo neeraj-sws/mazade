@@ -56,7 +56,7 @@
                       <div class="col-md-12 my-3">
                          <p>{{ $auction->message }}</p>
                       </div>
-                      @if($company->role == 2)
+                      @if($company->role == 2 &&  $auction->status != 3 &&  $auction->status != 2)
                       <div class="col-md-3 mb-3">
                           <a id="popupBtn" class="end-btn company-end-btn new-bid-btn"></i>Bid</a>
                       </div>
@@ -74,7 +74,7 @@
                         @endif
                    </div>
 
-                   @else
+                   @elseif($auction->status != 2 && !empty($auctionitem))
 
                    <div class="col-md-3 mb-3">
                      <a href="javascript:void(0)" claSS="btn btn-dark text-nowrap" onclick="end_auctions('{{ route('end-auctions') }}', {{ $auction->id }})">End Auction</a>
@@ -88,7 +88,7 @@
                     </div>
                   
                 </div>
-                <span id="budget" class="d-none"> @if(empty($auction->last_bid)) {{ $auction->budget }} @else {{ $auction->last_bid }} @endif</span>
+                <span id="budget" class="d-none"> @if(empty($auctionitem->price)) {{ $auction->budget }} @else {{ $auctionitem->price }} @endif</span>
                   </div>
                </div>
                @if($company->role == 1)
@@ -132,7 +132,7 @@
       </div>
       <div class="col-md-12 mb-3 all-form-data mb-4">
          <input type="text" id="Price" placeholder="Price" name="lastPrice" value="">
-         <span class="bid_error text-danger small">Bid price should be less than $@if(empty($auction->last_bid)){{ $auction->budget }} @else{{ $auction->last_bid }} @endif</span>
+         <span class="bid_error text-danger small">Bid price should be less than $@if(empty($auctionitem->price)){{ $auction->budget }} @else{{ $auctionitem->price }} @endif</span>
          <p class="price_percentage small">(8% will be deductated from current bid as commission)</p>
         
       </div>

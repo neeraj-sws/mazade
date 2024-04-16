@@ -640,6 +640,51 @@ $.ajax({
   }
 }
 
+
+function seller_status_change(url, newStatus, id, checkbox) {  
+  //  alert('hello')
+
+  $('#st_loader_' + id).show();
+
+  var statusText = newStatus === 1 ? 'Cancel' : '';
+
+  if (confirm("Are you sure you want to  " + statusText + "this bit ?")) {
+      $.ajax({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          url: url,
+          method: "POST",
+          dataType: "JSON",
+          data: { id: id, status: newStatus },
+          success: function (res) {
+            // console.log(res);
+              $('#st_loader_' + id).hide();
+              toastr.success('Status changed successfully', 'Success');
+
+           
+            var currentURL = window.location.href;
+                if (currentURL.includes('current-auction')) {
+                    current_data();
+                } else {
+                    new_auction();
+                }
+                
+          
+          },
+          error: function(xhr, status, error) {
+              console.error(xhr.responseText);
+              toastr.error('Error changing status', 'Error');
+              // Reset toggle button state if there's an error
+              $(checkbox).bootstrapToggle('toggle');
+          }
+      });
+  } else {
+      // Reset toggle button state if user cancels
+      $(checkbox).bootstrapToggle('toggle');
+  }
+}
+
 function end_auction(url,newStatus, id,type) {
   //  alert('vake');
     $('#st_loader_' + id).show();

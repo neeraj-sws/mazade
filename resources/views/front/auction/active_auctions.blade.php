@@ -38,7 +38,7 @@
 
             action_data();
             categories_filter();
-            category_detail();
+            // category_detail();
 
             $('#filterForm').submit(function(event) {
                 event.preventDefault();
@@ -54,7 +54,7 @@
 
             console.log(formData);
             $.ajax({
-                headers: {
+                'headers': {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 url: "{{ route('active-auctions_list') }}",

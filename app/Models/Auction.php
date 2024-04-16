@@ -42,7 +42,7 @@ class Auction extends Model
 
     public static function latestBid($aid)
     {
-        $bid = Auctionitems::where('auction_id', $aid)->latest()->first();
+        $bid = Auctionitems::where('auction_id', $aid)->where('is_cancel',0)->latest()->first();
 
         if ($bid) {
             return $bid->price;

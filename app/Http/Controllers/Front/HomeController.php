@@ -38,20 +38,7 @@ class HomeController extends Controller
             })
             ->orderBy('category_level','asc')
             ->get();
-    
-            if(count($categories) == 0){
-                return redirect()->route('manage.categories');
-            }
-        }else{
-            $categories = Category::where('status', 1)->get();
-        }
-        $user = Auth::guard('web')->user();
-        if($user->role == 1){
-            $all_auction = Auction::with('CatId')->where('user_id',$user->id)->orderBy('id', 'DESC')->count();
-            $current_auction = Auction::with('CatId')->where(['status'=> 1 ,'user_id' =>$user->id])->orderBy('id', 'DESC')->count();
-            $end_auction = Auction::with('CatId')->where(['status'=> 3 ,'user_id' =>$user->id])->count();
-            $cancel_auction = Auction::with('CatId')->where('status', 2)->count();
-         }else{
+            $user = Auth::guard('web')->user();
             $all_auction =  Auctionitems::with('Auction','CatId')->where('company_id',$user->id)->orderBy('id', 'DESC')->count();
             $current_auction =  Auctionitems::with('Auction','CatId')->whereHas('Auction', function ($query) {
                 $query->where('status', 1);
@@ -65,7 +52,27 @@ class HomeController extends Controller
                 $query->where('status', 2);
             })
             ->where('company_id', $user->id)->orderBy('id', 'DESC')->count();
-         }
+    
+            if(count($categories) == 0){
+                return redirect()->route('manage.categories');
+            }
+        }elseif(Auth::check()  && Auth::guard('web')->user()->role == 1){
+            $user = Auth::guard('web')->user();
+            $categories = Category::where('status', 1)->get();
+            $all_auction = Auction::with('CatId')->where('user_id',$user->id)->orderBy('id', 'DESC')->count();
+            $current_auction = Auction::with('CatId')->where(['status'=> 1 ,'user_id' =>$user->id])->orderBy('id', 'DESC')->count();
+            $end_auction = Auction::with('CatId')->where(['status'=> 3 ,'user_id' =>$user->id])->count();
+            $cancel_auction = Auction::with('CatId')->where(['status'=> 2 ,'user_id' =>$user->id])->count();
+        }else{
+            
+            $categories = Category::where('status', 1)->get();
+            $all_auction = Auction::with('CatId')->orderBy('id', 'DESC')->count();
+            $current_auction = Auction::with('CatId')->where(['status'=> 1 ])->orderBy('id', 'DESC')->count();
+            $end_auction = Auction::with('CatId')->where(['status'=> 3 ])->count();
+            $cancel_auction = Auction::with('CatId')->where('status', 2)->count();
+           
+        }
+       
 
         
         $companies = Companies::get();

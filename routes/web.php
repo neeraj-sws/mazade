@@ -70,6 +70,7 @@ Route::group(['middleware'=>'auth:web'],function(){
     Route::get('/user-category-detail', [App\Http\Controllers\Front\CompanyController::class, 'user_category_detail'])->name('user-category-detail');
     Route::get('/bid-details/{id}', [App\Http\Controllers\Front\AuctionController::class, 'bid_details'])->name('bid-details');
     Route::post('/bidings-code', [App\Http\Controllers\Front\AuctionController::class, 'bidings_code'])->name('bidings-code');
+    Route::get('/auction-bid-details/{auction_id}', [App\Http\Controllers\Front\AuctionController::class, 'active_auctions_category'])->name('active-auctions-category');
     Route::post('/bid-confirm', [App\Http\Controllers\Front\AuctionController::class, 'bid_confirm'])->name('bid-confirm');
     
     Route::post('/cancel-request', [App\Http\Controllers\Front\AuctionController::class, 'cancel_request'])->name('cancel-request');

@@ -47,7 +47,7 @@ class AuctionController extends Controller
         if ($cat_id != 0 and $sub_cat_id != 0) {
             $cat_info = Category::where('id', $cat_id)->where('status', 1)->first();
             $sub_cat_info = SubCategory::where('id', $sub_cat_id)->where('status', 1)->first();
-            $subcatmetainputs = MetaInput::where('subcat_id', $sub_cat_id)->get();
+            $subcatmetainputs = MetaInput::where(['subcat_id'=> $sub_cat_id,'active' =>1])->get();
         }
 
         return view('front.auction.create', [
@@ -172,12 +172,8 @@ class AuctionController extends Controller
     public function active_auctions_list(Request $request)
     {
 
-        // echo "<pre>";print_r($request->all());die;
-
-        $currentDateTime = Carbon::now();
-
-
-        $qry = Auction::with(['CatId', 'subcatid', 'status_id'])
+         $currentDateTime = Carbon::now();
+        $qry = Auction::with(['auctionMetaDatails.metaInput','CatId', 'subcatid', 'status_id'])
         ->whereHas('CatId',function($qry){
             $qry->whereHas('sellerCategory',function($qry){
                 $qry->where('seller_id',auth()->user()->id);

@@ -22,7 +22,8 @@
              <img alt="image" src="{{asset('front_assets/images/bike-1.jpg') }}">
              <div class="auction-timer">
                 <div class="countdown" id="timer1">
-                   <h4><span id="hours1">05</span>H : <span id="minutes1">52</span>M : <span id="seconds1">32</span>S</h4>
+                   {{-- <h4><span id="hours1">05</span>H : <span id="minutes1">52</span>M : <span id="seconds1">32</span>S</h4> --}}
+                   <h4><div id="countdown_{{ $lists->id }}"></h4>
                 </div>
              </div>
           </div>
@@ -32,6 +33,9 @@
             <h5 class="bidding-title-2"><b>Your bid:</b> ${{ $lists->budget}}  </h5>
             <h5 class="bidding-title-2"><b>Category:</b> {{ $lists->CatId->title}}  </h5>
             <h5 class="bidding-title-2"><b>Sub Category:</b> {{ $lists->subcatid->title}}  </h5>
+            @foreach ($lists->auctionMetaDatails as $inputdata)
+            <h4 class="bidding-title-2"><b>{{ $inputdata->metaInput->title  }}:</b> {{ $inputdata->meta_value}}  </h4> 
+            @endforeach
              <p>Bidding Price : <span>${{ $lists->budget }}</span></p>
              <div class="auction-card-bttm">
                 <a href="{{ route('bid-details', $lists->id) }}" class="eg-btn btn--primary btn--sm">Place a Bid</a>
@@ -54,3 +58,32 @@
     ?>
  </div>
  </div>
+ <script>
+   $(document).ready(function() {
+      @foreach($list as $item)
+       var startTime_{{ $item->id }} =  new Date("{{ $item->created_at }}").getTime();
+        var duration = 24 * 60 * 60 * 1000; // Duration in milliseconds (24 hours)
+
+        var endDateTime_{{ $item->id }} = startTime_{{ $item->id }} + duration;
+        var countdownElement_{{ $item->id }} = document.getElementById("countdown_{{ $item->id }}");
+
+        // Update the countdown every second
+        setInterval(function() {
+            var now = new Date().getTime();
+            var distance = endDateTime_{{ $item->id }} - now;
+
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            countdownElement_{{ $item->id }}.innerHTML =  hours + "H " + minutes + "M " + seconds + "S ";
+
+            // If the countdown is over, display 'EXPIRED' or take appropriate action
+            if (distance < 0) {
+                countdownElement_{{ $item->id }}.innerHTML = "EXPIRED";
+            }
+        }, 1000);
+    @endforeach
+   });
+</script>

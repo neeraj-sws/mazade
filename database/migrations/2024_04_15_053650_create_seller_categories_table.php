@@ -15,12 +15,10 @@ class CreateSellerCategoriesTable extends Migration
         Schema::create('seller_categories', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('seller_id');
-            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('categories_id');
             $table->integer('category_level');
-            $table->dateTime('created_at')->useCurrent();
-            $table->dateTime('updated_at')->useCurrent();
+            $table->integer('status');
             $table->timestamps();
-
         });
     }
 

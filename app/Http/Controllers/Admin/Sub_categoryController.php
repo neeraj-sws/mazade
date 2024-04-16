@@ -29,6 +29,7 @@ class Sub_categoryController extends Controller
           $this->route->destroy = route('admin.sub_category.destroy',':id');
           $this->route->saveimage = route('admin.sub_category.saveimage');
           $this->route->metainputs = route('admin.sub_category.metainputs',':id');
+          $this->route->removeinput = route('admin.sub_category.removeinput',':id');
           $this->route->savemetainputs = route('admin.sub_category.savemetainputs',);
     }
 
@@ -271,7 +272,7 @@ class Sub_categoryController extends Controller
 
     public function metaInputs($id)
     {
-        $meta_inputs = MetaInput::where('subcat_id', $id)->get()->toArray();
+        $meta_inputs = MetaInput::where(['active' => 1,'subcat_id'=> $id])->get()->toArray();
         
         return view('admin.sub_category.addmeta',['route'=>$this->route,'single_heading'=>'Meta Add', 'id'=>$id,'meta_inputs' =>  $meta_inputs]);
     }
@@ -296,18 +297,30 @@ class Sub_categoryController extends Controller
                 
                 foreach($data as $key => $title) {
                     $slug = Str::slug($title);
-                        MetaInput::create([
-                        'title' => $title,
-                        'subcat_id' => $id, 
-                        'description' => $descriptions[$key], 
-                        'slug' => $slug , 
-                    ]);
-                }
-                
+                    MetaInput::updateOrCreate(
+                        [
+                            'subcat_id' =>  $id,
+                            'slug' => $slug,
+                            'active' => 1
+                        ], 
+                        [
+                            'title' => $title,
+                            'subcat_id' => $id, 
+                            'description' => $descriptions[$key], 
+                            'slug' => $slug
+                        ]
+                    );
+                    }
                 
 
                 return response()->json(['status' => 1, 'message' => 'Meta Inputs saved successfully' ]);
-            }
+            }            
         }
+    }
+
+    public function metaRemove($id)
+    {
+        MetaInput::where('id', $id)->update(['active' => 0]);
+        return response()->json(['message'=>'Delete Has Successfully', 'id'=>$id]);
     }
 }

@@ -44,7 +44,7 @@
           @if($auctions->Auction->status== 2)
             <td data-label="Action">Cancelled</td> 
          @else
-            @if( $auctions->Auction->status != 3 )
+            @if( $auctions->Auction->status != 3 )           
             <td data-label="Action"><a href="javascript:void(0);" class="cancel-btn"  onclick="status_change('{{ route('auction-bit') }}','2', {{ $auctions->Auction->id }},'Cancel')"><button class="cancel-btn text-nowrap"><i class="fas fa-times" aria-hidden="true"></i> Cancel</button></a></td> 
             
             @else
@@ -55,10 +55,7 @@
             <td data-label="Status" class="text-green"></a></td> 
             @elseif( $auctions->Auction->status == 3 )
             <td data-label="Status" class="text-green">Confirmed</a></td> 
-            @else
-            @if($auctions->count() > 0)
-             <td data-label="Status"><a href="javascript:void(0)" claSS="btn btn-dark text-nowrap" onclick="end_auctions('{{ route('end-auctions') }}', {{ $auctions->Auction->id }})">End Auction</a></td> 
-            @endif
+            @else 
             @endif
 
          </tr>

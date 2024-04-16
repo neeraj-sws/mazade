@@ -50,7 +50,8 @@
             <div class="hero-one-pagination d-flex justify-content-center flex-column align-items-center gap-3"></div>
          </div>
       </div>
-
+      
+      @if (Auth::check())
       <div id="counter-main">
          <div class="container">
             <div class="row p-5">
@@ -117,7 +118,7 @@
             </div>
          </div>
       </div>
-
+      @endif
       <!-- categories-start -->
       <div id="categories-main">
          <div class="container">

@@ -1,6 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{ClientauthController,MailController};
+use App\Http\Controllers\API\PaymentController;
 use App\Http\Controllers\Companies\{CompaniesAuthController,CompaniesController,CompaniesbidController,CompanieslistController};
 
 /*
@@ -21,7 +22,7 @@ Route::get('/optimize', function () {
     \Artisan::call('config:clear');
     \Artisan::call('view:clear');
     \Artisan::call('route:cache');
-    \Artisan::call('optimize');
+    \Artisan::call('optimize:clear');
     }catch(\Exception $e){
     }
 
@@ -84,10 +85,10 @@ Route::group(['middleware'=>'auth:web'],function(){
         Route::get('/new-auction/{cate_id}', [App\Http\Controllers\Front\AuctionController::class, 'create']);
         Route::get('/new-auction/{cate_id}/{sub_cat_id}', [App\Http\Controllers\Front\AuctionController::class, 'create']);
         Route::post('auction/store',[App\Http\Controllers\Front\AuctionController::class, 'store'])->name('auction.store');
+
         Route::get('/payment/{id}', [App\Http\Controllers\Front\PaymentController::class, 'index'])->name('payment');
-        // Route::get('/payment/{id}', [App\Http\Controllers\Front\PaymentController::class, 'index'])->name('payment');
-        Route::post('/payment', [App\Http\Controllers\Front\PaymentController::class, 'store'])->name('payment.store');
-        Route::get('/payment/{id}', [App\Http\Controllers\Front\PaymentController::class, 'index'])->name('payment');
+        Route::get('/payment-store/{id}', [App\Http\Controllers\Front\PaymentController::class, 'store'])->name('payment.store');
+        
 
 
         Route::get('/add-review/{id}', [App\Http\Controllers\Front\AuctionController::class, 'add_review'])->name('add-review');
@@ -97,6 +98,9 @@ Route::group(['middleware'=>'auth:web'],function(){
         // Route::post('user-company-update', 'YourController@updateCompanyDetails')->name('user-company-update');
 
         Route::get('/all-auction_data', [App\Http\Controllers\Front\UserController::class, 'all_auction_data'])->name('all-auction-data');
+
+        Route::get('/buyer-payment/{id}', [App\Http\Controllers\API\PaymentController::class, 'initiatePayment'])->name('buyer.payment');
+        Route::post('/payment-callback', [App\Http\Controllers\API\PaymentController::class, 'handleCallback'])->name('buyer.handleCallback');
     });
        
     // Group for Role 2

@@ -37,5 +37,11 @@ class Orders extends Model
     {
         return $this->belongsTo(CompanyInfo::class,'company_id','user_id');
     }
+    function transaction()
+    {
+        return $this->hasMany(Transaction::class,'order_id');
+    }
+
+
 }
    

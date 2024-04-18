@@ -11,7 +11,7 @@ class Transaction extends Model
     use HasFactory;
     protected $table = 'transaction';
 
-    protected $fillable = [ 'company_id','payment_id','type','withdraw_id'];
+    protected $fillable = [ 'company_id','payment_id','type','withdraw_id','transaction_detail','transaction_id','order_id'];
 
     function CatId()
     {

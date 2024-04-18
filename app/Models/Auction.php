@@ -55,6 +55,10 @@ class Auction extends Model
     {
         return $this->hasMany(AuctionMetaDetail::class, 'auction_id');
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
 }
     

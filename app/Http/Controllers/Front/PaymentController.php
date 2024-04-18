@@ -4,15 +4,16 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Category,Upload,SubCategory,Companies,City,Auction,Orders,Finishedauctions,Payment,Auctionitems,Transaction};
+use App\Models\{Category, Upload, SubCategory, Companies, City, Auction, Orders, Finishedauctions, Payment, Auctionitems, Transaction};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\RedirectResponse;
 use DB;
+use Illuminate\Support\Facades\Session;
 
 class PaymentController extends Controller
 {
-   
+
     /**
      * Create a new controller instance.
      *
@@ -23,73 +24,31 @@ class PaymentController extends Controller
         $this->middleware('auth');
     }
 
- 
-    public function index()
+
+    public function index($id)
     {
-        $id=request('id') ;
-        $data=Orders::where('id',$id)->first();     
-        // echo"<pre>";print_r($data);die;
-        $price=$data->price;
-       return view('front.payment.index',compact('data'));
+
+        $data = Orders::where('id', $id)->first();
+        return view('front.payment.index', compact('data'));
     }
-    
-    public function store(Request $request)
+
+    public function store($id)
     {
-        // echo "<pre>";print_r($request->all());die;
-        $validator = Validator::make(
-            $request->all(),
-            [   
-                'name'=>'required',
-                'cardnumber'=>'required',
-                'expirationdate'=>'required',
-                'securitycode'=>'required',
-              
-            ]
-        );
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-         
-        $orders = Orders::where('id',$request->id)->first();
-        $data=Auctionitems::where('id',$request->id)->first();     
-        // $expiration_date=$request->expirationdate;
-        // echo"<pre>";print_r($expiration_date);die;
 
-        $info = Payment::create([
-            'auction_id'=> $orders->auction_id,
-            'name' => $request->name,
-            'card_number'=> $request->cardnumber,
-            'expiration_date'=> $request->expirationdate,
-            'security_code'=> $request->securitycode,
-            'amount'=>$orders->price,           
-        ]);
-        $numericCode = mt_rand(100000, 999999);
-        $order=Orders::where('id',$request->id)->first(); 
-        if ($order) {
-            // Update the is_payment field to 1
-            $order->update(['is_payment' => 1,
-            'code' => $numericCode,
-        ]);
-        $company = Auth::user();
+        $id = base64_decode($id);
+        $order = Orders::with('transaction')->where('id', $id)->first();
 
-        Transaction::create([
-            'company_id'=> $company->id,
-            'payment_id'=> $info->id,
-            'transaction_id' => $numericCode,
-            'withdraw_id'=> 0,
-            'type'=> 1,
-               
-        ]);
-
-
-            return response()->json(['status' => 2, 'message' => 'Payment Done Successfully', 'surl' => route('last-bidings')]);
-          
-          $order->save();
-        }
-      
         
+        $response_message = json_decode($order->transaction->last()->transaction_detail);
+        $response_message = $response_message->payment_result->response_message;
 
-        return view('front.payment.index');
+
+        if ($order && $order->is_payment) {
+            return redirect()->route('last-bidings');
+        }
+        
+        Session::flash('response', $response_message); 
+        return view('front.payment.index', ['data' => $order]);
     }
 
 }

@@ -122,7 +122,7 @@
 
       <div id="profilepopup" class="popup">
       </div>
-@endsection
+
 <script>
 
 
@@ -179,3 +179,4 @@ function code_enter(url,id) {
 
     
 </script>
+@endsection

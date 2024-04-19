@@ -32,10 +32,15 @@ class PaymentController extends Controller
         return view('front.payment.index', compact('data'));
     }
 
-    public function store($id)
+    public function store()
     {
+      
+        $Transaction = Transaction::with('order.AuId')
+        ->whereHas('order.AuId',function($qry){
+            $qry->where('user_id',auth()->user()->id);
+        })->latest()->first();
 
-        $id = base64_decode($id);
+        echo "<pre>";print_r($Transaction->toArray());die;
         $order = Orders::with('transaction')->where('id', $id)->first();
 
         

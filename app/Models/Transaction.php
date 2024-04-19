@@ -43,5 +43,10 @@ class Transaction extends Model
         return $this->belongsTo(Companies::class,'company_id');
     }
     
+     function order()
+    {
+        return $this->belongsTo(Orders::class,'order_id');
+    }
+    
 }
    

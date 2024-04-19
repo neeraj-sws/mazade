@@ -347,8 +347,12 @@
     <div id="payment-main">
         <div class="container">
             <div class="payment-box-shadow">
-                @if (Session::has('response'))
-                    <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('response') }}</p>
+                @if (isset($success))
+                    @if ($success == 'fail')
+                        <p class="alert alert-danger">{{ $message }}</p>
+                    @else
+                        <p class="alert alert-success">Your Payment has been Completed.</p>
+                    @endif
                 @endif
                 <div class="payment-title mt-5">
                     <h1>{{ @$data->CatId->title }}</h1>
@@ -365,7 +369,7 @@
                         </div>
                     </div>
                     <div>
-                        <a href="{{ route('buyer.payment', request('id')) }}" class="btn btn-primary">Pay Now</a>
+                        <a href="{{ route('buyer.payment', $data->id) }}" class="btn btn-primary">Pay Now</a>
                     </div>
                 </div>
 
@@ -528,4 +532,15 @@
             </div>
         </div>
     </div>
+@endsection
+@section('page-js-script')
+    @if (isset($success) && $success == 'success')
+        <script>
+            $(document).ready(function() {
+                setTimeout(function() {
+                    window.location.replace("{{ route('last-bidings') }}");
+                }, 5000);
+            });
+        </script>
+    @endif
 @endsection

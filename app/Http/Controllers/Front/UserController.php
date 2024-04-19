@@ -64,6 +64,7 @@ class UserController extends Controller
                     $query->where('status', 1);
                 })
                 ->get();
+                //   echo '<pre>'; print_r($orders->toArray()); die; 
         } else {
             $orders = Orders::with('AuId', 'CatId', 'cominfo')
                 ->whereHas('AuId', function ($query) use ($user) {
@@ -73,7 +74,7 @@ class UserController extends Controller
                 ->get();
         }
         
-        //  echo '<pre>'; print_r($orders); die;     
+           
         //  echo '<pre>'; print_r($user); die;
        return view('front.user.last_bidings' , ['user' => $user,'orders' =>$orders]);
     }

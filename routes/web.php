@@ -87,10 +87,8 @@ Route::group(['middleware'=>'auth:web'],function(){
         Route::post('auction/store',[App\Http\Controllers\Front\AuctionController::class, 'store'])->name('auction.store');
 
         Route::get('/payment/{id}', [App\Http\Controllers\Front\PaymentController::class, 'index'])->name('payment');
-        Route::get('/payment-store/{id}', [App\Http\Controllers\Front\PaymentController::class, 'store'])->name('payment.store');
         
-
-
+        
         Route::get('/add-review/{id}', [App\Http\Controllers\Front\AuctionController::class, 'add_review'])->name('add-review');
         Route::post('/review-add',[App\Http\Controllers\Front\AuctionController::class, 'add'])->name('review-add');
         Route::get('/user-company-detail/{id}', [App\Http\Controllers\Front\CompanyController::class, 'user_company_detail'])->name('user-company-detail');
@@ -100,7 +98,7 @@ Route::group(['middleware'=>'auth:web'],function(){
         Route::get('/all-auction_data', [App\Http\Controllers\Front\UserController::class, 'all_auction_data'])->name('all-auction-data');
 
         Route::get('/buyer-payment/{id}', [App\Http\Controllers\API\PaymentController::class, 'initiatePayment'])->name('buyer.payment');
-        Route::post('/payment-callback', [App\Http\Controllers\API\PaymentController::class, 'handleCallback'])->name('buyer.handleCallback');
+        
     });
        
     // Group for Role 2
@@ -250,3 +248,11 @@ Route::group(['middleware'=>'client'],function(){
 
 Route::get('terms-condition', [App\Http\Controllers\Front\HomeController::class, 'term_condition'])->name('terms-condition');
 Route::get('privacy-policy', [App\Http\Controllers\Front\HomeController::class, 'privacy_policy'])->name('privacy-policy');
+
+Route::post('/payment-store', [App\Http\Controllers\Front\PaymentController::class, 'store']);
+// Route::get('/payment-store', function(){echo "hey";});
+Route::post('/payment-callback', [App\Http\Controllers\API\PaymentController::class, 'handleCallback'])->name('payment.callback');
+Route::match(['get', 'post'], '/payment/complete', [App\Http\Controllers\API\PaymentController::class, 'complete'])->name('payment.complete');
+
+
+

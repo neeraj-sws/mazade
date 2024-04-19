@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Auctionitems;
 use App\Models\Orders;
 use App\Models\Payment;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -15,8 +17,8 @@ class PaymentController extends Controller
 {
     public function initiatePayment($id)
     {
+        // echo "<pre>";print_r($id);die;
         $orders = Orders::where('id', $id)->first();
-        // echo "<pre>";print_r($orders->AuId->user->toArray());die;
 
         $response = Http::withHeaders([
             'Authorization' => 'SKJ9N6NZTW-JH9Z9GTDTJ-KBT2W66TNK',
@@ -25,12 +27,12 @@ class PaymentController extends Controller
                     'profile_id' => '138034',
                     'tran_type' => 'sale',
                     'tran_class' => 'ecom',
-                    'cart_id' => $orders->order_id,
+                    'cart_id' => "$orders->id",
                     'cart_description' => 'null',
                     'cart_currency' => 'JOD',
                     'cart_amount' => $orders->price,
-                    'callback' => route('payment-callback'),
-                    'return' => route('payment.store', base64_encode($orders->id)),
+                    'callback' => route('payment.callback'),
+                    'return' => route('payment.complete'),
                     // "redirect_url" => "https://secure-jordan.paytabs.com/payment/page/REF/redirect",
                     'customer_details' => [
                         'name' => $orders->AuId->user?->name,
@@ -54,12 +56,12 @@ class PaymentController extends Controller
                 return redirect()->away($responseData['redirect_url']);
             } else {
 
-                Session::flash('response', 'Something Error Found! Please try agin.'); 
+                Session::flash('response', 'Redirect url not found! Please try again.'); 
                 return view('front.payment.index', ['data' => $orders]);
             }
         } else {
-
-            Session::flash('response', 'Something Error Found! Please try agin.'); 
+                // echo "<pre>";print_r($response->json());die;
+            Session::flash('response', 'Something Error Found! Please try again.'); 
             return view('front.payment.index', ['data' => $orders]);
         }
 
@@ -67,9 +69,10 @@ class PaymentController extends Controller
 
     public function handleCallback(Request $request)
     {
-        $order = Orders::with('transaction')->where('order_id', $request->cart_id)->first();
+        
+        $order = Orders::where('id', $request->cart_id)->first();
 
-        if ($order && $request->payment_result->response_status == 'A') {
+        if ($order && $request->payment_result['response_status'] == 'A') {
             $numericCode = mt_rand(100000, 999999);
             $order->update([
                 'is_payment' => 1,
@@ -84,5 +87,26 @@ class PaymentController extends Controller
         ]);
 
         return response()->json(['status' => 'success'], 200);
+    }
+    
+    public function complete(Request $request)
+    {
+        // echo "<pre>";print_r($request->all());die;
+        $request = $request->all();
+        $id = $request['cartId'];
+        $status = $request['respStatus'];
+        $message = $request['respMessage'];
+        
+        $data = Orders::with('AuId')->where('id', $id)->first();
+        
+        $user = User::find($data->AuId->user_id);
+        Auth::login($user);
+        
+        $success = 'fail';
+        if($status == 'A'){
+            $success = 'success' ;
+        }
+        
+        return view('front.payment.index', compact('data','message','success'));
     }
 }

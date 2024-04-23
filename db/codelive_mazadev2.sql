@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Apr 19, 2024 at 07:39 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Host: localhost:3306
+-- Generation Time: Apr 19, 2024 at 12:16 PM
+-- Server version: 5.7.44-cll-lve
+-- PHP Version: 8.1.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `mazade`
+-- Database: `codelive_mazadev2`
 --
 
 -- --------------------------------------------------------
@@ -29,25 +29,35 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `activity_logs` (
   `id` int(11) NOT NULL,
-  `buyer_id` int(22) NOT NULL DEFAULT 0,
-  `seller_id` int(22) NOT NULL DEFAULT 0,
+  `buyer_id` int(22) NOT NULL DEFAULT '0',
+  `seller_id` int(22) NOT NULL DEFAULT '0',
   `category_id` int(11) NOT NULL,
   `auction_id` int(22) NOT NULL,
-  `receive` int(22) NOT NULL DEFAULT 0,
-  `sender` int(22) NOT NULL DEFAULT 0,
+  `receive` int(22) NOT NULL DEFAULT '0',
+  `sender` int(22) NOT NULL DEFAULT '0',
   `type` varchar(255) NOT NULL,
   `message` varchar(255) DEFAULT NULL,
-  `created_at` timestamp(6) NOT NULL DEFAULT current_timestamp(6),
-  `updated_at` timestamp(6) NOT NULL DEFAULT current_timestamp(6)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `updated_at` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `activity_logs`
 --
 
-INSERT INTO `activity_logs` (`id`, `buyer_id`, `seller_id`, `category_id`, `auction_id`, `receive`, `sender`, `type`, `message`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 14, 38, 0, 0, '', 'New auction published test click here to view', '2024-04-16 07:02:23.000000', '2024-04-16 07:02:36.000000'),
-(2, 1, 2, 14, 38, 0, 0, '', 'New bid publish on test-MZ2024040040 clich here to view .', '2024-04-16 07:09:05.000000', '2024-04-16 07:09:19.000000');
+INSERT INTO `activity_logs` (`id`, `buyer_id`, `seller_id`, `category_id`, `auction_id`, `receive`, `sender`, `type`, `message`, `active`, `created_at`, `updated_at`) VALUES
+(1, 1, 2, 3, 29, 0, 0, '', 'New auction published test-Health\n\nclick here to view', 1, '2024-04-16 14:24:47.000000', '2024-04-18 10:28:40.000000'),
+(2, 1, 7, 3, 29, 0, 0, '', 'New auction published test-Health\n\nclick here to view', 1, '2024-04-16 14:24:47.000000', '2024-04-16 14:25:35.000000'),
+(3, 1, 7, 3, 29, 0, 0, '', 'New bid publish on test-Health-MZ2024040030\n\nClick here to view.', 1, '2024-04-16 14:26:12.000000', '2024-04-16 14:26:49.000000'),
+(4, 1, 2, 10, 30, 0, 0, '', 'New auction published plain wheel-Travel\n\nclick here to view', 1, '2024-04-18 09:52:40.000000', '2024-04-18 10:28:44.000000'),
+(5, 1, 2, 10, 31, 0, 0, '', 'New auction published plain wheel-Travel\n\nclick here to view', 1, '2024-04-18 09:52:40.000000', '2024-04-18 10:28:48.000000'),
+(6, 1, 2, 10, 30, 0, 0, '', 'New bid publish on plain wheel-Travel-MZ2024040031\n\nClick here to view.', 1, '2024-04-18 09:53:56.000000', '2024-04-18 10:28:25.000000'),
+(7, 1, 2, 10, 31, 0, 0, '', 'New bid publish on plain wheel-Travel-MZ2024040032\n\nClick here to view.', 1, '2024-04-18 09:54:39.000000', '2024-04-18 10:28:34.000000'),
+(8, 1, 2, 12, 32, 0, 0, '', 'New bid publish on husky-Animals-MZ2024040033\n\nClick here to view.', 1, '2024-04-18 10:46:04.000000', '2024-04-18 11:21:15.000000'),
+(9, 1, 2, 5, 33, 0, 0, '', 'New auction published mobile cover-Mobile Phones\n\nclick here to view', 1, '2024-04-18 12:52:58.000000', '2024-04-18 12:53:39.000000'),
+(10, 1, 2, 5, 33, 0, 0, '', 'New bid publish on mobile cover-Mobile Phones-MZ2024040034\n\nClick here to view.', 1, '2024-04-18 12:53:50.000000', '2024-04-18 12:54:09.000000'),
+(11, 1, 2, 9, 34, 0, 0, '', 'New bid publish on test payment-Jobs-MZ2024040035\n\nClick here to view.', 1, '2024-04-19 06:27:04.000000', '2024-04-19 06:38:27.000000');
 
 -- --------------------------------------------------------
 
@@ -57,11 +67,11 @@ INSERT INTO `activity_logs` (`id`, `buyer_id`, `seller_id`, `category_id`, `auct
 
 CREATE TABLE `admins` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `username` varchar(255) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `icon` int(255) DEFAULT NULL,
-  `password` varchar(255) NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -84,24 +94,24 @@ CREATE TABLE `auction` (
   `title` varchar(255) DEFAULT NULL,
   `oder_id` text NOT NULL,
   `user_id` varchar(255) DEFAULT NULL,
-  `category` int(11) NOT NULL DEFAULT 0,
-  `sub_category` int(11) NOT NULL DEFAULT 0,
-  `quality` int(11) NOT NULL DEFAULT 0,
-  `budget` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `category` int(11) NOT NULL DEFAULT '0',
+  `sub_category` int(11) NOT NULL DEFAULT '0',
+  `quality` int(11) NOT NULL DEFAULT '0',
+  `budget` decimal(10,2) NOT NULL DEFAULT '0.00',
   `city` varchar(255) NOT NULL,
   `quantity` varchar(255) NOT NULL,
-  `price` decimal(10,2) DEFAULT 0.00,
+  `price` decimal(10,2) DEFAULT '0.00',
   `image` int(22) DEFAULT NULL,
-  `message` text DEFAULT NULL,
+  `message` text,
   `slug` varchar(255) DEFAULT NULL,
   `status` int(22) DEFAULT NULL,
-  `auction_bit` int(11) NOT NULL DEFAULT 0,
+  `auction_bit` int(11) NOT NULL DEFAULT '0',
   `start_time` datetime DEFAULT NULL,
   `last_bid` varchar(255) DEFAULT NULL,
   `end_time` datetime DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `auction`
@@ -130,22 +140,18 @@ INSERT INTO `auction` (`id`, `title`, `oder_id`, `user_id`, `category`, `sub_cat
 (20, 'real estate test auction', 'MZ2024040031', '1', 1, 4, 1, 1200.00, '692', '4', 0.00, NULL, NULL, NULL, 1, 0, '2024-04-02 17:20:19', NULL, '2024-04-03 17:20:19', '2024-04-02 11:50:59', '2024-04-02 11:50:59'),
 (21, 'mobile auction test 2', 'MZ2024040032', '1', 5, 28, 1, 120000.00, '692', '4', 0.00, NULL, NULL, NULL, 1, 0, '2024-04-02 17:26:48', NULL, '2024-04-03 17:26:48', '2024-04-02 11:58:51', '2024-04-02 11:58:51'),
 (22, 'mobile auction test', 'MZ2024040033', '1', 5, 28, 1, 18000.00, '692', '7', 0.00, NULL, NULL, NULL, 1, 0, '2024-04-02 17:26:48', NULL, '2024-04-03 17:26:48', '2024-04-02 12:02:04', '2024-04-02 12:02:04'),
-(23, 'test', 'MZ2024040035', '1', 1, 4, 0, 150000.00, '690', '9', 0.00, NULL, 'test description', NULL, 3, 0, '2024-04-05 13:40:16', '499', '2024-04-06 13:40:16', '2024-04-05 08:12:23', '2024-04-11 13:46:26'),
+(23, 'test', 'MZ2024040035', '1', 1, 4, 0, 150000.00, '690', '9', 0.00, NULL, 'test description', NULL, 2, 0, '2024-04-05 13:40:16', '500', '2024-04-06 13:40:16', '2024-04-05 08:12:23', '2024-04-15 00:50:01'),
 (24, 'fdg', 'MZ2024040037', '1', 10, 6, 1, 12398.00, '692', '2', 0.00, NULL, NULL, NULL, 1, 0, '2024-04-05 19:22:39', NULL, '2024-04-06 19:22:39', '2024-04-05 13:53:01', '2024-04-05 13:53:01'),
-(25, 'phone', 'MZ2024040038', '1', 5, 27, 1, 70000.00, '678', '2', 0.00, NULL, 'test testet', NULL, 1, 0, '2024-04-06 19:37:05', NULL, '2024-04-07 19:37:05', '2024-04-06 14:07:05', '2024-04-06 14:07:05'),
-(26, 'title', 'MZ2024040039', '1', 7, 22, 0, 1500.00, '677', '1', 0.00, NULL, 'test', NULL, 1, 0, '2024-04-11 15:55:45', NULL, '2024-04-12 15:55:45', '2024-04-11 10:25:45', '2024-04-11 10:25:45'),
-(27, 'title', 'MZ2024040040', '1', 8, 25, 1, 1.00, '676', '1', 0.00, 121, 'test', NULL, 3, 0, '2024-04-11 18:09:06', '1', '2024-04-12 18:09:06', '2024-04-11 12:39:06', '2024-04-11 07:12:56'),
-(28, 'test title', 'MZ2024040041', '1', 7, 22, 0, 100.00, '769', '25', 0.00, 122, 'test', NULL, 2, 0, '2024-04-11 18:18:14', '99', '2024-04-12 18:18:14', '2024-04-11 12:48:14', '2024-04-11 07:20:23'),
-(29, 'toys', 'MZ2024040042', '1', 14, 7, 1, 500.00, '769', '2', 0.00, 123, 'test', NULL, 3, 0, '2024-04-11 18:30:50', '498', '2024-04-12 18:30:50', '2024-04-11 13:00:50', '2024-04-11 07:35:04'),
-(30, 'title', 'MZ2024040043', '1', 5, 27, 0, 50.00, '679', '10', 0.00, NULL, 'test', NULL, 3, 0, '2024-04-11 18:44:51', '48', '2024-04-12 18:44:51', '2024-04-11 13:14:51', '2024-04-11 07:52:16'),
-(31, 'Animals2', 'MZ2024040044', '1', 12, 14, 1, 250.00, '678', '1', 0.00, NULL, 'Animals2', NULL, 3, 0, '2024-04-11 19:02:32', '245', '2024-04-12 19:02:32', '2024-04-11 13:32:32', '2024-04-11 08:10:14'),
-(32, 'test', 'MZ2024040045', '1', 6, 1, 0, 10.00, '679', '1', 0.00, NULL, 'test', NULL, 3, 0, '2024-04-11 19:30:11', '9', '2024-04-12 19:30:11', '2024-04-11 14:00:11', '2024-04-11 08:32:58'),
-(33, 'title', 'MZ2024040046', '1', 15, 12, 1, 230.00, '693', '1', 0.00, NULL, 'test', NULL, 1, 0, '2024-04-11 19:40:54', NULL, '2024-04-12 19:40:54', '2024-04-11 14:10:54', '2024-04-11 14:10:54'),
-(34, 'testt', 'MZ2024040047', '1', 2, 15, 1, 5000.00, '682', '4', 0.00, NULL, 'test', NULL, 3, 0, '2024-04-13 17:48:21', '500', '2024-04-14 17:48:21', '2024-04-13 12:19:13', '2024-04-13 06:56:50'),
-(35, 'test', 'MZ2024040048', '1', 5, 27, 2, 200.00, '692', '10', 0.00, NULL, 'test', NULL, 1, 0, '2024-04-13 18:04:27', NULL, '2024-04-14 18:04:27', '2024-04-13 12:35:04', '2024-04-13 12:35:04'),
-(36, 'xyz', 'MZ2024040049', '1', 14, 7, 0, 500.00, '679', '5', 0.00, NULL, 'test', NULL, 3, 0, '2024-04-15 11:32:44', '450', '2024-04-16 11:32:44', '2024-04-15 06:02:44', '2024-04-15 00:34:12'),
-(37, 'Mobile phone cover', 'MZ2024040050', '1', 2, 15, 0, 1000.00, '698', '100', 0.00, NULL, 'test', NULL, 3, 0, '2024-04-15 11:37:50', '980', '2024-04-16 11:37:50', '2024-04-15 06:07:50', '2024-04-15 00:39:15'),
-(38, 'test', 'MZ2024040051', '1', 14, 7, 1, 123123.00, '677', '213412', 0.00, NULL, '234243ewrwer', NULL, 1, 0, '2024-04-16 12:32:23', '12313', '2024-04-17 12:32:23', '2024-04-16 07:02:23', '2024-04-16 07:09:05');
+(25, 'phone', 'MZ2024040038', '1', 5, 27, 1, 70000.00, '678', '2', 0.00, NULL, 'test testet', NULL, 2, 0, '2024-04-06 19:37:05', NULL, '2024-04-07 19:37:05', '2024-04-06 14:07:05', '2024-04-15 00:49:45'),
+(26, 'mobile phone cover', 'MZ2024040039', '1', 2, 15, 0, 1000.00, '679', '100', 0.00, NULL, 'test', NULL, 3, 0, '2024-04-15 11:47:24', '990', '2024-04-16 11:47:24', '2024-04-15 06:17:24', '2024-04-15 00:49:17'),
+(27, 'TEST', 'MZ2024040040', '1', 6, 2, 0, 50.00, '677', '5', 0.00, NULL, 'test', NULL, 1, 0, '2024-04-15 19:17:42', '40', '2024-04-16 19:17:42', '2024-04-15 13:47:42', '2024-04-15 16:53:18'),
+(28, 'test', 'MZ2024040041', '1', 10, 6, 1, 40.00, '679', '5', 0.00, NULL, 'Test ABC', NULL, 1, 0, '2024-04-15 19:50:46', '35', '2024-04-16 19:50:46', '2024-04-15 14:20:46', '2024-04-15 14:22:48'),
+(29, 'test', 'MZ2024040042', '1', 3, 32, 1, 500.00, '679', '5', 0.00, NULL, 'a', NULL, 1, 0, '2024-04-16 19:54:47', '400', '2024-04-17 19:54:47', '2024-04-16 14:24:47', '2024-04-16 14:26:12'),
+(30, 'plain wheel', 'MZ2024040043', '1', 10, 6, 0, 500.00, '679', '5', 0.00, NULL, 'test', NULL, 1, 0, '2024-04-18 15:22:39', '500', '2024-04-19 15:22:39', '2024-04-18 09:52:39', '2024-04-18 09:53:56'),
+(31, 'plain wheel', 'MZ2024040044', '1', 10, 6, 0, 500.00, '679', '5', 0.00, NULL, 'test', NULL, 3, 0, '2024-04-18 15:22:39', '500', '2024-04-19 15:22:39', '2024-04-18 09:52:39', '2024-04-18 04:26:39'),
+(32, 'husky', 'MZ2024040045', '1', 12, 13, 0, 8000.00, '683', '123', 0.00, NULL, 'test', NULL, 3, 0, '2024-04-18 15:59:47', '7999', '2024-04-19 15:59:47', '2024-04-18 10:29:47', '2024-04-18 05:18:30'),
+(33, 'mobile cover', 'MZ2024040046', '1', 5, 28, 0, 10000.00, '682', '450', 0.00, NULL, 'test', NULL, 3, 0, '2024-04-18 18:22:58', '7850', '2024-04-19 18:22:58', '2024-04-18 12:52:58', '2024-04-18 07:24:16'),
+(34, 'test payment', 'MZ2024040047', '1', 9, 23, 0, 100000.00, '678', '123456', 0.00, NULL, 'test', NULL, 3, 0, '2024-04-19 11:55:16', '9999', '2024-04-20 11:55:16', '2024-04-19 06:25:16', '2024-04-19 00:57:20');
 
 -- --------------------------------------------------------
 
@@ -159,10 +165,10 @@ CREATE TABLE `auctioncancel` (
   `company_id` int(22) DEFAULT NULL,
   `username` int(22) DEFAULT NULL,
   `Paid` varchar(255) DEFAULT NULL,
-  `reason` text DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `reason` text,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -172,8 +178,8 @@ CREATE TABLE `auctioncancel` (
 
 CREATE TABLE `auctionodernumber` (
   `id` int(4) UNSIGNED ZEROFILL NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `auctionodernumber`
@@ -218,19 +224,15 @@ INSERT INTO `auctionodernumber` (`id`, `created_at`) VALUES
 (0036, '2024-04-05 19:20:57'),
 (0037, '2024-04-05 19:23:01'),
 (0038, '2024-04-06 19:37:05'),
-(0039, '2024-04-11 15:55:45'),
-(0040, '2024-04-11 18:09:06'),
-(0041, '2024-04-11 18:18:14'),
-(0042, '2024-04-11 18:30:50'),
-(0043, '2024-04-11 18:44:51'),
-(0044, '2024-04-11 19:02:32'),
-(0045, '2024-04-11 19:30:11'),
-(0046, '2024-04-11 19:40:54'),
-(0047, '2024-04-13 17:49:13'),
-(0048, '2024-04-13 18:05:04'),
-(0049, '2024-04-15 11:32:44'),
-(0050, '2024-04-15 11:37:50'),
-(0051, '2024-04-16 12:32:23');
+(0039, '2024-04-15 11:47:24'),
+(0040, '2024-04-15 19:17:42'),
+(0041, '2024-04-15 19:50:46'),
+(0042, '2024-04-16 19:54:47'),
+(0043, '2024-04-18 15:22:39'),
+(0044, '2024-04-18 15:22:39'),
+(0045, '2024-04-18 15:59:47'),
+(0046, '2024-04-18 18:22:58'),
+(0047, '2024-04-19 11:55:16');
 
 -- --------------------------------------------------------
 
@@ -240,17 +242,17 @@ INSERT INTO `auctionodernumber` (`id`, `created_at`) VALUES
 
 CREATE TABLE `auction_items` (
   `id` int(22) NOT NULL,
-  `oder_id` text DEFAULT NULL,
+  `oder_id` text,
   `auction_id` int(22) DEFAULT NULL,
   `company_id` int(22) DEFAULT NULL,
   `category_id` int(22) DEFAULT NULL,
-  `price` decimal(10,2) NOT NULL DEFAULT 0.00,
-  `status` int(11) NOT NULL DEFAULT 0,
-  `status_bit` text DEFAULT NULL,
-  `is_cancel` int(11) NOT NULL DEFAULT 0,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `price` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `status` int(11) NOT NULL DEFAULT '0',
+  `status_bit` text,
+  `is_cancel` int(11) NOT NULL DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `auction_items`
@@ -281,21 +283,16 @@ INSERT INTO `auction_items` (`id`, `oder_id`, `auction_id`, `company_id`, `categ
 (23, 'MZ2024040023', 19, 7, 1, 15000.00, 0, NULL, 0, '2024-04-02 07:25:35', '2024-04-02 07:25:35'),
 (24, 'MZ2024040024', 19, 7, 1, 10000.00, 0, NULL, 0, '2024-04-02 07:26:16', '2024-04-02 07:26:16'),
 (25, 'MZ2024040025', 19, 7, 1, 5000.00, 1, NULL, 0, '2024-04-02 07:26:40', '2024-04-02 02:15:43'),
-(26, 'MZ2024040026', 23, 7, 1, 500.00, 1, NULL, 0, '2024-04-05 21:12:21', '2024-04-11 08:15:24'),
-(27, 'MZ2024040027', 27, 7, 8, 1.00, 0, NULL, 0, '2024-04-11 12:41:17', '2024-04-11 12:41:17'),
-(28, 'MZ2024040028', 27, 7, 8, 1.00, 1, NULL, 0, '2024-04-11 12:41:52', '2024-04-11 07:12:56'),
-(29, 'MZ2024040029', 28, 7, 7, 99.00, 0, NULL, 0, '2024-04-11 12:49:35', '2024-04-11 12:49:35'),
-(30, 'MZ2024040030', 29, 7, 14, 499.00, 0, NULL, 0, '2024-04-11 13:01:55', '2024-04-11 13:01:55'),
-(31, 'MZ2024040031', 29, 7, 14, 498.00, 1, NULL, 0, '2024-04-11 13:02:57', '2024-04-11 07:35:04'),
-(32, 'MZ2024040032', 30, 7, 5, 49.00, 0, NULL, 0, '2024-04-11 13:18:49', '2024-04-11 13:18:49'),
-(33, 'MZ2024040033', 30, 2, 5, 48.00, 1, NULL, 0, '2024-04-11 13:21:41', '2024-04-11 07:52:16'),
-(34, 'MZ2024040034', 31, 2, 12, 245.00, 1, NULL, 0, '2024-04-11 13:33:41', '2024-04-11 08:10:14'),
-(35, 'MZ2024040035', 23, 7, 1, 499.00, 0, NULL, 0, '2024-04-11 13:46:26', '2024-04-11 13:46:26'),
-(36, 'MZ2024040036', 32, 7, 6, 9.00, 1, NULL, 0, '2024-04-11 14:02:43', '2024-04-11 08:32:58'),
-(37, 'MZ2024040037', 34, 2, 2, 500.00, 1, NULL, 0, '2024-04-13 12:25:34', '2024-04-13 06:56:50'),
-(38, 'MZ2024040038', 36, 2, 14, 450.00, 1, NULL, 0, '2024-04-15 06:03:51', '2024-04-15 00:34:12'),
-(39, 'MZ2024040039', 37, 2, 2, 980.00, 1, NULL, 0, '2024-04-15 06:08:31', '2024-04-15 00:39:15'),
-(40, 'MZ2024040040', 38, 2, 14, 12313.00, 0, NULL, 0, '2024-04-16 07:09:05', '2024-04-16 07:09:05');
+(26, 'MZ2024040026', 23, 7, 1, 500.00, 0, NULL, 0, '2024-04-05 21:12:21', '2024-04-05 21:12:21'),
+(27, 'MZ2024040027', 26, 2, 2, 990.00, 1, NULL, 0, '2024-04-15 06:18:36', '2024-04-15 00:49:17'),
+(28, 'MZ2024040028', 28, 2, 10, 35.00, 0, NULL, 0, '2024-04-15 14:22:48', '2024-04-15 14:22:48'),
+(29, 'MZ2024040029', 27, 7, 6, 40.00, 0, NULL, 0, '2024-04-15 16:53:18', '2024-04-15 16:53:18'),
+(30, 'MZ2024040030', 29, 7, 3, 400.00, 0, NULL, 0, '2024-04-16 14:26:12', '2024-04-16 14:26:12'),
+(31, 'MZ2024040031', 30, 2, 10, 500.00, 0, NULL, 0, '2024-04-18 09:53:56', '2024-04-18 09:53:56'),
+(32, 'MZ2024040032', 31, 2, 10, 500.00, 1, NULL, 0, '2024-04-18 09:54:39', '2024-04-18 04:26:39'),
+(33, 'MZ2024040033', 32, 2, 12, 7999.00, 1, NULL, 0, '2024-04-18 10:46:04', '2024-04-18 05:18:30'),
+(34, 'MZ2024040034', 33, 2, 5, 7850.00, 1, NULL, 0, '2024-04-18 12:53:50', '2024-04-18 07:24:16'),
+(35, 'MZ2024040035', 34, 2, 9, 9999.00, 1, NULL, 0, '2024-04-19 06:27:04', '2024-04-19 00:57:20');
 
 -- --------------------------------------------------------
 
@@ -306,11 +303,24 @@ INSERT INTO `auction_items` (`id`, `oder_id`, `auction_id`, `company_id`, `categ
 CREATE TABLE `auction_meta_detail` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `auction_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `meta_key` varchar(255) NOT NULL,
-  `meta_value` text NOT NULL,
+  `meta_key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `meta_value` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `auction_meta_detail`
+--
+
+INSERT INTO `auction_meta_detail` (`id`, `auction_id`, `meta_key`, `meta_value`, `created_at`, `updated_at`) VALUES
+(1, 27, 'address', 'USA', '2024-04-15 13:47:42', '2024-04-15 13:47:42'),
+(2, 28, 'address', 'dewas', '2024-04-15 14:20:46', '2024-04-15 14:20:46'),
+(3, 28, 'phone', '1234567890', '2024-04-15 14:20:46', '2024-04-15 14:20:46'),
+(4, 30, 'address', 'test', '2024-04-18 09:52:40', '2024-04-18 09:52:40'),
+(5, 30, 'phone', '123123123', '2024-04-18 09:52:40', '2024-04-18 09:52:40'),
+(6, 31, 'address', 'test', '2024-04-18 09:52:40', '2024-04-18 09:52:40'),
+(7, 31, 'phone', '123123123', '2024-04-18 09:52:40', '2024-04-18 09:52:40');
 
 -- --------------------------------------------------------
 
@@ -322,16 +332,21 @@ CREATE TABLE `biders` (
   `id` int(11) NOT NULL,
   `auction_id` int(22) NOT NULL,
   `seller_id` int(22) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `biders`
 --
 
 INSERT INTO `biders` (`id`, `auction_id`, `seller_id`, `created_at`, `updated_at`) VALUES
-(1, 38, 2, '2024-04-16 07:09:05', '2024-04-16 07:09:05');
+(1, 29, 7, '2024-04-16 14:26:12', '2024-04-16 14:26:12'),
+(2, 30, 2, '2024-04-18 09:53:56', '2024-04-18 09:53:56'),
+(3, 31, 2, '2024-04-18 09:54:39', '2024-04-18 09:54:39'),
+(4, 32, 2, '2024-04-18 10:46:04', '2024-04-18 10:46:04'),
+(5, 33, 2, '2024-04-18 12:53:50', '2024-04-18 12:53:50'),
+(6, 34, 2, '2024-04-19 06:27:04', '2024-04-19 06:27:04');
 
 -- --------------------------------------------------------
 
@@ -341,8 +356,8 @@ INSERT INTO `biders` (`id`, `auction_id`, `seller_id`, `created_at`, `updated_at
 
 CREATE TABLE `bidoderid` (
   `id` int(4) UNSIGNED ZEROFILL NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `bidoderid`
@@ -375,20 +390,15 @@ INSERT INTO `bidoderid` (`id`, `created_at`) VALUES
 (0024, '2024-04-02 12:56:16'),
 (0025, '2024-04-02 12:56:40'),
 (0026, '2024-04-06 02:42:21'),
-(0027, '2024-04-11 18:11:17'),
-(0028, '2024-04-11 18:11:52'),
-(0029, '2024-04-11 18:19:35'),
-(0030, '2024-04-11 18:31:55'),
-(0031, '2024-04-11 18:32:57'),
-(0032, '2024-04-11 18:48:49'),
-(0033, '2024-04-11 18:51:41'),
-(0034, '2024-04-11 19:03:41'),
-(0035, '2024-04-11 19:16:26'),
-(0036, '2024-04-11 19:32:43'),
-(0037, '2024-04-13 17:55:34'),
-(0038, '2024-04-15 11:33:51'),
-(0039, '2024-04-15 11:38:31'),
-(0040, '2024-04-16 12:39:05');
+(0027, '2024-04-15 11:48:36'),
+(0028, '2024-04-15 19:52:48'),
+(0029, '2024-04-15 22:23:18'),
+(0030, '2024-04-16 19:56:12'),
+(0031, '2024-04-18 15:23:56'),
+(0032, '2024-04-18 15:24:39'),
+(0033, '2024-04-18 16:16:04'),
+(0034, '2024-04-18 18:23:50'),
+(0035, '2024-04-19 11:57:04');
 
 -- --------------------------------------------------------
 
@@ -398,13 +408,13 @@ INSERT INTO `bidoderid` (`id`, `created_at`) VALUES
 
 CREATE TABLE `categories` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `description` text NOT NULL,
-  `slug` varchar(255) DEFAULT NULL,
-  `status` int(11) NOT NULL DEFAULT 0,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `icon` varchar(255) DEFAULT NULL
+  `icon` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -438,13 +448,13 @@ INSERT INTO `categories` (`id`, `title`, `description`, `slug`, `status`, `creat
 CREATE TABLE `cities` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `state_id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `status` varchar(255) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `latitude` varchar(255) DEFAULT NULL,
-  `longitude` varchar(255) DEFAULT NULL
+  `latitude` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `longitude` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -6391,16 +6401,16 @@ INSERT INTO `cities` (`id`, `state_id`, `name`, `description`, `status`, `create
 
 CREATE TABLE `companies` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `username` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `pnumber` varchar(255) DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `status` int(22) NOT NULL DEFAULT 0,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `username` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pnumber` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` int(22) NOT NULL DEFAULT '0',
   `register` int(22) DEFAULT NULL,
   `file_id` int(22) DEFAULT NULL,
-  `is_bid_add` int(22) NOT NULL DEFAULT 0,
+  `is_bid_add` int(22) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -6416,13 +6426,13 @@ CREATE TABLE `company_info` (
   `user_id` int(22) DEFAULT NULL,
   `company_name` varchar(255) DEFAULT NULL,
   `compan_phone` varchar(255) DEFAULT NULL,
-  `address` text DEFAULT NULL,
-  `commercial_register` text DEFAULT NULL,
-  `avg_rating` int(11) NOT NULL DEFAULT 0,
-  `total_rating` int(11) NOT NULL DEFAULT 0,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `address` text,
+  `commercial_register` text,
+  `avg_rating` int(11) NOT NULL DEFAULT '0',
+  `total_rating` int(11) NOT NULL DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `company_info`
@@ -6441,12 +6451,12 @@ INSERT INTO `company_info` (`id`, `user_id`, `company_name`, `compan_phone`, `ad
 
 CREATE TABLE `failed_jobs` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(255) NOT NULL,
-  `connection` text NOT NULL,
-  `queue` text NOT NULL,
-  `payload` longtext NOT NULL,
-  `exception` longtext NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -6461,9 +6471,9 @@ CREATE TABLE `finishedauctions` (
   `company_id` int(22) DEFAULT NULL,
   `username` int(22) DEFAULT NULL,
   `Paid` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -6474,13 +6484,23 @@ CREATE TABLE `finishedauctions` (
 CREATE TABLE `meta_inputs` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `category_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `title` varchar(255) NOT NULL,
-  `description` text NOT NULL,
-  `slug` varchar(255) DEFAULT NULL,
-  `subcat_id` varchar(255) NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `subcat_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `active` tinyint(2) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `meta_inputs`
+--
+
+INSERT INTO `meta_inputs` (`id`, `category_id`, `title`, `description`, `slug`, `subcat_id`, `active`, `created_at`, `updated_at`) VALUES
+(1, NULL, 'address', 'Enter Address', 'address', '2', 1, '2024-04-15 08:15:56', '2024-04-15 08:15:56'),
+(2, NULL, 'Address', 'Addess title', 'address', '6', 1, '2024-04-15 08:48:53', '2024-04-15 08:48:53'),
+(3, NULL, 'Phone', 'phone number', 'phone', '6', 1, '2024-04-15 08:49:13', '2024-04-15 08:49:13');
 
 -- --------------------------------------------------------
 
@@ -6490,7 +6510,7 @@ CREATE TABLE `meta_inputs` (
 
 CREATE TABLE `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) NOT NULL,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -6510,12 +6530,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (9, '2023_10_10_160601_create_services_table', 5),
 (10, '2023_10_10_163619_create_clientauths_table', 6),
 (11, '2023_10_11_102150_create_rupees_table', 7),
-(12, '2024_02_22_141953_create_companies_table', 8),
-(13, '2024_04_15_053650_create_seller_categories_table', 9),
-(14, '2024_04_13_115859_create_meta_inputs_table', 10),
-(15, '2024_04_13_123029_add_slug_to_meta_inputs_table', 10),
-(16, '2024_04_13_132833_create_auction_meta_detail_table', 10),
-(17, '2024_04_15_054956_add_category_id_to_meta_inputs_table', 10);
+(12, '2024_02_22_141953_create_companies_table', 8);
 
 -- --------------------------------------------------------
 
@@ -6527,17 +6542,17 @@ CREATE TABLE `orders` (
   `id` int(22) NOT NULL,
   `order_id` varchar(255) DEFAULT NULL,
   `auction_id` int(22) DEFAULT NULL,
-  `auction_item_id` int(11) NOT NULL DEFAULT 0,
+  `auction_item_id` int(11) NOT NULL DEFAULT '0',
   `company_id` int(22) DEFAULT NULL,
-  `cat_id` int(11) DEFAULT 0,
+  `cat_id` int(11) DEFAULT '0',
   `code` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `price` varchar(255) DEFAULT NULL,
-  `is_payment` int(11) DEFAULT 0,
-  `is_review` int(11) DEFAULT 0,
-  `status` int(22) NOT NULL DEFAULT 0,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `is_payment` int(11) DEFAULT '0',
+  `is_review` int(11) DEFAULT '0',
+  `status` int(22) NOT NULL DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `orders`
@@ -6551,15 +6566,11 @@ INSERT INTO `orders` (`id`, `order_id`, `auction_id`, `auction_item_id`, `compan
 (5, 'MZ2024030023', 16, 16, 7, 7, '320448', '520.00', 1, 0, 0, '2024-03-27 05:22:33', '2024-03-27 05:28:42'),
 (6, 'MZ2024030024', 17, 21, 7, 5, '345042', '4000.00', 1, 0, 0, '2024-03-28 03:09:56', '2024-03-28 03:22:09'),
 (7, 'MZ2024040030', 19, 25, 7, 1, '300109', '5000.00', 1, 1, 1, '2024-04-02 02:15:43', '2024-04-02 07:48:56'),
-(8, 'MZ2024040040', 27, 28, 7, 8, '867520', '1.00', 1, 0, 0, '2024-04-11 07:12:56', '2024-04-11 07:14:32'),
-(9, 'MZ2024040042', 29, 31, 7, 14, '251305', '498.00', 1, 0, 0, '2024-04-11 07:35:04', '2024-04-11 07:36:52'),
-(10, 'MZ2024040043', 30, 33, 2, 5, '342420', '48.00', 1, 1, 1, '2024-04-11 07:52:16', '2024-04-11 13:27:54'),
-(11, 'MZ2024040044', 31, 34, 2, 12, '453535', '245.00', 1, 0, 1, '2024-04-11 08:10:14', '2024-04-11 13:42:57'),
-(12, 'MZ2024040035', 23, 26, 7, 1, '746547', '500.00', 1, 0, 1, '2024-04-11 08:15:24', '2024-04-11 13:51:49'),
-(13, 'MZ2024040045', 32, 36, 7, 6, '557666', '9.00', 1, 0, 1, '2024-04-11 08:32:58', '2024-04-11 14:05:07'),
-(14, 'MZ2024040047', 34, 37, 2, 2, '447852', '500.00', 1, 1, 1, '2024-04-13 06:56:50', '2024-04-13 12:30:56'),
-(15, 'MZ2024040049', 36, 38, 2, 14, '866402', '450.00', 1, 1, 1, '2024-04-15 00:34:12', '2024-04-15 06:06:07'),
-(16, 'MZ2024040050', 37, 39, 2, 2, '302545', '980.00', 0, 0, 0, '2024-04-15 00:39:15', '2024-04-18 02:18:59');
+(8, 'MZ2024040039', 26, 27, 2, 2, NULL, '990.00', 0, 0, 0, '2024-04-15 00:49:17', '2024-04-15 00:49:17'),
+(9, 'MZ2024040044', 31, 32, 2, 10, NULL, '500.00', 1, 0, 0, '2024-04-18 04:26:39', '2024-04-18 04:26:39'),
+(10, 'MZ2024040045', 32, 33, 2, 12, '287540', '7999.00', 1, 0, 1, '2024-04-18 05:18:30', '2024-04-19 06:02:02'),
+(11, 'MZ2024040046', 33, 34, 2, 5, '723965', '7850.00', 1, 0, 1, '2024-04-18 07:24:16', '2024-04-18 14:10:39'),
+(12, 'MZ2024040047', 34, 35, 2, 9, '174496', '9999.00', 1, 0, 0, '2024-04-19 00:57:20', '2024-04-19 01:07:30');
 
 -- --------------------------------------------------------
 
@@ -6568,8 +6579,8 @@ INSERT INTO `orders` (`id`, `order_id`, `auction_id`, `auction_item_id`, `compan
 --
 
 CREATE TABLE `password_resets` (
-  `email` varchar(255) NOT NULL,
-  `token` varchar(255) NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -6580,8 +6591,8 @@ CREATE TABLE `password_resets` (
 --
 
 CREATE TABLE `password_reset_tokens` (
-  `email` varchar(255) NOT NULL,
-  `token` varchar(255) NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -6593,38 +6604,29 @@ CREATE TABLE `password_reset_tokens` (
 
 CREATE TABLE `payments` (
   `id` int(11) NOT NULL,
-  `auction_id` int(11) NOT NULL DEFAULT 0,
-  `company_id` int(11) NOT NULL DEFAULT 0,
+  `auction_id` int(11) NOT NULL DEFAULT '0',
+  `company_id` int(11) NOT NULL DEFAULT '0',
   `name` varchar(255) NOT NULL,
-  `card_number` int(11) NOT NULL DEFAULT 0,
-  `security_code` int(11) NOT NULL DEFAULT 0,
+  `card_number` int(11) NOT NULL DEFAULT '0',
+  `security_code` int(11) NOT NULL DEFAULT '0',
   `amount` int(11) NOT NULL,
   `expiration_date` varchar(25) NOT NULL,
-  `payment_detail` text DEFAULT NULL,
-  `created_at` datetime(6) NOT NULL DEFAULT current_timestamp(6),
-  `updated_at` timestamp(6) NOT NULL DEFAULT current_timestamp(6)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `payment_detail` text,
+  `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `updated_at` timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `payments`
 --
 
 INSERT INTO `payments` (`id`, `auction_id`, `company_id`, `name`, `card_number`, `security_code`, `amount`, `expiration_date`, `payment_detail`, `created_at`, `updated_at`) VALUES
-(1, 5, 1, 'user', 2147483647, 23434, 15, '2024-03-30', NULL, '2024-03-26 10:33:32.000000', '2024-03-26 05:03:32.000000'),
-(2, 12, 1, 'xc', 2147483647, 121213, 1223, '2024-03-23', NULL, '2024-03-26 11:57:42.000000', '2024-03-26 06:27:42.000000'),
+(1, 5, 1, 'user', 2147483647, 23434, 15, '2024-03-30', '{\"tran_ref\":\"TST2410901988363\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"MZ2024040050\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"980.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"980.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj sv\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"fvd erfv\",\"city\":\"eard v\",\"state\":\"HR\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"D\",\"response_code\":\"305\",\"response_message\":\"Card security code (CVV) mismatch\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T06:48:53Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0001.6620C255.00002063\"}', '2024-03-26 10:33:32.000000', '2024-04-18 01:18:54.000000'),
+(2, 12, 1, 'xc', 2147483647, 121213, 1223, '2024-03-23', '{\"tran_ref\":\"TST2410901988396\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"MZ2024040050\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"980.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"980.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj dfg\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"vefg vzdgbv\",\"city\":\"ewrffd\",\"state\":\"HR\",\"country\":\"IN\",\"zip\":\"343434\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G24247\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T07:10:47Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0002.6620C777.000020A8\"}', '2024-03-26 11:57:42.000000', '2024-04-18 01:40:53.000000'),
 (3, 7, 1, 'table', 2147483647, 23213, 20, '2024-03-30', NULL, '2024-03-26 14:45:09.000000', '2024-03-26 09:15:09.000000'),
 (4, 16, 1, 'test', 2147483647, 23434, 520, '2024-03-28', NULL, '2024-03-27 10:58:42.000000', '2024-03-27 05:28:42.000000'),
 (5, 17, 1, 'table', 2147483647, 23434, 4000, '2024-03-30', NULL, '2024-03-28 08:52:09.000000', '2024-03-28 03:22:09.000000'),
-(6, 19, 0, 'Companies', 2147483647, 23434, 5000, '2024-04-27', NULL, '2024-04-02 07:47:56.000000', '2024-04-02 02:17:56.000000'),
-(7, 27, 0, 'test', 2147483647, 1234, 1, '2024-04-12', NULL, '2024-04-11 12:44:32.000000', '2024-04-11 07:14:32.000000'),
-(8, 29, 0, 'user', 2147483647, 123, 498, '2024-04-12', NULL, '2024-04-11 13:06:52.000000', '2024-04-11 07:36:52.000000'),
-(9, 30, 0, 'user', 2147483647, 123, 48, '2024-04-11', NULL, '2024-04-11 13:24:08.000000', '2024-04-11 07:54:08.000000'),
-(10, 31, 0, 'user', 2147483647, 123, 245, '2024-04-12', NULL, '2024-04-11 13:40:50.000000', '2024-04-11 08:10:50.000000'),
-(11, 23, 0, 'user', 2147483647, 123, 500, '2024-04-13', NULL, '2024-04-11 13:47:19.000000', '2024-04-11 08:17:19.000000'),
-(12, 32, 0, 'user', 2147483647, 123, 9, '2024-04-11', NULL, '2024-04-11 14:03:53.000000', '2024-04-11 08:33:53.000000'),
-(13, 34, 0, 'dfgdfg', 123123123, 123123123, 500, '123123-03-12', NULL, '2024-04-13 12:29:01.000000', '2024-04-13 06:59:01.000000'),
-(14, 36, 0, '412414214', 1234123123, 1223123123, 450, '12313-03-12', NULL, '2024-04-15 06:04:33.000000', '2024-04-15 00:34:33.000000'),
-(15, 37, 0, '', 0, 0, 980, '', NULL, '2024-04-18 07:48:59.000000', '2024-04-18 02:18:59.000000');
+(6, 19, 0, 'Companies', 2147483647, 23434, 5000, '2024-04-27', NULL, '2024-04-02 07:47:56.000000', '2024-04-02 02:17:56.000000');
 
 -- --------------------------------------------------------
 
@@ -6634,11 +6636,11 @@ INSERT INTO `payments` (`id`, `auction_id`, `company_id`, `name`, `card_number`,
 
 CREATE TABLE `personal_access_tokens` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) NOT NULL,
+  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `tokenable_id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `token` varchar(64) NOT NULL,
-  `abilities` text DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text COLLATE utf8mb4_unicode_ci,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `expires_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -7381,16 +7383,16 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 
 CREATE TABLE `reviews` (
   `id` int(22) NOT NULL,
-  `rating` int(22) NOT NULL DEFAULT 0,
+  `rating` int(22) NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `discription` text NOT NULL,
   `auction_id` int(22) DEFAULT NULL,
-  `company_id` int(22) DEFAULT 0,
-  `user_id` int(11) NOT NULL DEFAULT 0,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `company_id` int(22) DEFAULT '0',
+  `user_id` int(11) NOT NULL DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `reviews`
@@ -7401,10 +7403,7 @@ INSERT INTO `reviews` (`id`, `rating`, `title`, `email`, `discription`, `auction
 (2, 2, 'test', 'neeraj@yopmail.com', 'test', 1, 2, 0, '2024-03-22 06:00:36', '2024-03-22 06:00:36'),
 (3, 4, 'best work', 'companies@gmail.com', 'Best Work', 1, 2, 0, '2024-03-23 09:11:56', '2024-03-23 09:11:56'),
 (4, 4, 'tester', 'neeraj@yopmail.com', 'test', 5, 7, 0, '2024-03-26 07:13:34', '2024-03-26 07:13:34'),
-(5, 4, 'tester', 'user2024@gmail.com', 'test', 19, 7, 0, '2024-04-02 07:48:56', '2024-04-02 07:48:56'),
-(6, 3, 'title', 'aalok@yopmail.com', 'testing fedback', 30, 7, 0, '2024-04-11 13:27:54', '2024-04-11 13:27:54'),
-(7, 5, 'test', 'teste@test', 'test', 34, 2, 0, '2024-04-13 12:30:56', '2024-04-13 12:30:56'),
-(8, 5, 'test', 'test@gmail.com', 'test', 36, 2, 0, '2024-04-15 06:06:07', '2024-04-15 06:06:07');
+(5, 4, 'tester', 'user2024@gmail.com', 'test', 19, 7, 0, '2024-04-02 07:48:56', '2024-04-02 07:48:56');
 
 -- --------------------------------------------------------
 
@@ -7417,25 +7416,27 @@ CREATE TABLE `seller_categories` (
   `seller_id` int(22) NOT NULL,
   `categories_id` int(22) NOT NULL,
   `category_level` int(11) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `updated_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `status` tinyint(2) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` tinyint(2) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `seller_categories`
 --
 
 INSERT INTO `seller_categories` (`id`, `seller_id`, `categories_id`, `category_level`, `created_at`, `updated_at`, `status`) VALUES
-(61, 2, 1, 0, '2024-04-13 14:13:55', '2024-04-13 14:13:55', 1),
-(62, 2, 2, 0, '2024-04-15 06:00:23', '2024-04-15 06:00:23', 1),
-(63, 2, 3, 0, '2024-04-15 06:00:24', '2024-04-15 06:00:24', 1),
-(64, 2, 4, 0, '2024-04-15 06:00:24', '2024-04-15 06:00:24', 1),
-(65, 2, 5, 0, '2024-04-15 06:00:25', '2024-04-15 06:00:25', 1),
-(66, 2, 6, 0, '2024-04-15 06:00:25', '2024-04-15 06:00:25', 1),
-(67, 2, 7, 0, '2024-04-15 06:00:26', '2024-04-15 06:00:26', 1),
-(68, 2, 8, 0, '2024-04-15 06:00:26', '2024-04-15 06:00:26', 1),
-(69, 2, 14, 0, '2024-04-15 06:03:07', '2024-04-15 06:03:07', 1);
+(68, 2, 1, 0, '2024-04-15 06:14:31', '2024-04-15 06:14:31', 1),
+(69, 2, 2, 0, '2024-04-15 06:14:32', '2024-04-15 06:14:32', 1),
+(70, 2, 3, 0, '2024-04-15 06:14:32', '2024-04-15 06:14:32', 1),
+(71, 2, 4, 0, '2024-04-15 06:14:32', '2024-04-15 06:14:32', 1),
+(72, 2, 5, 0, '2024-04-15 06:14:33', '2024-04-15 06:14:33', 1),
+(74, 2, 10, 0, '2024-04-15 14:22:28', '2024-04-15 14:22:28', 1),
+(77, 7, 3, 0, '2024-04-15 16:52:35', '2024-04-15 16:52:35', 1),
+(78, 7, 16, 0, '2024-04-15 16:52:37', '2024-04-15 16:52:37', 1),
+(79, 7, 6, 0, '2024-04-15 16:52:45', '2024-04-15 16:52:45', 1),
+(80, 2, 12, 0, '2024-04-18 10:45:36', '2024-04-18 10:45:36', 1),
+(81, 2, 9, 0, '2024-04-19 06:26:41', '2024-04-19 06:26:41', 1);
 
 -- --------------------------------------------------------
 
@@ -7449,7 +7450,7 @@ CREATE TABLE `site_setting` (
   `icon` int(22) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `site_setting`
@@ -7474,9 +7475,9 @@ CREATE TABLE `start_auction` (
   `quantity` varchar(255) NOT NULL,
   `price` varchar(255) DEFAULT NULL,
   `description` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -7486,8 +7487,8 @@ CREATE TABLE `start_auction` (
 
 CREATE TABLE `states` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `state_title` varchar(255) DEFAULT NULL,
-  `state_description` varchar(255) DEFAULT NULL,
+  `state_title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `state_description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` int(22) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -7543,9 +7544,9 @@ INSERT INTO `states` (`id`, `state_title`, `state_description`, `status`, `creat
 CREATE TABLE `status` (
   `id` int(22) NOT NULL,
   `name` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -7555,14 +7556,14 @@ CREATE TABLE `status` (
 
 CREATE TABLE `sub_categories` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `description` text NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` int(11) NOT NULL,
-  `slug` varchar(255) DEFAULT NULL,
-  `category_id` varchar(255) DEFAULT NULL,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `category_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `icon` varchar(255) DEFAULT NULL
+  `icon` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -7611,16 +7612,16 @@ INSERT INTO `sub_categories` (`id`, `title`, `description`, `status`, `slug`, `c
 
 CREATE TABLE `transaction` (
   `id` int(11) NOT NULL,
-  `transaction_id` text DEFAULT NULL,
-  `company_id` int(11) NOT NULL DEFAULT 0,
-  `payment_id` int(11) NOT NULL DEFAULT 0,
-  `withdraw_id` int(11) NOT NULL DEFAULT 0,
-  `type` int(11) NOT NULL DEFAULT 0,
-  `transaction_detail` text DEFAULT NULL,
+  `transaction_id` text,
+  `company_id` int(11) NOT NULL DEFAULT '0',
+  `payment_id` int(11) NOT NULL DEFAULT '0',
+  `withdraw_id` int(11) NOT NULL DEFAULT '0',
+  `type` int(11) NOT NULL DEFAULT '0',
+  `transaction_detail` text,
   `order_id` int(22) DEFAULT NULL,
-  `created_at` datetime(6) NOT NULL DEFAULT current_timestamp(6),
-  `updated_at` datetime(6) NOT NULL DEFAULT current_timestamp(6)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `updated_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `transaction`
@@ -7630,14 +7631,37 @@ INSERT INTO `transaction` (`id`, `transaction_id`, `company_id`, `payment_id`, `
 (1, '0', 1, 5, 0, 1, NULL, NULL, '2024-03-28 08:52:09.000000', '2024-03-28 08:52:09.000000'),
 (2, '0', 7, 0, 9, 0, NULL, NULL, '2024-03-28 08:53:48.000000', '2024-03-28 08:53:48.000000'),
 (3, '0', 1, 6, 0, 1, NULL, NULL, '2024-04-02 07:47:56.000000', '2024-04-02 07:47:56.000000'),
-(4, '0', 1, 7, 0, 1, NULL, NULL, '2024-04-11 12:44:32.000000', '2024-04-11 12:44:32.000000'),
-(5, '0', 1, 8, 0, 1, NULL, NULL, '2024-04-11 13:06:52.000000', '2024-04-11 13:06:52.000000'),
-(6, '0', 1, 9, 0, 1, NULL, NULL, '2024-04-11 13:24:08.000000', '2024-04-11 13:24:08.000000'),
-(7, '0', 1, 10, 0, 1, NULL, NULL, '2024-04-11 13:40:50.000000', '2024-04-11 13:40:50.000000'),
-(8, '0', 1, 11, 0, 1, NULL, NULL, '2024-04-11 13:47:19.000000', '2024-04-11 13:47:19.000000'),
-(9, '0', 1, 12, 0, 1, NULL, NULL, '2024-04-11 14:03:53.000000', '2024-04-11 14:03:53.000000'),
-(10, '0', 1, 13, 0, 1, NULL, NULL, '2024-04-13 12:29:01.000000', '2024-04-13 12:29:01.000000'),
-(11, 'TST2410901988422', 1, 14, 0, 1, '{\"tran_ref\":\"TST2410901988422\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"MZ2024040050\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"980.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"980.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj dfgv\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"fwer fwvs\",\"city\":\"werf bv\",\"state\":\"GJ\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G26354\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T07:45:54Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0002.6620CFB2.0000219D\"}', 16, '2024-04-15 06:04:33.000000', '2024-04-15 06:04:33.000000');
+(4, '0', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988389\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"MZ2024040050\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"980.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"980.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj db\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"vaerfv egv\",\"city\":\"fegv dfv\",\"state\":\"GJ\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G24006\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T07:06:46Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0002.6620C687.00002092\"}', NULL, '2024-04-18 07:06:48.000000', '2024-04-18 07:06:48.000000'),
+(5, NULL, 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988394\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"MZ2024040050\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"980.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"980.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj sdfv\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"egfvd rgh\",\"city\":\"rht\",\"state\":\"HR\",\"country\":\"IN\",\"zip\":\"343434\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G24163\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T07:09:23Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0001.6620C723.000020F7\"}', NULL, '2024-04-18 07:09:25.000000', '2024-04-18 07:09:25.000000'),
+(6, 'MZ2024040050', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988396\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"MZ2024040050\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"980.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"980.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj dfg\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"vefg vzdgbv\",\"city\":\"ewrffd\",\"state\":\"HR\",\"country\":\"IN\",\"zip\":\"343434\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G24247\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T07:10:47Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0002.6620C777.000020A8\"}', NULL, '2024-04-18 07:10:53.000000', '2024-04-18 07:10:53.000000'),
+(7, 'TST2410901988420', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988420\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"MZ2024040050\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"980.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"980.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj sdgv\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"2r3fecv bvd\",\"city\":\"erg df\",\"state\":\"GA\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G25977\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T07:39:37Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0002.6620CE39.00002175\"}', 0, '2024-04-18 07:39:44.000000', '2024-04-18 07:39:44.000000'),
+(8, 'TST2410901988421', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988421\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"MZ2024040050\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"980.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"980.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj sfgv\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"fd gd\",\"city\":\"ear ragv\",\"state\":\"HR\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G26132\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T07:42:12Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0001.6620CED4.000021C4\"}', 0, '2024-04-18 07:42:13.000000', '2024-04-18 07:42:13.000000'),
+(9, 'TST2410901988422', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988422\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"MZ2024040050\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"980.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"980.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj dfgv\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"fwer fwvs\",\"city\":\"werf bv\",\"state\":\"GJ\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G26354\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T07:45:54Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0002.6620CFB2.0000219D\"}', 0, '2024-04-18 07:45:56.000000', '2024-04-18 07:45:56.000000'),
+(10, 'TST2410901988637', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988637\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"MZ2024040045\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"7999.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"7999.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neerajsdf rg\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"12ewdsc\",\"city\":\"23rc\",\"state\":\"KA\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G40520\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T11:42:00Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0001.66210708.000028EB\"}', NULL, '2024-04-18 11:42:01.000000', '2024-04-18 11:42:01.000000'),
+(11, 'TST2410901988641', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988641\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"MZ2024040045\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"7999.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"7999.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj sefv\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"test add\",\"city\":\"Sylhet\",\"state\":\"BR\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G40646\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T11:44:06Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4000 00## #### 0002\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0002.66210786.0000288E\"}', NULL, '2024-04-18 11:44:07.000000', '2024-04-18 11:44:07.000000'),
+(12, 'TST2410901988664', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988664\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"MZ2024040045\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"7999.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"7999.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj sev\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"test add\",\"city\":\"Sylhet\",\"state\":\"JH\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G40834\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T11:47:14Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0001.66210842.00002910\"}', NULL, '2024-04-18 11:47:15.000000', '2024-04-18 11:47:15.000000'),
+(13, 'TST2410901988666', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988666\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"MZ2024040045\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"7999.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"7999.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj wsefdvc\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"test add\",\"city\":\"Sylhet\",\"state\":\"AS\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G40900\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T11:48:20Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0001.66210884.00002918\"}', NULL, '2024-04-18 11:48:26.000000', '2024-04-18 11:48:26.000000'),
+(14, 'TST2410901988685', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988685\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"MZ2024040045\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"7999.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"7999.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj wergf\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"test add\",\"city\":\"Sylhet\",\"state\":\"BR\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G41086\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T11:51:26Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0001.6621093E.0000292A\"}', NULL, '2024-04-18 11:51:26.000000', '2024-04-18 11:51:26.000000'),
+(15, 'TST2410901988697', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988697\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"MZ2024040045\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"7999.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"7999.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj gbc v\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"test add\",\"city\":\"Sylhet\",\"state\":\"KA\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G41262\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T11:54:22Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0001.662109EE.0000293B\"}', NULL, '2024-04-18 11:54:24.000000', '2024-04-18 11:54:24.000000'),
+(16, 'TST2410901988700', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988700\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"MZ2024040045\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"7999.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"7999.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj srvc\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"test add\",\"city\":\"Sylhet\",\"state\":\"HP\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G41417\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T11:56:57Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0002.66210A89.000028F0\"}', NULL, '2024-04-18 11:56:59.000000', '2024-04-18 11:56:59.000000'),
+(17, 'TST2410901988701', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988701\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"MZ2024040045\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"7999.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"7999.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj drtdfhb\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"test add\",\"city\":\"Sylhet\",\"state\":\"JK\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G41570\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T11:59:30Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0001.66210B22.0000296C\"}', NULL, '2024-04-18 11:59:31.000000', '2024-04-18 11:59:31.000000'),
+(18, 'TST2410901988714', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988714\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"MZ2024040045\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"7999.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"7999.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj test\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"test add\",\"city\":\"Sylhet\",\"state\":\"BR\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G41768\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T12:02:48Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0002.66210BE8.00002926\"}', NULL, '2024-04-18 12:02:49.000000', '2024-04-18 12:02:49.000000'),
+(19, 'TST2410901988717', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988717\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"MZ2024040045\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"7999.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"7999.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj rgedrg\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"test add\",\"city\":\"Sylhet\",\"state\":\"JK\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G41907\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T12:05:07Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0001.66210C73.00002998\"}', NULL, '2024-04-18 12:05:08.000000', '2024-04-18 12:05:08.000000'),
+(20, 'TST2410901988720', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988720\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"MZ2024040045\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"7999.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"7999.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj df\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"test add\",\"city\":\"Sylhet\",\"state\":\"GJ\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G42048\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T12:07:28Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0001.66210D00.000029AC\"}', NULL, '2024-04-18 12:07:28.000000', '2024-04-18 12:07:28.000000'),
+(21, 'TST2410901988721', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988721\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"MZ2024040045\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"7999.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"7999.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj sfd\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"test add\",\"city\":\"Sylhet\",\"state\":\"JH\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G42189\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T12:09:49Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0002.66210D8D.00002957\"}', NULL, '2024-04-18 12:09:50.000000', '2024-04-18 12:09:50.000000'),
+(22, 'TST2410901988722', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988722\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"MZ2024040045\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"7999.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"7999.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj wefsdvc\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"test add\",\"city\":\"Sylhet\",\"state\":\"AR\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G42301\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T12:11:40Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0002.66210DFD.00002963\"}', NULL, '2024-04-18 12:11:42.000000', '2024-04-18 12:11:42.000000'),
+(23, 'TST2410901988724', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988724\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"MZ2024040045\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"7999.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"7999.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj erb\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"test add\",\"city\":\"Sylhet\",\"state\":\"CH\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G42339\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T12:12:19Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0002.66210E23.00002965\"}', NULL, '2024-04-18 12:12:20.000000', '2024-04-18 12:12:20.000000'),
+(24, 'TST2410901988728', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988728\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"10\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"7999.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"7999.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj vwegff\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"test add\",\"city\":\"Sylhet\",\"state\":\"JH\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G42757\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T12:19:17Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0004.66211013.00000FFF\"}', 10, '2024-04-18 12:20:56.000000', '2024-04-18 12:20:56.000000'),
+(25, 'TST2410901988729', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988729\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"10\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"7999.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"7999.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj esfdc\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"test add\",\"city\":\"Sylhet\",\"state\":\"HR\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G42867\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T12:21:07Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0001.66211033.00002A0B\"}', 10, '2024-04-18 12:21:08.000000', '2024-04-18 12:21:08.000000'),
+(26, 'TST2410901988748', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988748\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"10\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"7999.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"7999.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neerajb er\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"test add\",\"city\":\"Sylhet\",\"state\":\"BR\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G43467\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T12:31:07Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0002.6621128B.00002A06\"}', 10, '2024-04-18 12:31:09.000000', '2024-04-18 12:31:09.000000'),
+(27, 'TST2410901988764', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988764\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"11\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"7850.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"7850.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj test\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"test add\",\"city\":\"Sylhet\",\"state\":\"HR\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G44884\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T12:54:44Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0002.66211814.00002AB8\"}', 11, '2024-04-18 12:54:46.000000', '2024-04-18 12:54:46.000000'),
+(28, 'TST2410901988768', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988768\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"11\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"7850.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"7850.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj dfg\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"test add\",\"city\":\"Sylhet\",\"state\":\"HP\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G45029\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T12:57:09Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0001.662118A5.00002B36\"}', 11, '2024-04-18 12:57:12.000000', '2024-04-18 12:57:12.000000'),
+(29, 'TST2410901988783', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988783\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"11\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"7850.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"7850.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj sdf\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"test add\",\"city\":\"Sylhet\",\"state\":\"BR\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G46187\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T13:16:27Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0002.66211D2B.00002B67\"}', 11, '2024-04-18 13:16:28.000000', '2024-04-18 13:16:28.000000'),
+(30, 'TST2410901988788', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988788\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"11\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"7850.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"7850.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj wedfv\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"test add\",\"city\":\"Sylhet\",\"state\":\"GJ\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G46769\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T13:26:09Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0001.66211F71.00002C31\"}', 11, '2024-04-18 13:26:10.000000', '2024-04-18 13:26:10.000000'),
+(31, 'TST2410901988799', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988799\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"11\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"7850.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"7850.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj df\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"test add\",\"city\":\"Sylhet\",\"state\":\"JH\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G47817\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T13:43:37Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0001.66212389.00002CBF\"}', 11, '2024-04-18 13:43:44.000000', '2024-04-18 13:43:44.000000'),
+(32, 'TST2410901988809', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988809\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"11\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"7850.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"7850.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj test\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"test add\",\"city\":\"Sylhet\",\"state\":\"AS\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G48393\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T13:53:13Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0002.662125C9.00002C9D\"}', 11, '2024-04-18 13:53:14.000000', '2024-04-18 13:53:14.000000'),
+(33, 'TST2410901988814', 0, 0, 0, 0, '{\"tran_ref\":\"TST2410901988814\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"11\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"7850.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"7850.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj test\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"test add\",\"city\":\"Sylhet\",\"state\":\"HP\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"49.43.3.32\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G48609\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-18T13:56:49Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0001.662126A1.00002D2E\"}', 11, '2024-04-18 13:56:50.000000', '2024-04-18 13:56:50.000000'),
+(34, 'TST2411001989110', 0, 0, 0, 0, '{\"tran_ref\":\"TST2411001989110\",\"merchant_id\":79100,\"profile_id\":138034,\"cart_id\":\"12\",\"cart_description\":\"null\",\"cart_currency\":\"JOD\",\"cart_amount\":\"9999.000\",\"tran_currency\":\"JOD\",\"tran_total\":\"9999.000\",\"tran_type\":\"Sale\",\"tran_class\":\"ECom\",\"customer_details\":{\"name\":\"Neeraj test\",\"email\":\"neeraj@yopmail.com\",\"street1\":\"test add\",\"city\":\"Sylhet\",\"state\":\"LD\",\"country\":\"IN\",\"zip\":\"454545\",\"ip\":\"2405:201:3005:a91e:8540:8dff:9f7e:efa3\"},\"payment_result\":{\"response_status\":\"A\",\"response_code\":\"G08648\",\"response_message\":\"Authorised\",\"cvv_result\":null,\"avs_result\":null,\"transaction_time\":\"2024-04-19T06:37:28Z\"},\"payment_info\":{\"payment_method\":\"Visa\",\"card_type\":\"Credit\",\"card_scheme\":\"Visa\",\"payment_description\":\"4111 11## #### 1111\",\"expiryMonth\":12,\"expiryYear\":2034},\"ipn_trace\":\"IPNS0002.66221128.00003EC2\"}', 12, '2024-04-19 06:37:30.000000', '2024-04-19 06:37:30.000000');
 
 -- --------------------------------------------------------
 
@@ -7650,7 +7674,7 @@ CREATE TABLE `uploads` (
   `file` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `uploads`
@@ -7776,10 +7800,7 @@ INSERT INTO `uploads` (`id`, `file`, `created_at`, `updated_at`) VALUES
 (117, '1712319896.jpg', '2024-04-05 12:24:56', '2024-04-05 12:24:56'),
 (118, '1712320711.png', '2024-04-05 12:38:31', '2024-04-05 12:38:31'),
 (119, '1712321044.png', '2024-04-05 12:44:04', '2024-04-05 12:44:04'),
-(120, '1712321397.png', '2024-04-05 12:49:57', '2024-04-05 12:49:57'),
-(121, '1712839108.png', '2024-04-11 12:38:28', '2024-04-11 12:38:28'),
-(122, '1712839683.png', '2024-04-11 12:48:03', '2024-04-11 12:48:03'),
-(123, '1712840423.png', '2024-04-11 13:00:23', '2024-04-11 13:00:23');
+(120, '1712321397.png', '2024-04-05 12:49:57', '2024-04-05 12:49:57');
 
 -- --------------------------------------------------------
 
@@ -7789,28 +7810,28 @@ INSERT INTO `uploads` (`id`, `file`, `created_at`, `updated_at`) VALUES
 
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `last_name` varchar(255) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `otp` int(22) DEFAULT NULL,
-  `expire_otp_at` varchar(255) DEFAULT NULL,
+  `expire_otp_at` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `remember_token` varchar(100) DEFAULT NULL,
-  `latitude` varchar(255) DEFAULT NULL,
-  `longitude` varchar(255) DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `latitude` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `longitude` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `state_id` int(22) DEFAULT NULL,
   `city_id` int(22) DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `image` text DEFAULT NULL,
-  `mobile_number` varchar(255) DEFAULT NULL,
-  `status` int(22) NOT NULL DEFAULT 0,
-  `wallet` int(11) NOT NULL DEFAULT 0,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image` text COLLATE utf8mb4_unicode_ci,
+  `mobile_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` int(22) NOT NULL DEFAULT '0',
+  `wallet` int(11) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `social_login` varchar(255) DEFAULT NULL,
-  `role` int(11) NOT NULL DEFAULT 1,
-  `user_type` int(11) NOT NULL DEFAULT 1
+  `social_login` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `role` int(11) NOT NULL DEFAULT '1',
+  `user_type` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -7818,10 +7839,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `last_name`, `otp`, `expire_otp_at`, `email_verified_at`, `password`, `remember_token`, `latitude`, `longitude`, `state_id`, `city_id`, `address`, `image`, `mobile_number`, `status`, `wallet`, `created_at`, `updated_at`, `social_login`, `role`, `user_type`) VALUES
-(1, 'Neeraj', 'neeraj@yopmail.com', 'test', NULL, NULL, NULL, '$2y$10$gkQaVSrroj6iAafFHeD8SOOkJmApTYDo/lONAdlozY4q4bhsisKh.', NULL, NULL, NULL, NULL, NULL, 'test add', NULL, '08878456272', 0, 0, '2024-03-20 22:55:14', '2024-04-18 11:37:57', NULL, 1, 1),
-(2, 'Ravi', 'ravi@yopmail.com', 'test', NULL, NULL, NULL, '$2y$10$3L2uIVakc1N7nrsr3uzAxuUtng/mE7fTSm2t9KMnIMjwNYMxL4GNG', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '7748018188', 0, 1243, '2024-03-20 22:57:02', '2024-04-15 06:05:40', NULL, 2, 1),
-(7, 'Anil', 'anil@yopmail.com', 'test', NULL, NULL, NULL, '$2y$10$m.kucP1rZ7p0TiQ/iosmR.jl3PImossaPBeuidxDSM/diARWn/bEO', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '7777777777', 0, 5759, '2024-03-21 04:34:08', '2024-04-11 14:05:07', NULL, 2, 1),
-(8, 'test', 'vijay@yopmail.com', 'vijay', NULL, NULL, NULL, '$2y$10$0BRsyiMlV.b4OepNcoT2FucdgJpmj.MVHdeQ/jPZFOg0gjUr4AZOG', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1234567890', 0, 0, '2024-04-13 07:21:58', '2024-04-13 07:21:58', NULL, 1, 1);
+(1, 'Neeraj', 'neeraj@yopmail.com', 'test', NULL, NULL, NULL, '$2y$10$gkQaVSrroj6iAafFHeD8SOOkJmApTYDo/lONAdlozY4q4bhsisKh.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '8878456272', 0, 0, '2024-03-20 22:55:14', '2024-03-26 08:00:47', NULL, 1, 1),
+(2, 'Ravi', 'ravi@yopmail.com', 'test', NULL, NULL, NULL, '$2y$10$3L2uIVakc1N7nrsr3uzAxuUtng/mE7fTSm2t9KMnIMjwNYMxL4GNG', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '7748018188', 0, 15849, '2024-03-20 22:57:02', '2024-04-19 06:02:02', NULL, 2, 1),
+(7, 'Anil', 'anil@yopmail.com', 'test', NULL, NULL, NULL, '$2y$10$m.kucP1rZ7p0TiQ/iosmR.jl3PImossaPBeuidxDSM/diARWn/bEO', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '7777777777', 0, 5250, '2024-03-21 04:34:08', '2024-04-02 07:48:32', NULL, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -7831,16 +7851,16 @@ INSERT INTO `users` (`id`, `name`, `email`, `last_name`, `otp`, `expire_otp_at`,
 
 CREATE TABLE `withdraw_history` (
   `id` int(11) NOT NULL,
-  `auction_id` int(11) DEFAULT 0,
-  `company_id` int(11) NOT NULL DEFAULT 0,
-  `withdraw_amout` int(11) NOT NULL DEFAULT 0,
+  `auction_id` int(11) DEFAULT '0',
+  `company_id` int(11) NOT NULL DEFAULT '0',
+  `withdraw_amout` int(11) NOT NULL DEFAULT '0',
   `transaction_id` varchar(255) DEFAULT NULL,
   `payment_method` varchar(255) DEFAULT NULL,
-  `type` int(11) NOT NULL DEFAULT 0,
-  `status` int(11) NOT NULL DEFAULT 0,
-  `created_at` datetime(6) NOT NULL DEFAULT current_timestamp(6),
-  `updated_at` datetime(6) NOT NULL DEFAULT current_timestamp(6)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `type` int(11) NOT NULL DEFAULT '0',
+  `status` int(11) NOT NULL DEFAULT '0',
+  `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `updated_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `withdraw_history`
@@ -7856,7 +7876,8 @@ INSERT INTO `withdraw_history` (`id`, `auction_id`, `company_id`, `withdraw_amou
 (7, 0, 7, 250, '1232', 'paypal', 1, 0, '2024-03-28 08:53:19.000000', '2024-03-28 08:53:19.000000'),
 (8, 0, 7, 250, '1232', 'paypal', 1, 0, '2024-03-28 08:53:25.000000', '2024-03-28 08:53:25.000000'),
 (9, 0, 7, 250, '1232', 'paypal', 1, 0, '2024-03-28 08:53:48.000000', '2024-03-28 08:53:48.000000'),
-(10, 0, 7, 56, '123456', 'paypal', 1, 1, '2024-04-11 19:50:33.000000', '2024-04-11 14:20:54.000000');
+(10, 0, 2, 23, 'sadfvrzfgv', 'crypto', 1, 0, '2024-04-19 11:33:06.000000', '2024-04-19 11:33:06.000000'),
+(11, 0, 2, 14000, 'rfdvc', 'paypal', 1, 0, '2024-04-19 11:33:34.000000', '2024-04-19 11:33:34.000000');
 
 -- --------------------------------------------------------
 
@@ -7867,15 +7888,15 @@ INSERT INTO `withdraw_history` (`id`, `auction_id`, `company_id`, `withdraw_amou
 CREATE TABLE `withdraw_history_details` (
   `id` int(11) NOT NULL,
   `type` varchar(255) DEFAULT NULL,
-  `withdraw_id` int(11) NOT NULL DEFAULT 0,
+  `withdraw_id` int(11) NOT NULL DEFAULT '0',
   `email` varchar(255) DEFAULT NULL,
-  `banck_acc_no` int(11) DEFAULT 0,
+  `banck_acc_no` int(11) DEFAULT '0',
   `bank_name` varchar(255) DEFAULT NULL,
   `bank_branch` varchar(255) DEFAULT NULL,
   `Crypto_address` varchar(255) DEFAULT NULL,
-  `created_at` datetime(6) NOT NULL DEFAULT current_timestamp(6),
-  `updated_at` datetime(6) NOT NULL DEFAULT current_timestamp(6)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `created_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `updated_at` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `withdraw_history_details`
@@ -7891,7 +7912,8 @@ INSERT INTO `withdraw_history_details` (`id`, `type`, `withdraw_id`, `email`, `b
 (7, 'paypal', 7, 'test@yopmail.com', NULL, NULL, NULL, NULL, '2024-03-28 08:53:19.000000', '2024-03-28 08:53:19.000000'),
 (8, 'paypal', 8, 'test@yopmail.com', NULL, NULL, NULL, NULL, '2024-03-28 08:53:25.000000', '2024-03-28 08:53:25.000000'),
 (9, 'paypal', 9, 'test@yopmail.com', NULL, NULL, NULL, NULL, '2024-03-28 08:53:48.000000', '2024-03-28 08:53:48.000000'),
-(10, 'paypal', 10, 'test@gmail.com', NULL, NULL, NULL, NULL, '2024-04-11 19:50:33.000000', '2024-04-11 19:50:33.000000');
+(10, 'crypto', 10, NULL, NULL, NULL, NULL, 'asdasdasdadsasd', '2024-04-19 11:33:06.000000', '2024-04-19 11:33:06.000000'),
+(11, 'paypal', 11, 'test@email.com', NULL, NULL, NULL, NULL, '2024-04-19 11:33:34.000000', '2024-04-19 11:33:34.000000');
 
 --
 -- Indexes for dumped tables
@@ -8117,7 +8139,7 @@ ALTER TABLE `withdraw_history_details`
 -- AUTO_INCREMENT for table `activity_logs`
 --
 ALTER TABLE `activity_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `admins`
@@ -8129,7 +8151,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `auction`
 --
 ALTER TABLE `auction`
-  MODIFY `id` int(22) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(22) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `auctioncancel`
@@ -8141,31 +8163,31 @@ ALTER TABLE `auctioncancel`
 -- AUTO_INCREMENT for table `auctionodernumber`
 --
 ALTER TABLE `auctionodernumber`
-  MODIFY `id` int(4) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(4) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `auction_items`
 --
 ALTER TABLE `auction_items`
-  MODIFY `id` int(22) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(22) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `auction_meta_detail`
 --
 ALTER TABLE `auction_meta_detail`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `biders`
 --
 ALTER TABLE `biders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `bidoderid`
 --
 ALTER TABLE `bidoderid`
-  MODIFY `id` int(4) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(4) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -8207,25 +8229,25 @@ ALTER TABLE `finishedauctions`
 -- AUTO_INCREMENT for table `meta_inputs`
 --
 ALTER TABLE `meta_inputs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(22) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(22) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -8237,13 +8259,13 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(22) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(22) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `seller_categories`
 --
 ALTER TABLE `seller_categories`
-  MODIFY `id` int(22) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` int(22) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT for table `site_setting`
@@ -8279,31 +8301,31 @@ ALTER TABLE `sub_categories`
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `uploads`
 --
 ALTER TABLE `uploads`
-  MODIFY `id` int(22) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+  MODIFY `id` int(22) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `withdraw_history`
 --
 ALTER TABLE `withdraw_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `withdraw_history_details`
 --
 ALTER TABLE `withdraw_history_details`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables

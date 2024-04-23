@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Pages,Upload ,Companies,SubCategory,CompanyInfo};
+use App\Models\{Pages,Upload ,Companies,SubCategory,CompanyInfo,CommissionSetting};
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -35,7 +35,8 @@ class CompanieController extends Controller
     public function index()
     {
       // echo $route;die;
-           return view('admin.companie.index',['route'=>$this->route, 'single_heading'=>$this->single_heading]);
+      $commissionValue = showcommission('commission');
+           return view('admin.companie.index',['route'=>$this->route, 'single_heading'=>$this->single_heading,'commissionValue' => $commissionValue]);
     }
 
     public function list(Request $request)
@@ -266,6 +267,24 @@ class CompanieController extends Controller
   
         $delt = Companies::destroy($id);
           return response()->json(['status'=>1, 'message' => $this->single_heading . ' deleted successfully']);
+    }
+
+    public function addCommission(Request $request)
+    {
+
+       if(!empty($request->commission_key) && !empty($request->commission_value)){
+
+        $commissionData = CommissionSetting::where('meta_key',$request->commission_key)->first();
+        $commissionData->meta_value = $request->commission_value;
+        $commissionData->save();
+
+       
+        return response()->json(['status'=>1, 'message' => 'Commission update successfully']);
+       }else
+       {
+        return response()->json(['status'=>2, 'message' => 'Commission field is required']);
+       }
+
     }
 
 }

@@ -74,6 +74,14 @@
       
         @include("front.includes.footer")
     </div>
+
+    <div class="modal fade" id="modal-lg">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+
+			</div>
+		</div>
+	</div>
  
     <script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js') }}"></script>
     <script src="{{asset('front_assets/js/jquery-3.6.0.min.js') }}"></script>

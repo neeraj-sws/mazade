@@ -46,7 +46,7 @@ class FinishedAuctionsController extends Controller
         $columnSortOrder = $_POST['order'][0]['dir']; 
         $searchValue = $_POST['search']['value']; 
        
-        $qry = Auction::with(['CatId'])->where('status', 9 )->where('name', 'LIKE', '%' . $searchValue . '%')->where('oder_id', 'LIKE', '%' . $searchValue . '%');
+        $qry = Auction::with(['CatId','user'])->where('status', 3 )->where('oder_id', 'LIKE', '%' . $searchValue . '%');
         $result = $qry->get();
 
       
@@ -58,7 +58,7 @@ class FinishedAuctionsController extends Controller
 
             if($row->id){
                 $itame = Auctionitems::where('auction_id' , $row->id)->first();
-                  $price = $itame->price;
+                  $price = @$itame->price;
                }else{
                 $price = "-";
                }
@@ -67,7 +67,7 @@ class FinishedAuctionsController extends Controller
               $data[] = array(
                   "sno" => $i,
                   "oder"=>ucfirst($row->oder_id),
-                  'name' => ucfirst($row->name),
+                  'name' => ucfirst(@$row->user->name),
                   "category"=>ucfirst($row->CatId->title),
                   "paid"=>$price,
               );

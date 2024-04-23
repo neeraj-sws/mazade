@@ -133,7 +133,7 @@
       <div class="col-md-12 mb-3 all-form-data mb-4">
          <input type="text" id="Price" placeholder="Price" name="lastPrice" value="">
          <span class="bid_error text-danger small">Bid price should be less than $@if(empty($auctionitem->price)){{ $auction->budget }} @else{{ $auctionitem->price }} @endif</span>
-         <p class="price_percentage small">(8% will be deductated from current bid as commission)</p>
+         <p class="price_percentage small">({{ showcommission('commission') }}% will be deductated from current bid as commission)</p>
         
       </div>
       <div class="col-md-6 pop-btn-main-sec">

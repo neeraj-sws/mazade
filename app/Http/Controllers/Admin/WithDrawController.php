@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\{User,State,City,Favorite,Appointment, AppointmentDetaile,Upload,WithdrawHistory,Orders};
+use App\Models\{User,State,City,Favorite,Appointment, AppointmentDetaile,Upload,WithdrawHistory,Orders, Transaction, WalletHistory};
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -109,18 +109,24 @@ class WithDrawController extends Controller
        $status->save();
 
        $data = User::find($status->company_id);
-       $data->wallet -= $status->withdrawAmount;
+       $data->wallet -= $status->withdraw_amout;
        $data->save();
 
+       //1 is remove 
+        WalletHistory::create([
+          'amount'=>$status->withdraw_amout,
+          'status'=>1,
+          'user_id'=>$data->id
+        ]);
+
        $numericCode = mt_rand(100000, 999999);
-       Transaction::create([
-        'company_id'=> $status->id,
-        'payment_id'=> 0,
-        'withdraw_id'=> $status->id,
-        'transaction_id' => $numericCode,
-        'type'=> 0,
-           
-    ]);
+      //  Transaction::create([
+      //   'company_id'=> $status->id,
+      //   'payment_id'=> 0,
+      //   'withdraw_id'=> $status->id,
+      //   'transaction_id' => $numericCode,
+      //   'type'=> 0,
+      //        ]);
 
        return response()->json(['success' => 1, 'message' => $this->single_heading . ' WithDraw  accepted successfully']);
    }

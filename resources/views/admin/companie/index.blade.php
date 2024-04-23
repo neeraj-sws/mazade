@@ -4,12 +4,29 @@
     <div class="main">
         <div class="card">
             <div class="card-body">
-                <div class="d-flex ">
+                <div class="d-flex align-items-center">
                     <h4>{{ $single_heading }}</h4>
                     <div class="ms-auto">
                         <div class="btn-group">
                             <a href="javascript:void(0);" class="btn btn-primary"
                                 onclick="addForm('{{ $route->add }}');return false;"><i
+                                    class="bx bxs-plus-square"></i> Add</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div>
+                       <h6> <label for="commission">Commission</label></h6>
+                        <input type="number" class="form-control" name="commission" id="commission" value = "{{ $commissionValue }}">
+                    </div>
+                    <div class="ms-auto">
+                        <div class="btn-group">
+                            <a href="javascript:void(0);" class="btn btn-primary"
+                                onclick="addcommission(this);return false;"><i
                                     class="bx bxs-plus-square"></i> Add</a>
                         </div>
                     </div>
@@ -89,5 +106,26 @@
         $('#checkAll').prop("checked", false);
         $('.filed_check').prop("checked", false);
     });
+
+    function addcommission(e)
+    {
+       var  commission = $('#commission').val();
+        $.ajax({
+                type: "post",
+                url: '{{ route('admin.companie.add-commission') }}',
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data:{commission_value:commission,commission_key:"commission"},
+                success: function (res) {
+                if (res.status == 1) {
+                    toastr.success(res.message, 'Success');
+                } else if(res.status == 2) {
+                    toastr.error(res.message, 'Error');
+                }
+
+                }
+         });
+    }
     </script>
     @endsection

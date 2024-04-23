@@ -19,15 +19,9 @@
                <thead>
                   <tr>
                      <th>Date</th>
-                     <th>Transaction no</th>
-                     <th>User</th>
-                     <th>Payment Method</th>
-                     <th>Amount  </th>
-                     <th>Fee</th>
-                     <th>Commission</th>
-                     <th>T Amount</th>
+                     <th>Amount</th>
                      <th>Status</th>
-                     
+                     <th>Name </th>
                   </tr>
                </thead>
                <tbody>
@@ -51,28 +45,23 @@ window.dataTable = $('#data-table').DataTable({
         'headers': {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
-         'url': "{{ $route->list }}",
+         'url': "{{ route('admin.wallet-history.list') }}",
         'data': function(data) {
             
         }
     },
     'lengthMenu': [10, 20, 50, 100, 200],
-    'columns': [{ data: 'id'},
-        {data: 'transaction' },
-        {data: 'user' },
-        {data: 'payment' },
+    'columns': [{ data: 'date'},
         {data: 'amount' },
-        {data: 'fee' },
-        {data: 'commission' },
-        {data: 'tamount' },
-        { data: 'status'},
-       
+        {data: 'status' },
+        {data: 'name' },
+   
     ],
     "order": [
         [0, 'DESC']
     ],
     "columnDefs": [{
-        "targets": [0,1,2,3,4,5,6,7,8],
+        "targets": [0,1,2,3],
         "orderable": false, 
     }]
 

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{User,Category,Upload,SubCategory,Companies,City,Auction,Oders,Finishedauctions,Auctionitems,Reviews,CompanyInfo,Orders};
+use App\Models\{User,Category,Upload,SubCategory,Companies,City,Auction,Oders,Finishedauctions,Auctionitems,Reviews,CompanyInfo,Orders, Transaction};
 use Illuminate\Support\Facades\Auth;
 use Carbon;
 
@@ -77,6 +77,18 @@ class UserController extends Controller
            
         //  echo '<pre>'; print_r($user); die;
        return view('front.user.last_bidings' , ['user' => $user,'orders' =>$orders]);
+    }
+
+    public function paymentHistory()
+    {
+        $user = Auth::guard('web')->user();
+
+        $transactions =Transaction::with(['order','order.AuId','order.CatId:id,title','order.Auction','order.Auction.companyId','order.Auction.companyId.user'])->whereHas('order.AuId', function ($query) {
+          $query->where('user_id',Auth::guard('web')->user()->id);
+      })->paginate('10');
+
+      // echo "<pre>"; print_r($transactions->toArray()); die;
+        return view('front.user.payment_history', compact('transactions'));
     }
 
     public function enter_code(Request $request)

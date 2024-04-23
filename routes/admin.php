@@ -1,6 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\{UserController,AdminController,CategoryController,OrderstatusController,CompanybitController,SiteSettingController, PriceController, Sub_categoryController,CityController , CompanieController,ActiveauctionsController,StateController,CanceledAuctionsController,FinishedAuctionsController,AuctionCompletController,WithDrawController,TransactionController};
+use App\Http\Controllers\Admin\{UserController,AdminController,CategoryController,OrderstatusController,CompanybitController,SiteSettingController, PriceController, Sub_categoryController,CityController , CompanieController,ActiveauctionsController,StateController,CanceledAuctionsController,FinishedAuctionsController,AuctionCompletController,WithDrawController,TransactionController, WalletHistoryController};
 
 use App\Http\Controllers\Admin\Auth\LoginController;
 
@@ -100,6 +100,7 @@ Route::group(['middleware'=>'auth:admin',  'prefix' => 'admin', 'as' => 'admin.'
         Route::post('imagesave',[CompanieController::class, 'imageupload'])->name('saveimage');
         Route::post('imagepdf',[CompanieController::class, 'imagepdfuplode'])->name('imagepdf');
         Route::post('status',[CompanieController::class, 'status'])->name('status');
+        Route::post('add-commission',[CompanieController::class, 'addCommission'])->name('add-commission');
 
     });
 
@@ -207,6 +208,13 @@ Route::group(['prefix' => 'auctions', 'as' => 'auctions.'],function(){
             Route::post('withdraw',[WithDrawController::class, 'list'])->name('list');
             Route::post('accept',[WithDrawController::class, 'accept'])->name('accept');
             Route::post('reject',[WithDrawController::class, 'reject'])->name('reject');
+        
+        });
+
+        Route::group(['prefix' => 'wallet-history', 'as' => 'wallet-history.'],function(){
+
+            Route::get('/',[WalletHistoryController::class, 'index'])->name('wallet-history');
+            Route::post('wallet-history',[WalletHistoryController::class, 'list'])->name('list');
         
         });
 

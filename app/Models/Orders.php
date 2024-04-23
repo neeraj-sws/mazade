@@ -11,7 +11,7 @@ class Orders extends Model
     use HasFactory;
     protected $table = 'orders';
 
-    protected $fillable = [ 'category_id','company_id','auction_id','price','is_payment','code'];
+    protected $fillable = [ 'cat_id','company_id','auction_id','price','is_payment','code'];
 
     function CatId()
     {

@@ -47,17 +47,13 @@ class CompanybitController extends Controller
         $columnSortOrder = $_POST['order'][0]['dir']; 
         $searchValue = $_POST['search']['value']; 
        
-        $qry = Auctionitems::with(['CatId' , 'companyId']); 
+        $qry = Auctionitems::with(['CatId','companyId']); 
         $result = $qry->get();
-
-      
-    
-
         $totalRecordwithFilter = $totalRecords = $qry->count();
         $result = $qry->offset($row)->take($rowperpage)->get();
         $data = array();
         $i = 1;
-          foreach ($result as $row) {
+        foreach ($result as $row) {
 
 
             $edit_url = $this->route->view;
@@ -68,7 +64,7 @@ class CompanybitController extends Controller
               $data[] = array(
                   "sno" => $i,
                   "category"=>ucfirst($row->CatId->title),
-                  "companie"=> $row->companyId->name,
+                  "companie"=> $row->companyId->company_name,
                   "price"=>$row->price,
                   "action" => $action,
               );

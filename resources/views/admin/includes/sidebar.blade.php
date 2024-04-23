@@ -106,6 +106,13 @@
                         </a>
                     </li>
 
+                    <li class="nav-menu-item {{ ($single_heading == 'Wallet History')? 'router-link-active': '' }} ">
+                        <a href="{{ route('admin.wallet-history.wallet-history') }}">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            <span class="nav-menu-item-title">Wallet History</span>
+                        </a>
+                    </li>
+
                     <li class="nav-menu-item {{ ($single_heading == 'transaction')? 'router-link-active': '' }} ">
                         <a href="{{ route('admin.transaction.transaction') }}">
                             <i class="fa fa-map-marker" aria-hidden="true"></i>

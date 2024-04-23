@@ -4,7 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use App\Models\{SubCategory,Upload,Category,Oders};
+use App\Models\{SubCategory,Upload,Category,Orders};
 use Illuminate\Http\Request;
 use App\Models\Startauction;
 
@@ -45,7 +45,7 @@ class OrderstatusController extends Controller
         $columnSortOrder = $_POST['order'][0]['dir']; 
         $searchValue = $_POST['search']['value']; 
        
-        $qry = Oders::with(['CatId' ,'comid' , 'AuId']);
+        $qry = Orders::with(['CatId' ,'cominfo' , 'AuId']);
         $result = $qry->get();
 
         $totalRecordwithFilter = $totalRecords = $qry->count();
@@ -61,7 +61,7 @@ class OrderstatusController extends Controller
               $data[] = array(
                   "sno" => $i,
                   "category"=>ucfirst($row->CatId->title),
-                  "companie"=> $row->comid->name,
+                  "companie"=> $row->cominfo->company_name,
                   "bugiet"=>$row->AuId->budget,
                   "price"=>$row->price,
                   "action" => $action,

@@ -38,23 +38,21 @@ class TransactionController extends Controller
       $columnName = $_POST['columns'][$columnIndex]['data'];
       $columnSortOrder = $_POST['order'][0]['dir']; 
       $searchValue = $_POST['search']['value']; 
-
-      $orders = Orders::with('comid','AuId','CatId')->get();
-        
-      $qry = Transaction::with('Withdraw', 'Payment')
-      ->where('transaction.transaction_id', 'LIKE', '%' . $searchValue . '%')
-      ->leftJoin('withdraw_history', function($join) {
-          $join->on('transaction.withdraw_id', '=', 'withdraw_history.id'); 
-      })
-      ->leftJoin('payments', function($join) {
-          $join->on('transaction.payment_id', '=', 'payments.id'); 
-      })
-      ->leftJoin('users', 'users.id', '=', 'withdraw_history.company_id')
-      ->orWhere('users.name', 'LIKE', '%' . $searchValue . '%');
+ 
+      $qry = Transaction::with(['order','order.AuId','order.AuId.user'])->orderBy($columnName, $columnSortOrder);
+    //   ->where('transaction.transaction_id', 'LIKE', '%' . $searchValue . '%')
+    //   ->leftJoin('withdraw_history', function($join) {
+    //       $join->on('transaction.withdraw_id', '=', 'withdraw_history.id'); 
+    //   })
+    //   ->leftJoin('payments', function($join) {
+    //       $join->on('transaction.payment_id', '=', 'payments.id'); 
+    //   })
+    //   ->leftJoin('users', 'users.id', '=', 'withdraw_history.company_id')
+    //   ->orWhere('users.name', 'LIKE', '%' . $searchValue . '%');
           
           $result = $qry->get();
 
-      // echo "<pre>";print_r($result);die;
+    //   echo "<pre>";print_r($result->toArray());die;
       
       $totalRecordwithFilter = $totalRecords = $qry->count();
       $result = $qry->offset($row)->take($rowperpage)->get();
@@ -63,31 +61,44 @@ class TransactionController extends Controller
 
         foreach ($result as $row) {
 
-         $userid =  $row->Withdraw ? $row->Withdraw->company_id : ($row->Payment ? $row->Payment->company_id : '');
-          $user = User::where('id' ,$userid)->first();
+        //   if($row->type == 0){
+        //     $status = '<p>WithDraw</p>';
+        //   }elseif($row->type == 1){
+        //     $status = '<p>Deposite</p>';
+        //   }
+        //   $method = $row->Withdraw ? $row->Withdraw->payment_method : '-';
+        //   $payment = $row->Withdraw ? $row->Withdraw->withdraw_amout : ($row->Payment ? $row->Payment->amount : '-');
+        //   $paymentminus = $row->Withdraw ? (float)$row->Withdraw->withdraw_amout * 0.92 : '-';
+     
+        $paymentMethod = $amount=$paymentstatus=$pstatus = "";
+        $commission = showcommission('commission');      
+                // echo "<pre>"; print_r(json_decode($row->transaction_detail)); 
+                if(!empty(json_decode($row->transaction_detail))){
+        
+                    $transaction_details =  json_decode($row->transaction_detail);
+                    $paymentMethod =  $transaction_details->payment_info->payment_method;
+                    $paymentstatus =  $transaction_details->payment_result->response_status;
+                    if($paymentstatus == 'A'){
+                        $pstatus = 'Success';
+                    }else{
+                        $pstatus = 'Failed';
+                    }
+                    $amount =  $transaction_details->tran_total;
+    
+                }
+             $tamount =  calculateCommission($amount,$commission);
 
-
-          // echo $row->Withdraw;die;
-
-          if($row->type == 0){
-            $status = '<p>WithDraw</p>';
-          }elseif($row->type == 1){
-            $status = '<p>Deposite</p>';
-          }
-          $method = $row->Withdraw ? $row->Withdraw->payment_method : '-';
-          $payment = $row->Withdraw ? $row->Withdraw->withdraw_amout : ($row->Payment ? $row->Payment->amount : '-');
-          $paymentminus = $row->Withdraw ? (float)$row->Withdraw->withdraw_amout * 0.92 : '-';
-          
           $data[] = array(
               
-                "date"=> date('d-m-Y', strtotime($row->created_at)),
+                "id"=> date('d-m-Y', strtotime($row->created_at)),
                 "transaction"=>$row->transaction_id,
-                "user"=>$user->name,
-                "payment"=> $method ,
-                "amount"=> $payment,
-                "tamount"=> $paymentminus,
-                "status"=>$status,
-                "fee" => $row->Withdraw ? '8%' : '-',
+                "user"=>@$row->order->AuId->user->name,
+                 "payment"=>@$paymentMethod,
+                 "amount"=> $amount,
+                "tamount"=> $tamount !="null"?$amount-$tamount:$tamount,
+                "status"=>$pstatus,
+                "fee" => $tamount ? $tamount : $commission ,
+                "commission" => $commission.'%',
               
             );
 

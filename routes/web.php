@@ -59,6 +59,7 @@ Route::group(['middleware'=>'auth:web'],function(){
     Route::get('/current-auction', [App\Http\Controllers\Front\UserController::class, 'current_auction'])->name('current-auction');
     
     Route::get('/last-bidings', [App\Http\Controllers\Front\UserController::class, 'last_bidings'])->name('last-bidings');
+    Route::get('/payment-history', [App\Http\Controllers\Front\UserController::class, 'paymentHistory'])->name('payment-history');
     Route::post('/enter_code', [App\Http\Controllers\Front\UserController::class, 'enter_code'])->name('enter_code');
     Route::post('/open_profile', [App\Http\Controllers\Front\UserController::class, 'open_profile'])->name('open_profile');
     Route::post('/end-auctions', [App\Http\Controllers\Front\UserController::class, 'end_auctions'])->name('end-auctions');
@@ -105,6 +106,7 @@ Route::group(['middleware'=>'auth:web'],function(){
     Route::middleware(['role:2','fav_cat_check'])->group(function () {
         Route::get('/company/dashboard', [App\Http\Controllers\Front\CompanyController::class, 'dashboard'])->name('company.dashboard');
         Route::get('/withdraw', [App\Http\Controllers\Front\AuctionController::class, 'withdraw'])->name('withdraw');
+        Route::get('/wallet-history', [App\Http\Controllers\Front\CompanyController::class,'walletHistory'])->name('wallethistory');
         Route::post('/withdraw-submit', [App\Http\Controllers\Front\AuctionController::class, 'withdraw_submit'])->name('withdraw-submit');
 
         Route::get('/active-auctions', [App\Http\Controllers\Front\AuctionController::class, 'active_auctions'])->name('active-auctions');

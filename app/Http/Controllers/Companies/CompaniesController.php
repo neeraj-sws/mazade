@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
-use App\Models\{Auction,Auctionitems,Oders,Companies,Upload,Payment,Category,SubCategory};
+use App\Models\{Auction,Auctionitems,Oders,Companies,Upload,Payment,Category,SubCategory,walletHistory};
 use App\Http\Controllers\Controller;
 
 

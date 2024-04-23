@@ -7,7 +7,7 @@ use App\Models\SellerCategory;
 use Helper;
 use \Carbon\Carbon;
 
-use App\Models\{Auction, Auctioncancel, Finishedauctions, Reviews, Auctionitems, Companies, Payment, Status, Upload, Category, SubCategory, user, CompanyInfo, Orders, WithdrawHistory, WithdrawHistoryDetails, Transaction, City,MetaInput,AuctionMetaDetail,Bider,Activitylog};
+use App\Models\{Auction, Auctioncancel, Finishedauctions, Reviews, Auctionitems, Companies, Payment, Status, Upload, Category, SubCategory, user, CompanyInfo, Orders, WithdrawHistory, WithdrawHistoryDetails, Transaction, City,MetaInput,AuctionMetaDetail,Bider,Activitylog, WalletHistory};
 
 
 
@@ -89,10 +89,19 @@ class AuctionController extends Controller
         if ($order->code == $request->checkcode) {
             $order->status = 1;
             $order->save();
-
+            
+            $commissionAmount = calculateCommission($order->price,showcommission('commission'));
+            
             $company = User::find($order->company_id);
-            $company->wallet += $order->price;
+            $company->wallet += $order->price-$commissionAmount;
             $company->save();
+
+            // 0 is add to wallet 
+            WalletHistory::create([
+                'amount'=>$order->price-$commissionAmount,
+                'status'=>0,
+                'user_id'=>$company->id
+            ]);
 
             return response()->json(['status' => 2, 'message' => 'Code Matched Successfully', 'surl' => route('last-bidings')]);
         } else {

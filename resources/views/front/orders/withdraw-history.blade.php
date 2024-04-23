@@ -30,12 +30,12 @@
                         <div class="dashboard-area box--shadow">
                            <div class="table-title-area">
                               <h3>Withdraw History</h3>
-                              <select>
+                              {{-- <select>
                                  <option value="01">Show: Last 05 Order</option>
                                  <option value="02">Show: Last 03 Order</option>
                                  <option value="03">Show: Last 15 Order</option>
                                  <option value="04">Show: Last 20 Order</option>
-                              </select>
+                              </select> --}}
                            </div>
                            <div class="table-wrapper">
                               <table class="eg-table order-table table mb-0">

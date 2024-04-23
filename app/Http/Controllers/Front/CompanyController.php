@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Category,Upload,SubCategory,Companies,City,Auction,CompanyInfo,Orders,Finishedauctions,Auctionitems,Reviews,User};
+use App\Models\{Category,Upload,SubCategory,Companies,City,Auction,CompanyInfo,Orders,Finishedauctions,Auctionitems,Reviews,User, WalletHistory};
 use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
@@ -77,5 +77,15 @@ class CompanyController extends Controller
     {
        return view('front.company.user_category_detail');
     }
+
+    public function walletHistory(Request  $request)
+    {
+       $walletHistories = WalletHistory::where('user_id',Auth::guard('web')->user()->id)->paginate(10);
+
+    //    echo "<pre>"; print_r($walletHistories->toArray()); die;
+
+        return view('front.walletHistory',['walletHistories'=>$walletHistories]);
+    }
+
    
 }

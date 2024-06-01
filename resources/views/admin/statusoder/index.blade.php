@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+    @extends('admin.layouts.app')
 @section('wrapper')
 <div class="content">
     <div class="main">
@@ -23,10 +23,13 @@
                         <thead>
                             <tr>
                                 <th>S.No.</th>
+                                <th>Order ID</th>
+                                <th>Transaction Id</th>
+                                <th>Auction Name</th>
                                 <th>Category Name</th>
                                 <th>Companie Name</th>
-                                 <th>Bugiet</th>
-                                <th>Price</th>  
+                                <th>Final Price</th>
+                                <th>Current Bit Price</th>  
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -58,6 +61,15 @@
         'columns': [{
                 data: 'sno'
             },
+             {
+                data: 'orderid'
+            },
+            {
+                data: 'transaction_id'
+            },
+            {
+                data: 'title'
+            },
             {
                 data: 'category'
             },
@@ -78,7 +90,7 @@
             [1, 'DESC']
         ],
         "columnDefs": [{
-            "targets": [0, 5],
+            "targets": [0, 7],
             "orderable": false,
         }]
 

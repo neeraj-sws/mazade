@@ -92,10 +92,16 @@ class PaymentController extends Controller
     public function complete(Request $request)
     {
         // echo "<pre>";print_r($request->all());die;
+        $data=$error ="";
         $request = $request->all();
         $id = $request['cartId'];
         $status = $request['respStatus'];
         $message = $request['respMessage'];
+         if(!empty($request)){
+            $data = Orders::with('AuId')->where('id', $id)->first();
+         }else{ 
+            return view('front.payment.paymentFailed');
+         }
         
         $data = Orders::with('AuId')->where('id', $id)->first();
         

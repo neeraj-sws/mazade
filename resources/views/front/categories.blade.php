@@ -28,12 +28,12 @@
                     @foreach ($categories as $category)
                         <div class="col-md-2 cate-box-home">
                             @if (Auth::check() && Auth::guard('web')->user()->role == 2)
-                                <a href="{{ url('/new-auction/' . $category->category->id) }}">
+                                <a href="{{ route('active-auctions', ['categort' =>  $category->id]) }}">
                                     <div style="background-color: #7BAB47;" class="category-main-box">
                                         <div class="category-img">
-                                            <img src="{{ asset('uploads/category/' . @$category->category->photo->file) }}">
+                                            <img src="{{ asset('uploads/category/' . @$category->photo->file) }}">
                                         </div>
-                                        <h5 class="text-white text-16 mb-0">{{ $category->category->title }}</h5>
+                                        <h5 class="text-white text-16 mb-0">{{ $category->title }}</h5>
                                     </div>
                                 </a>
                             @else

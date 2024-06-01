@@ -1,0 +1,13 @@
+.nav-menu.newnav-menu:not(.nav-menu-horizontal) {
+    /* overflow: hidden; */
+    height: 60rem !important;
+}
+
+.newnav-menu .nav-menu-item.router-link-active a {
+    /* color: #11a1fd; */
+    position: relative;
+}
+div#cms {
+    position: absolute;
+    top: 40px;
+}

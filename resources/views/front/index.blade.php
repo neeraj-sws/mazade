@@ -5,16 +5,18 @@
          <div class="hero-main-wrapper position-relative">
             <div class="swiper banner1">
                <div class="swiper-wrapper">
-                  <div class="swiper-slide">
-                     <div class="slider-bg-1">
+                @foreach($homes as $home)
+
+               <div class="swiper-slide">
+                     <div class="slider-bg-1" style="background-image: url({{asset('uploads/home/'.$home->photo->file)}})!important;">
                         <div class="container">
                            <div class="row d-flex justify-content-center align-items-center">
                               <div class="col-xl-10 col-lg-10">
                                  <div class="banner1-content">
                                     <span>Welcome</span>
-                                    <h1>Lorem Ipsum is simply dummy</h1>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                       labore et dolore magna aliqua
+                                    <h1>{{ $home->title }}</h1>
+                                    <p>
+                                       {{ $home->description }}
                                     </p>
                                     @if (!Auth::check())
                                     <a href="{{ route('login') }}" class="eg-btn btn--primary btn--lg">Login</a>
@@ -25,26 +27,9 @@
                         </div>
                      </div>
                   </div>
-                  <div class="swiper-slide">
-                     <div class="slider-bg-2">
-                        <div class="container">
-                           <div class="row d-flex justify-content-center align-items-center">
-                              <div class="col-xl-10 col-lg-10">
-                                 <div class="banner1-content">
-                                    <span>Welcome</span>
-                                    <h1>Lorem Ipsum is simply dummy</h1>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                       labore et dolore magna aliqua
-                                    </p>
-                                    @if (!Auth::check())
-                                    <a href="{{ route('login') }}" class="eg-btn btn--primary btn--lg">Login</a>
-                                    @endif
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
+
+               @endforeach  
+                  
                </div>
             </div>
             <div class="hero-one-pagination d-flex justify-content-center flex-column align-items-center gap-3"></div>
@@ -56,12 +41,13 @@
          <div class="container">
             <div class="row p-5">
                <div class="col-md-3 col-sm-6">
+                   <a href="{{ route('all-auction', ['auction' => 'all']) }}">
                   <div class="card">
                      <div class="card-body">
                      
                         <div class="d-flex align-items-center justify-content-between">
                               <div>
-                              <span class="text-muted fw-bolder">All Auction</span>
+                              <span class="text-muted fw-bolder">All Auctions</span>
                                  <h4 ></h4>
                               </div>
                               <div class="text-dark fw-bold fs-1">{{ $auction_all }}</div>
@@ -69,29 +55,33 @@
                         <div class="mt-4" id="monthly-revenue" style="max-width: 250px;"></div>
                      </div>
                   </div>  
+                   </a> 
             </div>
 
             <div class="col-md-3 col-sm-6">
+                 <a href="{{ route('all-auction', ['auction' => 'active']) }}">
                   <div class="card">
                      <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between">
                               <div>
-                              <span class="text-muted fw-bolder">Current Auction</span>
+                              <span class="text-muted fw-bolder">Active Auctions</span>
                                  <h4></h4>
                               </div>
                               <div class="text-dark fw-bold fs-1">{{ $current_all  }}</div>
                         </div>
                         <div class="mt-4" id="monthly-revenue" style="max-width: 250px;"></div>
                      </div>
-                  </div>  
+                  </div> 
+                   </a> 
             </div>
 
             <div class="col-md-3 col-sm-6">
+                 <a href="{{ route('all-auction', ['auction' => 'complet']) }}">
                   <div class="card">
                      <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between">
                               <div>
-                              <span class="text-muted fw-bolder">End Auction</span>
+                              <span class="text-muted fw-bolder">Completed Auctions</span>
                                  <h4></h4>
                               </div>
                               <div class="text-dark fw-bold fs-1">{{ $end_all  }}</div>
@@ -99,14 +89,16 @@
                         <div class="mt-4" id="monthly-revenue" style="max-width: 250px;"></div>
                      </div>
                   </div>  
+                  </a>
             </div>
 
             <div class="col-md-3 col-sm-6">
+                <a href="{{ route('all-auction', ['auction' => 'cancel']) }}">
                   <div class="card">
                      <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between">
                               <div>
-                              <span class="text-muted fw-bolder">Cancel Auction</span>
+                              <span class="text-muted fw-bolder">Cancelled Auctions</span>
                                  <h4></h4>
                               </div>
                               <div class="text-dark fw-bold fs-1">{{ $cancel_all }}</div>
@@ -114,6 +106,7 @@
                         <div class="mt-4" id="monthly-revenue" style="max-width: 250px;"></div>
                      </div>
                   </div>  
+                  </a>
             </div>
             </div>
          </div>
@@ -157,8 +150,9 @@
                </div>
                <div class="col-md-6 about-content d-flex justify-content-center flex-column">
                   <h5 class="">About</h5>
-                  <h2 class="">Lorem Ipsum is simply dummy text <br>of the <span class="color-diff"> printing</span></h2>
-                  <p class="text-16 color-p">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer tookLorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took.
+                  <h2 class="">{{ $about->title }}</h2>
+                  <p class="text-16 color-p"> 
+                  {{ $about->description }}
                   </p>
                   <a href="user-about.html"><button type="button" class="btn register-btn text-16">
                   Read more

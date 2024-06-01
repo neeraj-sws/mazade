@@ -15,6 +15,7 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <link href="{{ asset('admin/assets/css/custom.css') }}" rel="stylesheet" />
     <link href="{{ asset('admin/assets/css/app.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('admin/assets/css/admincustom.css') }}" rel="stylesheet" />
     <link href="{{ asset('admin/assets/vendors/datatables/dataTables.bootstrap.min.css') }}" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/fd34e350c0.js" crossorigin="anonymous"></script>
     
@@ -90,6 +91,19 @@
             $('.nav-menu-item').removeClass('router-link-active');
             $(this).addClass('router-link-active');
         });
+        
+    $(document).ready(function(){
+        $(".up").hide();
+    $(".up").click(function(){
+        $(".up").hide();
+        $(".down").show();
+    });
+
+    $(".down").click(function(){
+        $(".down").hide();
+        $(".up").show();
+    });
+});
     
 </script>
     

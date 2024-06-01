@@ -309,14 +309,7 @@
 
             @if (Auth::check() && Auth::guard('web')->user()->role == 2)
                 <li><a href="{{ route('active-auctions') }}">Active Auctions</a></li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-                        aria-expanded="false">Categories</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item p-2" href="{{ route('categories') }}">All categories</a></li>
-                        <li><a class="dropdown-item p-2" href="{{ route('manage.categories') }}">Manage categories</a></li>
-                    </ul>
-                </li>
+               <li><a href="{{ route('categories') }}">Categories</a></li>
             @else
                 <li><a href="{{ route('categories') }}">Categories</a></li>
             @endif

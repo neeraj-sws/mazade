@@ -25,4 +25,3 @@ public/done.sql
 mysql/
 supervisord.pid
 supervisord.log
-*.zip

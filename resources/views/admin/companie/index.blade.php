@@ -16,7 +16,7 @@
                 </div>
             </div>
         </div>
-        <div class="card">
+     {{--    <div class="card">
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <div>
@@ -32,7 +32,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive">

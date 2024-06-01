@@ -60,6 +60,7 @@ Route::group(['middleware'=>'auth:web'],function(){
     
     Route::get('/last-bidings', [App\Http\Controllers\Front\UserController::class, 'last_bidings'])->name('last-bidings');
     Route::get('/payment-history', [App\Http\Controllers\Front\UserController::class, 'paymentHistory'])->name('payment-history');
+    Route::get('view-auction/{id}',[App\Http\Controllers\Front\UserController::class, 'viewAuction'])->name('viewAuction');
     Route::post('/enter_code', [App\Http\Controllers\Front\UserController::class, 'enter_code'])->name('enter_code');
     Route::post('/open_profile', [App\Http\Controllers\Front\UserController::class, 'open_profile'])->name('open_profile');
     Route::post('/end-auctions', [App\Http\Controllers\Front\UserController::class, 'end_auctions'])->name('end-auctions');

@@ -34,10 +34,12 @@
                <div class="footer-content">
                   <h3>Social media</h3>
                   <ul>
-                     <li><a href="#"><i class="fa-brands fa-facebook-f"></i>Facebook</a></li>
-                     <li><a href="#"><i class="fa-brands fa-linkedin-in"></i>Linkedin</a></li>
-                     <li><a href="#"><i class="fa-brands fa-x-twitter"></i>Twitter</a></li>
-                     <li><a href="#"><i class="fa-brands fa-instagram"></i>Instagram</a></li>
+                      @php
+                     $socialMediaModels = \App\Models\SocialMediaModel::get();
+                  @endphp
+                     @foreach($socialMediaModels as $socialMediaModel)
+                     <li><a href="{{ $socialMediaModel->link }}"><i class="fa-brands fa-facebook-f"></i>{{ $socialMediaModel->title }}</a></li>
+                     @endforeach
                   </ul>
                </div>
             </div>

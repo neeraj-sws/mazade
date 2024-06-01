@@ -11,7 +11,7 @@ class Category extends Model
     use HasFactory;
     protected $table = 'categories';
 
-    protected $fillable = [ 'title','icon','description','status','slug'];
+    protected $fillable = [ 'title','icon','description','status','slug','commission'];
 
     function sub_category()
     {

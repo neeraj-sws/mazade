@@ -45,7 +45,7 @@ class OrderstatusController extends Controller
         $columnSortOrder = $_POST['order'][0]['dir']; 
         $searchValue = $_POST['search']['value']; 
        
-        $qry = Orders::with(['CatId' ,'cominfo' , 'AuId']);
+        $qry = Orders::with(['CatId' ,'cominfo' , 'AuId', 'transactionId'])->where('is_payment',1);
         $result = $qry->get();
 
         $totalRecordwithFilter = $totalRecords = $qry->count();
@@ -60,6 +60,9 @@ class OrderstatusController extends Controller
 
               $data[] = array(
                   "sno" => $i,
+                  "orderid"=>$row->order_id,
+                  'transaction_id'=>@$row->transactionId->transaction_id,
+                  "title"=>$row->AuId->title,
                   "category"=>ucfirst($row->CatId->title),
                   "companie"=> $row->cominfo->company_name,
                   "bugiet"=>$row->AuId->budget,
@@ -84,9 +87,9 @@ class OrderstatusController extends Controller
 
      public function view($id)
      {
-         $info =Oders::with(['CatId' ,'comid' , 'AuId'])->find($id);
+         $info =Orders::with(['CatId' ,'cominfo' , 'AuId'])->find($id);
 
-       //  echo "<pre>";print_r($info);die;
+        //  echo "<pre>";print_r($info);die;
 
          return view('admin.statusoder.view',['route'=>$this->route,'single_heading'=>$this->single_heading, 'info'=>$info]);
      }

@@ -640,9 +640,8 @@ $.ajax({
   }
 }
 
-
 function seller_status_change(url, newStatus, id, checkbox) {  
-  //  alert('hello')
+    // alert('hello');
 
   $('#st_loader_' + id).show();
 

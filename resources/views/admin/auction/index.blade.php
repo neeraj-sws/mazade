@@ -24,13 +24,13 @@
                                <input type="radio" name="auction" id="all_auction" onchange="auction_data(this)" class="all align-middle" checked value="1"> All Auction
                            </label>
                            <label class="radio-inline me-3 fw-bold">
-                             <input type="radio" name="auction" id="current_action"  onchange="auction_data(this)" class="all align-middle" value="2"> Current Auction
+                             <input type="radio" name="auction" id="current_action"  onchange="auction_data(this)" class="all align-middle" value="2"> Active Auctions
                             </label>
                            <label class="radio-inline me-3 fw-bold">
-                               <input type="radio" name="auction" id="end_action"  onchange="auction_data(this)" class="all align-middle" value="3"> End Auction
+                               <input type="radio" name="auction" id="end_action"  onchange="auction_data(this)" class="all align-middle" value="3"> Completed Auctions
                            </label>
                            <label class="radio-inline me-3 fw-bold">
-                               <input type="radio" name="auction" id="cancel_action" onchange="auction_data(this)" class="all align-middle" value="4"> Cancel Auction
+                               <input type="radio" name="auction" id="cancel_action" onchange="auction_data(this)" class="all align-middle" value="4"> Cancelled Auctions
                            </label>
                                                                                             
                        </div>
@@ -83,10 +83,12 @@
                         <thead>
                             <tr>
                                 <th>S.No.</th>
+                                <th>Auction Name</th>
                                 <th>Category</th>
                                 <th>Sub Category</th>
-                                <th>Quality</th>  
-                                <th>Budget</th>
+                                <!--<th>Quality</th>  -->
+                                <th>Current Bid Price</th>
+                                <th>Final Price</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -120,17 +122,19 @@
         'lengthMenu': [10, 20, 50, 100, 200],
         'columns': [
             { data: 'sno' },
+             { data: 'title' },
             { data: 'category' },
             { data: 'sub_category' },
-            { data: 'quality' },
-            { data: 'bugiet' },
+            // { data: 'quality' },
+            { data: 'current_btc_price' },
+            { data: 'budget' }, 
             { data: 'action' }
         ],
         "order": [
             [1, 'DESC']
         ],
         "columnDefs": [{
-            "targets": [0, 5],
+            "targets": [0, 6],
             "orderable": false,
         }]
     });

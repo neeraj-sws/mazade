@@ -9,16 +9,20 @@
                 onsubmit="event.preventDefault();form_submit(this);return false;" method="POST">
                 @csrf
                 <input type="hidden" name="id" value="{{ $info->id }}">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label for="title" class="form-label">Title</label>
                     <input type="text" class="form-control" name="title" value="{{ $info->title }}">
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label for="status" class="form-label">Status</label>
                     <select class="form-select" name="status">
                         <option value="1" @if ($info->status == 1) selected @endif> Active </option>
                         <option value="0" @if ($info->status == 0) selected @endif> Inactive </option>
                     </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="commission" class="form-label">Commission</label>
+                    <input type="text" class="form-control" name="commission" value="{{ $info->commission }}">
                 </div>
                 <div class="col-12">
                     <label for="description">Description</label>

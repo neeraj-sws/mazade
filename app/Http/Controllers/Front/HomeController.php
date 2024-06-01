@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Models\SellerCategory;
 use Illuminate\Http\Request;
-use App\Models\{Category,Upload,SubCategory,Companies,City,Auction,Oders,Finishedauctions,Auctionitems};
+use App\Models\{Category,Upload,SubCategory,Companies,City,Auction,Oders,Finishedauctions,Auctionitems,Home,About,Contact};
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -53,9 +53,9 @@ class HomeController extends Controller
             })
             ->where('company_id', $user->id)->orderBy('id', 'DESC')->count();
     
-            if(count($categories) == 0){
-                return redirect()->route('manage.categories');
-            }
+            // if(count($categories) == 0){
+            //     return redirect()->route('manage.categories');
+            // }
         }elseif(Auth::check()  && Auth::guard('web')->user()->role == 1){
             $user = Auth::guard('web')->user();
             $categories = Category::where('status', 1)->get();
@@ -76,18 +76,15 @@ class HomeController extends Controller
 
         
         $companies = Companies::get();
-        return view('front.index',['categories' => $categories,'companies'=>$companies,'auction_all'=> $all_auction ,'current_all'=> $current_auction, 'end_all' => $end_auction , 'cancel_all' => $cancel_auction]);
+         $homes = Home::get();
+        $about = About::first();
+        return view('front.index',['categories' => $categories,'companies'=>$companies,'auction_all'=> $all_auction ,'current_all'=> $current_auction, 'end_all' => $end_auction , 'cancel_all' => $cancel_auction,'homes'=>$homes,'about'=>$about]);
     }
 
     public function categories()
     {
         if(Auth::check() && Auth::guard('web')->user()->role == 2){
-            $categories = SellerCategory::with('category')->where('seller_id',auth()->user()->id)
-            ->whereHas('category',function($qry) {
-                $qry->where('status',1);
-            })
-            ->orderBy('category_level','asc')
-            ->get();
+             $categories = Category::where('status', 1)->get();
         }else{
             $categories = Category::where('status', 1)->get();
         }
@@ -96,13 +93,15 @@ class HomeController extends Controller
     
     public function about()
     {
-       return view('front.about');
+        $about = About::first();
+       return view('front.about',['about'=>$about]);
     }
 
     
     public function contact()
     {
-        return view('front.contact');
+        $contact = Contact::first();
+        return view('front.contact',['contact'=>$contact]);
     }
     
     public function categoryshow()

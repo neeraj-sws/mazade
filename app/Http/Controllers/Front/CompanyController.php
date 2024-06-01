@@ -43,10 +43,11 @@ class CompanyController extends Controller
     }
     
 
-    public function user_company_detail()
+    public function user_company_detail(Request $request)
     {
       $data=request()->user();
-      $info=CompanyInfo::where('user_id',$data->id)->first();
+      $order=Orders::where('id',$request->id)->first();
+      $info=CompanyInfo::where('user_id',$order->company_id)->first();
       $random_code = substr(uniqid(), -10);
       // echo"<pre>";print_r($random_code);die;
        return view('front.company.user_company_detail', ['info' => $info,'random_code' => $random_code ]);

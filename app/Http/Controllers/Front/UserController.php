@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{User,Category,Upload,SubCategory,Companies,City,Auction,Oders,Finishedauctions,Auctionitems,Reviews,CompanyInfo,Orders, Transaction};
+use App\Models\{User,Category,Upload,SubCategory,Companies,City,Auction,Oders,Finishedauctions,Auctionitems,Reviews,CompanyInfo,Orders, Transaction, SellerCategory};
 use Illuminate\Support\Facades\Auth;
 use Carbon;
 
@@ -16,9 +16,11 @@ class UserController extends Controller
      *
      * @return void
      */
+    protected $single_heading;
     public function __construct()
     {
         $this->middleware('auth');
+        $this->single_heading = "Auction";
     }
 
  
@@ -32,12 +34,14 @@ class UserController extends Controller
        return view('front.user.dashboard' , [ 'reviews' => $reviews , 'user' => $user]);
     }
 
-    public function all_auction()
+    public function all_auction(Request $request)
     { 
+        $type = $request->auction;
       $user = Auth::guard('web')->user();
+      
       $auction = Auction::with('CatId')->where('user_id',$user->id)->orderBy('id', 'DESC')->get();
       $auctionitem = Auctionitems::with('Auction', 'companyId','CatId')->orderBy('id', 'DESC')->get(); 
-       return view('front.user.all_auction' , ['auction' => $auction ,'auctionitem' =>$auctionitem, 'user' => $user]);
+       return view('front.user.all_auction' , ['auction' => $auction ,'auctionitem' =>$auctionitem, 'user' => $user, 'type'=>$type]);
     }
 
     public function current_auction()
@@ -89,6 +93,16 @@ class UserController extends Controller
 
       // echo "<pre>"; print_r($transactions->toArray()); die;
         return view('front.user.payment_history', compact('transactions'));
+    }
+    
+    public function viewAuction($id)
+    { 
+        $info = Auction::with(['CatId','subcatid','city','user'])->find($id);
+        $auctionItems = Auctionitems::where('auction_id',$info->id)->get();
+
+      //  echo "<pre>";print_r($info);die;
+
+        return view('front.user.view',['single_heading'=>$this->single_heading, 'info'=>$info, 'auctionItems'=>$auctionItems]);
     }
 
     public function enter_code(Request $request)
@@ -158,7 +172,7 @@ class UserController extends Controller
     { 
         $currentDateTime = \Carbon\Carbon::now();
         $user = Auth::guard('web')->user();
-        $auction = Auction::with('CatId')->where('user_id',$user->id)->orderBy('id', 'DESC')->get();
+        $auction = Auction::with('CatId', 'Order')->where('user_id',$user->id)->orderBy('id', 'DESC')->get();
         $auctionitem = Auctionitems::with('Auction', 'companyId','CatId')->orderBy('id', 'DESC')->get(); 
 
         return view('front.user.auction_data' , ['auction' => $auction ,'auctionitem' =>$auctionitem, 'user' => $user]);
@@ -249,8 +263,9 @@ class UserController extends Controller
     { 
      
         $user = Auth::guard('web')->user();
-        $auctionitem = Auctionitems::with('Auction','CatId')
-        ->where('company_id',$user->id)->orderBy('id', 'DESC')->get(); 
+        
+         $auctionitem = Auctionitems::with(['Auction', 'CatId'])->where('company_id', $user->id)->groupBy('auction_id')->orderBy('id', 'DESC')->get();
+         
        return view('front.user.auction_data_seller' , ['auction' => $auctionitem ,'auctionitem' =>$auctionitem, 'user' => $user]);
         // return response()->json(['auction' => $auction, 'auctionitem' => $auctionitem, 'user' => $user]);
     }

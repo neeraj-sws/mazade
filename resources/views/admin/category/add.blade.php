@@ -8,16 +8,20 @@
             <form class="row g-3" action="{{ $route->store }}"
                 onsubmit="event.preventDefault();form_submit(this);return false;" method="POST">
                 @csrf
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label for="title" class="form-label">Title</label>
                     <input type="text" class="form-control" name="title">
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label for="status" class="form-label">Status</label>
                     <select class="form-select" name="status">
                         <option value="1"> Active </option>
                         <option value="0">Inactive </option>
                     </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="commission" class="form-label">Commission</label>
+                    <input type="number" class="form-control" name="commission" placeholder="Commission">
                 </div>
                 <div class="col-12">
                     <label for="description">Description</label>

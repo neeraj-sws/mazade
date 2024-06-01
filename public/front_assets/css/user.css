@@ -304,3 +304,24 @@ input.company-popup-btn {
 .edit-admin {
     margin-right: 10px;
 }
+
+.form-wrapper .account-btn.buyer{
+    color:#ffffff;
+    background-color:#86b817c9;
+    border-color:#ffffff;
+ }
+ .form-wrapper .account-btn.buyer:hover{
+    color:#86b817c9;
+    background-color:#ffffffc9;
+    border-color:#86b817c9;
+ }
+.form-wrapper .account-btn{
+    color:#ffffff;
+    background-color:#0163d3b0;
+    border-color:#ffffff;
+ }
+ .form-wrapper .account-btn:hover{
+    color:#0163d3b0;
+    background-color:#ffffffc9;
+    border-color:#0163d3b0;
+ }

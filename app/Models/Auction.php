@@ -27,6 +27,16 @@ class Auction extends Model
     {
         return $this->belongsTo(City::class,'city');
     }
+    
+    function auctionItemPrice()
+    {
+        return $this->belongsTo(Auctionitems::class,'id');
+    }
+
+    function Order()
+    {
+        return $this->belongsTo(Orders::class,'id','auction_id');
+    }
 
     function status_id()
     {

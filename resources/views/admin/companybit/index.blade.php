@@ -26,7 +26,7 @@
                                 <th>Category Name</th>
                                 <th>Companie Name</th>
                                 <th>Price</th>  
-                                <th>Action</th>
+                                <!--<th>Action</th>-->
                             </tr>
                         </thead>
                         <tbody>
@@ -67,15 +67,15 @@
             {
                 data: 'price'
             },
-            {
-                data: 'action'
-            },
+            // {
+            //     data: 'action'
+            // },
         ],
         "order": [
             [1, 'DESC']
         ],
         "columnDefs": [{
-            "targets": [0, 4],
+            "targets": [0],
             "orderable": false,
         }]
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\{Category,Upload};
+use App\Models\{Category, CommissionSetting, Upload};
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -83,6 +83,7 @@ class CategoryController extends Controller
               $data[] = array(
                   "sno" => $i,
                   "title"=>ucfirst($row->title),
+                  "commission"=>$row->commission.'%',
                   "file_id"=> $file,
                   "status"=>$status,
                   "action" => $action,
@@ -121,6 +122,7 @@ class CategoryController extends Controller
                     'title'=>'required',
                     'description'=>'required',
                     'image'=>'required',
+                    'commission'=>'required',
                     'status'=>'required',
                 ]
             );
@@ -136,8 +138,14 @@ class CategoryController extends Controller
                         'title'=>$request->title,
                         'slug'=>$slug,
                         'icon'=>$request->image,
+                        'commission'=>$request->commission,
                         'description'=>$request->description,
                         'status'=>$request->status,
+                    ]);
+                    
+                    CommissionSetting::create([
+                        'category_id'=>$info->id,
+                        'commission'=>$info->commission
                     ]);
                     
                     return response()->json(['status' => 1, 'message' => $this->single_heading .'saved successfully' ]);
@@ -177,6 +185,7 @@ class CategoryController extends Controller
                 'title'=>'required',
                     'description'=>'required',
                     'image'=>'required',
+                     'commission'=>'required',
                     'status'=>'required',
             ]
           );  
@@ -189,8 +198,20 @@ class CategoryController extends Controller
                 'title'=>$request->title,
                 'icon'=>$request->image,
                 'description'=>$request->description,
+                'commission'=>$request->commission,
                 'status'=>$request->status,
             ])->save();
+                           
+            $commissionData = CommissionSetting::where('category_id',$request->id)->first();
+
+            if (!$commissionData) {
+                $commissionData = new CommissionSetting();
+                $commissionData->category_id = $request->id;
+            }
+            $commissionData->commission = $request->commission;
+            
+            $commissionData->save();
+
             return response()->json(['status'=> 1 , 'message' => $this->single_heading .' updated successfully']);
     
           }
@@ -202,6 +223,8 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $delt = Category::destroy($id);
+        $category= Category::where('category_id',$id)->first();
+        $category->delete();
           return response()->json(['status'=>1, 'message' => $this->single_heading . ' deleted successfully']);
     }
 

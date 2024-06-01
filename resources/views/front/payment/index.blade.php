@@ -369,7 +369,9 @@
                         </div>
                     </div>
                     <div>
+                        @if (!empty($data->id))
                         <a href="{{ route('buyer.payment', $data->id) }}" class="btn btn-primary">Pay Now</a>
+                        @endif
                     </div>
                 </div>
 

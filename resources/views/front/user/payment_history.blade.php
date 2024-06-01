@@ -41,7 +41,7 @@
                                  <thead>
                                     <tr>
                                        <th>ID order</th>
-                                       <th>Product Name</th>
+                                       <th>Auction Name</th>
                                        <th>Category Name</th>
                                        <th>Seller Name</th>
                                        <th>Budget</th>
@@ -63,7 +63,9 @@
                                     <tr>
                                      
                                        <td data-label="Image">{{ $transaction->order->order_id}}</td>
-                                       <td data-label="Image">{{ $transaction->order->AuId->title}}</td>
+                                       <td data-label="Image">
+                                          <a href="javascript:void(0);" class="text-primary text-decoration-underline" onclick="auction_detail('{{ route('viewAuction', $transaction->order->AuId->id) }}', '{{ $transaction->order->AuId->id }}');">{{ $transaction->order->AuId->title }}</a>
+                                       </td>
                                        <td data-label="Bidding ID">{{ @$transaction->order->CatId->title }}</td>
                                        <td data-label="Bidding ID">{{ @$transaction->order->Auction->companyId->user->name }}</td>
                                        <td data-label="Bid Amount(USD)">{{ @$transaction->order->AuId->budget }}</td>
@@ -167,6 +169,24 @@ function code_enter(url,id) {
         }
     });
 } 
+
+function auction_detail(url, id, modal = 'modal-lg') {
+    
+    $('#modal-default .modal-content').html('');
+    url = url.replace(':id', id);
+    $.ajax({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      url: url,
+      method: "GET",
+      data: {},
+      success: function (res) {
+        $('#' + modal + ' .modal-content').html(res);
+        $('#' + modal).modal('show');
+      }
+    });
+  }
 
     
 </script>

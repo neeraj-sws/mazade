@@ -10,7 +10,7 @@ class CommissionSetting extends Model
     use HasFactory;
     protected $table = 'commission_settings';
 
-    protected $fillable = ['meta_key', 'meta_value'];
+    protected $fillable = ['category_id', 'commission'];
 
   
 }

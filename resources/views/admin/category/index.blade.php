@@ -24,6 +24,7 @@
                             <tr>
                                 <th> S.No.</th>
                                 <th>Title</th>
+                                <th>Commission</th>
                                 <th>Profile</th>
                                 {{-- <th>Description</th> --}}
                                 <th>Status</th>
@@ -61,6 +62,9 @@
                 data: 'title'
             },
             {
+                data: 'commission'
+            },
+            {
                 data: 'file_id'
             },
             {
@@ -74,7 +78,7 @@
             [1, 'DESC']
         ],
         "columnDefs": [{
-            "targets": [0, 4],
+            "targets": [0, 5],
             "orderable": false,
         }]
 

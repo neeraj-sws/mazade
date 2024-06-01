@@ -27,6 +27,17 @@ class Auctionitems extends Model
     {   
         return $this->belongsTo(CompanyInfo::class,'company_id','user_id');
     }
+    
+        public static function latestBid($aid)
+    {
+        $bid = Auctionitems::where('auction_id', $aid)->latest()->first();
+
+        if ($bid) {
+            return $bid->price;
+        } else {
+            return null; // Or any other appropriate value or action if no bid is found
+        }
+    }
 
     
 }

@@ -6,22 +6,29 @@
         </div>
         <div class="modal-body py-3">
             <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group mt-2">
+                        <strong>Auction Title:</strong>
+                        {{ $info->AuId->title }}
+                    </div>
+                    
+                </div>
                 <div class="col-md-6">
-                    <div class="form-group">
+                    <div class="form-group  mt-2">
                         <strong>Category Name:</strong>
                         {{ $info->CatId->title }}
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mt-2">
                         <strong>Company name:</strong>
-                        {{ $info->comid->name }}
+                        {{ $info->cominfo->company_name }}
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <strong>Bugiet:</strong>
+                    <div class="form-group mt-2">
+                        <strong>Budget:</strong>
                         {{ $info->AuId->budget }}
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mt-2">
                         <strong>Price:</strong>
                         {{ $info->price }}
                     </div>

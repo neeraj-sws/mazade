@@ -44,7 +44,7 @@
 
 </head>
 <body>
-    <div id="app" >
+    <div id="app">
     <div class="preloader">
          <div class="loader">
             <span></span>

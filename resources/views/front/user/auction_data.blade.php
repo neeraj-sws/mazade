@@ -8,8 +8,8 @@
             <th>Budget</th>
             <th class="us-ac-th">Time Left</th>
             <th>Bids</th>
-            <th>Current Price</th>
-            <th colspan="3">Action</th>
+            <th>Final Price</th>
+            <th colspan="4">Action</th>
            
          </tr>
       </thead>
@@ -19,13 +19,20 @@
          @php
        //echo"<pre>";print_r($auctions);die;
          $endDateTime = \Carbon\Carbon::parse($auctions->end_time);
-         $now = \Carbon\Carbon::now();
-         $timeDifference = $now->diff($endDateTime);
-            $days = $timeDifference->d;
+         $now = \Carbon\Carbon::now()->addHours(5)->addMinutes(30);
+         $hoursDifference = $now->diffInHours($endDateTime);
+        
+            $timeDifference = $now->diff($endDateTime);
+         
             $hours = $timeDifference->h;
             $minutes = $timeDifference->i;
             $seconds = $timeDifference->s;
-            $timeDifferenceString = $timeDifference->format('%d days, %h hours, %i minutes, %s seconds');
+
+            if($now > $endDateTime) {
+               $timeDifferenceString = 'Expired';
+            } else {
+               $timeDifferenceString = $timeDifference->format('%h hours, %i minutes, %s seconds');
+            }
 
          @endphp
          <tr>
@@ -41,12 +48,22 @@
 
 
             <td data-label="Action"><a href="{{ route('bid-details', $auctions->id) }}" ><button class="cancel-btn">Detail </button></a></td> 
+            
+             @if(@$auctions->Order->auction_id)
+            @if(@$auctions->Order->is_payment == 0 AND @$auctions->Order->status == 0)
+            <td data-label="Payment"> <a href="{{ route('payment', @$auctions->Order->id) }}" id="paybtn" class="end-btn company-end-btn new-bid-btn">PayNow</a></td>
+            @else
+            <td data-label="Status" class="text-green">Payment Success</a></td> 
+            @endif
+            @else
+            <td data-label="Payment"> </td>
+            @endif
 
           @if($auctions->status== 2)
             <td data-label="Action">Cancelled</td> 
          @else
             @if( $auctions->status != 3 )
-            <td data-label="Action"><a href="javascript:void(0);" class="cancel-btn"  onclick="status_change('{{ route('auction-bit') }}','2', {{ $auctions->id }},'Cancel')"><button class="cancel-btn text-nowrap"><i class="fas fa-times" aria-hidden="true"></i> Cancel</button></a></td> 
+            <td data-label="Action"><a href="javascript:void(0);" class="cancel-btn"  onclick="status_change('{{ route('auction-bit') }}','2', {{ $auctions->id }},'Cancel')"><button class="cancel-btn text-nowrap"><i class="fas fa-times" aria-hidden="true"></i> Cancel Auction</button></a></td> 
             
             @else
              <td data-label="Status" class="text-green"></td> 

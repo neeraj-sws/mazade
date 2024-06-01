@@ -24,8 +24,8 @@
      <div class="bidding-item-inner">
         <div class="biding-info">
             <h3 class="bidding-title">{{ $lists->title }}</h3>
-            <h4 class="bidding-title-2"><b>Current bid:</b> ${{ $lists->latestBid($lists->id)}}  </h4>
-            <h4 class="bidding-title-2"><b>Your bid:</b> ${{ $lists->budget}}  </h4>
+            <!--<h4 class="bidding-title-2"><b>Current bid:</b> ${{ $lists->latestBid($lists->id)}}  </h4>-->
+            <h4 class="bidding-title-2"><b>Budget:</b> ${{ $lists->budget}}  </h4>
             <h4 class="bidding-title-2"><b>Category:</b> {{ $lists->CatId->title}}  </h4>
             <h4 class="bidding-title-2"><b>Sub Category:</b> {{ $lists->subcatid->title}}  </h4>
             @foreach ($lists->auctionMetaDatails as $inputdata)
@@ -35,7 +35,7 @@
             <p class="bidding-description">{{ $lists->message }}</p>
         </div>
         <div class="price-info">
-            <h5 class="bidding-price">${{ $lists->budget }}</h5>
+             <h4 class="bidding-title-2"><b>Current bid:</b>${{ $lists->latestBid($lists->id) }}</h4>
             <a href="{{ route('bid-details', $lists->id) }}"><button class="bid-now-btn">Bid Now</button></a>
             
         </div>

@@ -1,6 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\{UserController,AdminController,CategoryController,OrderstatusController,CompanybitController,SiteSettingController, PriceController, Sub_categoryController,CityController , CompanieController,ActiveauctionsController,StateController,CanceledAuctionsController,FinishedAuctionsController,AuctionCompletController,WithDrawController,TransactionController, WalletHistoryController};
+use App\Http\Controllers\Admin\{UserController,AdminController,CategoryController,OrderstatusController,CompanybitController,SiteSettingController, PriceController, Sub_categoryController,CityController , CompanieController,ActiveauctionsController,StateController,CanceledAuctionsController,FinishedAuctionsController,AuctionCompletController,WithDrawController,TransactionController, WalletHistoryController,SocialMedia,HomeController,AboutController,ContactController};
 
 use App\Http\Controllers\Admin\Auth\LoginController;
 
@@ -117,6 +117,61 @@ Route::group(['middleware'=>'auth:admin',  'prefix' => 'admin', 'as' => 'admin.'
         Route::get('destory/{id}',[CategoryController::class, 'destroy'])->name('destroy');
         Route::post('imagesave',[CategoryController::class, 'imageupload'])->name('saveimage');
    });
+   
+              //home
+            Route::group(['prefix' => 'home', 'as' => 'home.'],function(){
+        
+                Route::get('/',[HomeController::class, 'index'])->name('home');
+                Route::post('list',[HomeController::class, 'list'])->name('list');
+                Route::get('add',[HomeController::class, 'create'])->name('add');
+                Route::post('store',[HomeController::class, 'store'])->name('store');
+                Route::get('edit/{id}',[HomeController::class, 'edit'])->name('edit');
+                Route::post('update',[HomeController::class, 'update'])->name('update');
+                Route::get('destory/{id}',[HomeController::class, 'destroy'])->name('destroy');
+                Route::post('imagesave',[HomeController::class, 'imageupload'])->name('saveimage');
+           });
+        
+           //About
+           Route::group(['prefix' => 'about', 'as' => 'about.'],function(){
+        
+            Route::get('/',[AboutController::class, 'index'])->name('about');
+            Route::post('list',[AboutController::class, 'list'])->name('list');
+            Route::get('add',[AboutController::class, 'create'])->name('add');
+            Route::post('store',[AboutController::class, 'store'])->name('store');
+            Route::get('edit/{id}',[AboutController::class, 'edit'])->name('edit');
+            Route::post('update',[AboutController::class, 'update'])->name('update');
+            Route::get('destory/{id}',[AboutController::class, 'destroy'])->name('destroy');
+            Route::post('imagesave',[AboutController::class, 'imageupload'])->name('saveimage');
+            Route::post('imagepdf',[AboutController::class, 'imagepdfuplode'])->name('imagepdf');
+        });
+        
+        //About
+        Route::group(['prefix' => 'contact', 'as' => 'contact.'],function(){
+        
+            Route::get('/',[ContactController::class, 'index'])->name('contact');
+            Route::post('list',[ContactController::class, 'list'])->name('list');
+            Route::get('add',[ContactController::class, 'create'])->name('add');
+            Route::post('store',[ContactController::class, 'store'])->name('store');
+            Route::get('edit/{id}',[ContactController::class, 'edit'])->name('edit');
+            Route::post('update',[ContactController::class, 'update'])->name('update');
+            Route::get('destory/{id}',[ContactController::class, 'destroy'])->name('destroy');
+            Route::post('imagesave',[ContactController::class, 'imageupload'])->name('saveimage');
+            Route::post('imagepdf',[ContactController::class, 'imagepdfuplode'])->name('imagepdf');
+        });
+   
+        //socialMedia
+
+     Route::group(['prefix' => 'social_media', 'as' => 'social_media.'],function(){
+        Route::get('/',[SocialMedia::class, 'index'])->name('social_media');
+        Route::post('list',[SocialMedia::class, 'list'])->name('list');
+        Route::get('add',[SocialMedia::class, 'create'])->name('add');
+        Route::post('store',[SocialMedia::class, 'store'])->name('store');
+        Route::get('edit/{id}',[SocialMedia::class, 'edit'])->name('edit');
+        Route::post('update',[SocialMedia::class, 'update'])->name('update');
+        Route::get('destory/{id}',[SocialMedia::class, 'destroy'])->name('destroy');
+       
+
+     });
 
       //services
     Route::group(['prefix' => 'sub_category', 'as' => 'sub_category.'],function(){

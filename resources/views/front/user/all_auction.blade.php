@@ -35,16 +35,16 @@
                        <label for="">Select Auctions</label>
                        <div class="col-sm-8" id="auction_data">
                            <label class="radio-inline me-3">
-                               <input type="radio" name="auction" onclick="auction_data(this,1)" class="all align-middle" checked value="1"> All Auction
+                               <input type="radio" name="auction" @if($type == 'all') checked @endif onclick="auction_data(this,1)" class="all align-middle" checked value="1"> All Auctions
                            </label>
                            <label class="radio-inline me-3">
-                             <input type="radio" name="auction" onclick="auction_data(this,2)" class="all align-middle" value="2"> Current Auction
+                             <input type="radio" name="auction" @if($type == 'active') checked @endif onclick="auction_data(this,2)" class="all align-middle" value="2"> Active Auctions
                             </label>
                            <label class="radio-inline me-3">
-                               <input type="radio" name="auction" onclick="auction_data(this,3)" class="all align-middle" value="3"> End Auction
+                               <input type="radio" name="auction" @if($type == 'complet') checked @endif onclick="auction_data(this,3)" class="all align-middle" value="3"> Completed Auctions
                            </label>
                            <label class="radio-inline me-3">
-                               <input type="radio" name="auction" onclick="auction_data(this,4)" class="all align-middle" value="4"> Cancel Auction
+                               <input type="radio" name="auction" @if($type == 'cancel') checked @endif onclick="auction_data(this,4)" class="all align-middle" value="4"> Cancelled Auctions
                            </label>
                                                                                             
                        </div>
@@ -86,7 +86,22 @@ $(document).ready(function() {
      
         url: url,     
         success: function (response) {         
-                $("#new_auction").html(response);          
+                $("#new_auction").html(response);
+                
+                <?php if($type){
+                  if($type == 'all'){ 
+                    $val = 1;
+                  }elseif($type == 'active'){
+                     $val = 2;
+                  }elseif($type == 'complet'){
+                     $val = 3;
+                  }elseif($type == 'cancel'){
+                     $val = 4;
+                  }
+                  ?>
+                 auction_data(this,<?php echo $val; ?>);
+               <?php }?>  
+               
         },       
     });
 }

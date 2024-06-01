@@ -26,7 +26,7 @@
                  
                     <div class="row">
                       <div class="col-md-6 mb-3">
-                      {{ $auction->title }}
+                       Title : {{ $auction->title }}
                       </div>
                       <div class="col-md-6 mb-3 d-flex justify-content-end">
                          <div id="countdown_{{ $auction->id }}"></div>
@@ -54,11 +54,15 @@
                        </div>
                     @endforeach
                       <div class="col-md-12 my-3">
-                         <p>{{ $auction->message }}</p>
+                          Discretion : <span>{{ $auction->message }}</span>
                       </div>
                       @if($company->role == 2 &&  $auction->status != 3 &&  $auction->status != 2)
-                      <div class="col-md-3 mb-3">
-                          <a id="popupBtn" class="end-btn company-end-btn new-bid-btn"></i>Bid</a>
+                      <div class="col-md-8 mb-3">
+                           @if($bid)
+                         <p class="text-danger">You already placed the bid on this auction your current bid ${{ $bid->price }}</p>
+                        @endif
+                          <a id="popupBtn" class="end-btn company-end-btn new-bid-btn text-white"></i>Bid</a>
+                        
                       </div>
                      @endif
                      @if($company->role == 1)
@@ -133,7 +137,7 @@
       <div class="col-md-12 mb-3 all-form-data mb-4">
          <input type="text" id="Price" placeholder="Price" name="lastPrice" value="">
          <span class="bid_error text-danger small">Bid price should be less than $@if(empty($auctionitem->price)){{ $auction->budget }} @else{{ $auctionitem->price }} @endif</span>
-         <p class="price_percentage small">({{ showcommission('commission') }}% will be deductated from current bid as commission)</p>
+         <p class="price_percentage small">({{ showcommission($auction->CatId->id) }}% will be deductated from current bid as commission)</p>
         
       </div>
       <div class="col-md-6 pop-btn-main-sec">
@@ -203,6 +207,7 @@ $(document).ready(function() {
             // If the countdown is over, display 'EXPIRED' or take appropriate action
             if (distance < 0) {
                 countdownElement_{{ $auction->id }}.innerHTML = "EXPIRED";
+                $('#popupBtn').addClass('d-none');
             }
         }, 1000);
     </script>

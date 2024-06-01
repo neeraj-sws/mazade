@@ -11,6 +11,7 @@ class FavCatCheck
 {
     public function handle(Request $request, Closure $next)
     { 
+         return $next($request);
 
         if (Auth::check()) { 
             $favCatCount = SellerCategory::where('seller_id',Auth::user()->id)->count();

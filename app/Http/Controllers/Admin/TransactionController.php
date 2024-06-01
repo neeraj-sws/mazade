@@ -71,7 +71,7 @@ class TransactionController extends Controller
         //   $paymentminus = $row->Withdraw ? (float)$row->Withdraw->withdraw_amout * 0.92 : '-';
      
         $paymentMethod = $amount=$paymentstatus=$pstatus = "";
-        $commission = showcommission('commission');      
+          
                 // echo "<pre>"; print_r(json_decode($row->transaction_detail)); 
                 if(!empty(json_decode($row->transaction_detail))){
         
@@ -86,8 +86,12 @@ class TransactionController extends Controller
                     $amount =  $transaction_details->tran_total;
     
                 }
-             $tamount =  calculateCommission($amount,$commission);
-
+             $tamount = "null";
+             $commission = "null";
+                if(!empty($row->order)){
+                    $commission = showcommission($row->order->cat_id);    
+                    $tamount =  calculateCommission($amount,$commission);
+                }
           $data[] = array(
               
                 "id"=> date('d-m-Y', strtotime($row->created_at)),

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
-use App\Models\{Auction,Auctionitems,Oders,Companies,Upload,user,Companyinfo};
+use App\Models\{Auction,Auctionitems,Oders,Companies,Upload,User,CompanyInfo};
 use App\Http\Controllers\Controller;
 
 class CompaniesAuthController extends Controller
@@ -70,7 +70,7 @@ class CompaniesAuthController extends Controller
             'mobile_number' => $request['phone'],
         ]);
 
-        $company = Companyinfo::create([
+        $company = CompanyInfo::create([
             'user_id' => $user->id, 
             'company_name' => $request['company_name'],
             'compan_phone' => $request['company_phone'],

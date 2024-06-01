@@ -4,7 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use App\Models\{SubCategory,Upload,Category,User};
+use App\Models\{SubCategory,Upload,Category,User,Auctionitems};
 use Illuminate\Http\Request;
 use App\Models\Auction;
 
@@ -56,7 +56,7 @@ class ActiveauctionsController extends Controller
        $subcatagory = $_POST['subcatagories'];
        
        
-        $qry = Auction::orderBy($columnName, $columnSortOrder)->with(['CatId','subcatid','city'])->with('CatId');
+        $qry = Auction::orderBy($columnName, $columnSortOrder)->with(['CatId','subcatid','city','auctionItemPrice'])->with('CatId');
         // echo $user;die;
        if(!empty($user)) {
          $qry->where('user_id', $user);
@@ -105,11 +105,13 @@ class ActiveauctionsController extends Controller
       
               $data[] = array(
                   "sno" => $i,
+                  "title"=>ucfirst($row->title),
                   "category"=>ucfirst($row->CatId->title),
                   "sub_category"=>@$sub_category->title,
                   "quality"=> $row->quality,
                   "sub_category"=>@$sub_category->title,
-                  "bugiet"=>$row->budget,
+                  "current_btc_price"=>@$row->auctionItemPrice->price,
+                  "budget"=>$row->budget,
                   "action" => $action,
               );
   
@@ -130,11 +132,12 @@ class ActiveauctionsController extends Controller
 
      public function view($id)
      {
-         $info = Auction::with(['CatId','subcatid','city'])->find($id);
+         $info = Auction::with(['CatId','subcatid','city','user'])->find($id);
+         $auctionItems = Auctionitems::where('auction_id',$info->id)->get();
 
        //  echo "<pre>";print_r($info);die;
 
-         return view('admin.companie.view',['route'=>$this->route,'single_heading'=>$this->single_heading, 'info'=>$info]);
+         return view('admin.companie.view',['route'=>$this->route,'single_heading'=>$this->single_heading, 'info'=>$info, 'auctionItems'=>$auctionItems]);
      }
      
    public function subCatagoryData(Request $request)

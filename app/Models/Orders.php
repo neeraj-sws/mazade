@@ -41,6 +41,10 @@ class Orders extends Model
     {
         return $this->hasMany(Transaction::class,'order_id');
     }
+    function transactionId()
+    {
+        return $this->belongsTo(Transaction::class, 'id','order_id');
+    }
 
 
 }

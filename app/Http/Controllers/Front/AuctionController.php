@@ -71,10 +71,12 @@ class AuctionController extends Controller
         $add_info = AuctionMetaDetail::with('metaInput')->where('auction_id', $id)->get();
         $company = Auth::user();
         $auctionitem = Auctionitems::where('auction_id', $auction->id)->where('is_cancel',0)->latest()->first();
+        
+        $bid = Auctionitems::where('auction_id', $auction->id)->where('company_id',auth()->user()->id)->where('is_cancel',0)->latest('id', 'desc')->first();
 
         // echo"<pre>";print_r($add_info->toArray());die;
 
-        return view('front.auction.bid_details',['auction'=>$auction,'company'=>$company,'orders' =>$orders,'meta_fields' => $add_info,'auctionitem'=> $auctionitem]);
+        return view('front.auction.bid_details',['auction'=>$auction,'company'=>$company,'orders' =>$orders,'meta_fields' => $add_info,'auctionitem'=> $auctionitem, 'bid'=>$bid]);
     }
 
     public function bidings_code(Request $request)
@@ -90,15 +92,15 @@ class AuctionController extends Controller
             $order->status = 1;
             $order->save();
             
-            $commissionAmount = calculateCommission($order->price,showcommission('commission'));
-            
+            $commissionAmount = calculateCommission($order->price,showcommission($order->cat_id));
+            // echo "<pre>";print_r($commissionAmount);die;
             $company = User::find($order->company_id);
-            $company->wallet += $order->price-$commissionAmount;
+            $company->wallet += $order->price - $commissionAmount;
             $company->save();
 
             // 0 is add to wallet 
             WalletHistory::create([
-                'amount'=>$order->price-$commissionAmount,
+                'amount'=>$order->price - $commissionAmount,
                 'status'=>0,
                 'user_id'=>$company->id
             ]);
@@ -162,21 +164,16 @@ class AuctionController extends Controller
         return response()->json(['status' => 1]);
 
     }
-    public function active_auctions()
+    public function active_auctions(Request $request)
     {
-        // echo"hello";die;
+       $category_id =  $request->categort;
         $currentDateTime = Carbon::now();
 
-        $result['categories'] = SellerCategory::with('category')->where('seller_id', auth()->user()->id)
-            ->whereHas('category', function ($qry) {
-                $qry->where('status', 1);
-            })
-            ->orderBy('category_level', 'asc')
-            ->get();
+        $result['categories'] = Category::where('status', 1)->get();
 
         $type = request('type');
 
-        return view('front.auction.active_auctions', array_merge($result, ['type' => $type]));
+        return view('front.auction.active_auctions', array_merge($result, ['type' => $type],['category_id' => $category_id]));
     }
 
     public function active_auctions_category(){  
@@ -223,11 +220,6 @@ class AuctionController extends Controller
 
          $currentDateTime = Carbon::now();
         $qry = Auction::with(['auctionMetaDatails.metaInput','CatId', 'subcatid', 'status_id'])
-        ->whereHas('CatId',function($qry){
-            $qry->whereHas('sellerCategory',function($qry){
-                $qry->where('seller_id',auth()->user()->id);
-            });
-        })
         ->where('status', 1)->where('start_time', '<=', $currentDateTime)->where('end_time', '>=', $currentDateTime);
         $qry->whereDoesntHave('auctionItem', function ($query) {
             $query->where('auction_items.company_id', Auth::user()->id);
@@ -282,17 +274,12 @@ class AuctionController extends Controller
 
     }
 
-    public function categories_auctions_filter()
+    public function categories_auctions_filter(Request $request)
     {
-
+        $result['category_id'] = $request->category_id;
         $currentDateTime = Carbon::now();
 
-        $result['categories'] = SellerCategory::with('category')->where('seller_id',auth()->user()->id)
-        ->whereHas('category',function($qry) {
-            $qry->where('status',1);
-        })
-        ->orderBy('category_level','asc')
-        ->get();
+        $result['categories'] = Category::where('status', 1)->get();
 
 
         $view = view('front.auction.categories_auctions_filter', $result)->render();
@@ -313,11 +300,6 @@ class AuctionController extends Controller
         $subCatIds = $request->input('sub_cat_id', []);
     
         $qry = Auction::with(['CatId', 'subcatid', 'status_id'])
-            ->whereHas('CatId',function($qry){
-                $qry->whereHas('sellerCategory',function($qry){
-                    $qry->where('seller_id',auth()->user()->id);
-                });
-            })
             ->where('status', 1)
             ->where('start_time', '<=', $currentDateTime)
             ->where('end_time', '>=', $currentDateTime);
@@ -334,7 +316,7 @@ class AuctionController extends Controller
             });
         }
 
-        if (!empty($catIds)) {
+        if (!empty($catIds) && $catIds != 'all') {
             $qry->whereIn('category', $catIds);
         }
         if (!empty($subCatIds)) {
@@ -435,7 +417,7 @@ class AuctionController extends Controller
             ]);
              }
         }
-            return redirect()->route('active-auctions')
+             return redirect()->route('all-auction')
                 ->with('success', 'Auction updated successfully');
         }
 

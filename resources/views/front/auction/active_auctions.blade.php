@@ -12,7 +12,7 @@
             </nav>
         </div>
     </div>
-
+<input type="hidden" value="{{$category_id}}" id="category_id">
     <div id="category-select">
         <div class="container">
             <div class="row">
@@ -86,6 +86,7 @@
         }
 
         function categories_filter() {
+             let category_id = $('#category_id').val();
 
             $.ajax({
                 'headers': {
@@ -94,9 +95,10 @@
                 url: "{{ route('categories-auctions_filter') }}",
                 method: "POST",
                 dataType: "JSON",
-                data: {},
+                data: {category_id:category_id},
                 success: function(res) {
                     $("#categories_filter").html(res.view)
+                     action_filter()
                 }
             });
 

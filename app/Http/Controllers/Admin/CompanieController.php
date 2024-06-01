@@ -35,8 +35,8 @@ class CompanieController extends Controller
     public function index()
     {
       // echo $route;die;
-      $commissionValue = showcommission('commission');
-           return view('admin.companie.index',['route'=>$this->route, 'single_heading'=>$this->single_heading,'commissionValue' => $commissionValue]);
+    //   $commissionValue = showcommission('commission');
+           return view('admin.companie.index',['route'=>$this->route, 'single_heading'=>$this->single_heading]);
     }
 
     public function list(Request $request)

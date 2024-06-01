@@ -15,12 +15,12 @@
                      @csrf
                      <div class="d-flex justify-content-center gap-3 mb-3">
                         <div class="d-flex">
-                        <input type="radio" id="seller" name="user" value="2" style="height: 18px;" checked>
-                        <label for="seller" class="text-nowrap"> Seller Login</label>
+                        <input type="radio" id="seller" name="user" value="2" style="height: 18px;margin-top: 2px;margin-right: 10px;" checked>
+                        <label for="seller" class="text-nowrap">Seller Login</label>
                         </div>
                         <div class="d-flex">
-                        <input type="radio" id="buyer" name="user" value="1" style="height: 18px;">
-                        <label for="buyer" class="text-nowrap">  Buyer Login</label>
+                        <input type="radio" id="buyer" name="user" value="1" style="height: 18px;margin-top: 2px;margin-right: 10px;">
+                        <label for="buyer" class="text-nowrap">Buyer Login</label>
                         </div>
                      </div>
                      
@@ -104,5 +104,11 @@
      }
    });
  }
+  $('#buyer').click(function(){
+      $('.account-btn').addClass('buyer');
+   });
+   $('#seller').click(function(){
+      $('.account-btn').removeClass('buyer');
+   });
  </script>
  @endsection

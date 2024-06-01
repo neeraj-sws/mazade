@@ -44,7 +44,7 @@
                                        <th>Category Name</th>
                                        <th>Seller Name</th>
                                        <th>Budget</th>
-                                       <th>Time Remaining</th>
+                                       {{--<th>Time Remaining</th> --}}
                                        <th>Last price</th>
                                        <th>Status</th>
                                        <th>Action</th>
@@ -63,7 +63,7 @@
                                        <td data-label="Bidding ID">{{ @$orders->CatId->title }}</td>
                                        <td data-label="Bidding ID">{{ @$orders->cominfo->company_name }}</td>
                                        <td data-label="Bid Amount(USD)">{{ @$orders->AuId->budget }}</td>
-                                       <td data-label="Highest Bid">10 : 00 : 00</td>
+                                       {{--  <td data-label="Highest Bid">10 : 00 : 00</td> --}}
                                        <td data-label="Status" class="text-green">${{ @$orders->price }}</td>
                                        @if($orders->is_payment == 0 AND $orders->status == 0)
                                        <td class="status-price-table text-nowrap" data-label="Bid Amount(USD)"><p>Pending for price</p>

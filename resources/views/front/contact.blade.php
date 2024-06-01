@@ -1,7 +1,10 @@
 @extends('layouts.front')
 
 @section('content')
-<div class="inner-banner">
+<div class="inner-banner" style="background-image: url({{asset('uploads/contact/'.$contact->headerImage->file)}});
+    top: 0;
+    bottom: 0;
+    left: 0;">
          <div class="container">
             <h2 class="inner-banner-title  wow fadeInLeft" data-wow-duration="1.5s" data-wow-delay=".4s">Contact us</h2>
             <nav aria-label="breadcrumb">
@@ -15,7 +18,7 @@
 
       <div id="about-main">
       <div class="container pb-5">
-        <h1 class="contact-title text-center fw-bold pt-5 pb-5">Got Any Questions? <br>Don't Hesitate To Get In Touch.</h1>
+        <h1 class="contact-title text-center fw-bold pt-5 pb-5">{{ $contact->title }}</h1>
         <div class="row mt-5">
           <div class="col-md-6 about-content d-flex flex-column all-form-data">
             <form action="your-server-endpoint" method="POST">
@@ -32,7 +35,7 @@
               </form>
           </div>
           <div class="col-md-6 about-inner-image">
-            <img src="{{asset('front_assets/images/contact/contact-image.jpg') }}">
+            <img src="{{asset('uploads/contact/'.$contact->photo->file)}}">
           </div>
         </div>
       </div>
